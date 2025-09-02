@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Clock, Users, Star, ChevronLeft, Play, Pause, CheckCircle, RefreshCw, Award, Target, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
@@ -10,7 +10,6 @@ import { cn } from '@/lib/utils';
 
 export default function ChallengePage() {
   const params = useParams();
-  const router = useRouter();
   const challenge = challenges.find(c => c.id === params.id);
   
   const [timeLeft, setTimeLeft] = useState(0);
@@ -287,7 +286,7 @@ export default function ChallengePage() {
                 Challenge Completed!
               </h2>
               <p className="text-gray-600 dark:text-gray-300">
-                Great job! You've earned {challenge.points} points.
+                Great job! You&apos;ve earned {challenge.points} points.
               </p>
             </div>
             <div className="space-y-4">

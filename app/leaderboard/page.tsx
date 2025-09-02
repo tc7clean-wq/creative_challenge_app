@@ -29,7 +29,6 @@ export default function LeaderboardPage() {
   ];
 
   const timeFilters = ['Today', 'This Week', 'This Month', 'All Time'];
-  const categoryFilters = ['All Categories', 'Writing', 'Visual Arts', 'Music', 'Poetry'];
 
   const getBadgeIcon = (badge?: string) => {
     switch (badge) {

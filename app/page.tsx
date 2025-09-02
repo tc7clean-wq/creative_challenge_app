@@ -67,7 +67,6 @@ export default function Home() {
                 <span className="absolute inset-0 bg-gradient-to-r from-orange-600 via-red-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <span className="relative">Start Creating</span>
                 <ArrowRight className="w-5 h-5 relative" />
-              >
               </motion.button>
             </Link>
             <Link href="/leaderboard">

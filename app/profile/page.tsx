@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { User, Trophy, Target, Clock, TrendingUp, Award, Calendar, Settings, LogOut, Star, Zap } from 'lucide-react';
-import { achievements, challenges } from '@/lib/data';
+import { Trophy, Target, Clock, TrendingUp, Award, Calendar, Settings, LogOut, Star, Zap } from 'lucide-react';
+import { achievements } from '@/lib/data';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
