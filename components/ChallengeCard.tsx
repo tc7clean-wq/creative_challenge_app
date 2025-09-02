@@ -32,11 +32,14 @@ export default function ChallengeCard({ challenge, index = 0 }: ChallengeCardPro
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
       whileHover={{ scale: 1.02 }}
-      className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+      className="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden art-card paint-texture"
     >
-      {/* Gradient accent */}
+      {/* Paint Splash Overlay */}
+      <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-br from-orange-400/20 to-red-400/20 blur-2xl group-hover:scale-150 transition-transform duration-500" />
+      <div className="absolute -bottom-10 -left-10 w-32 h-32 rounded-full bg-gradient-to-br from-blue-400/20 to-purple-400/20 blur-2xl group-hover:scale-150 transition-transform duration-500" />
+      {/* Paint Drop accent */}
       <div className={cn(
-        "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r",
+        "absolute top-0 left-0 right-0 h-2 bg-gradient-to-r paint-drop",
         categoryGradients[challenge.category] || 'from-gray-500 to-gray-600'
       )} />
       
@@ -61,7 +64,7 @@ export default function ChallengeCard({ challenge, index = 0 }: ChallengeCardPro
               {challenge.description}
             </p>
           </div>
-          <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 text-white font-bold">
+          <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold shadow-lg transform rotate-3 group-hover:rotate-6 transition-transform">
             {challenge.points}
           </div>
         </div>
@@ -96,7 +99,7 @@ export default function ChallengeCard({ challenge, index = 0 }: ChallengeCardPro
               </div>
             )}
           </div>
-          <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors" />
+          <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" />
         </div>
       </div>
 

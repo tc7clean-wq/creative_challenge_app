@@ -27,17 +27,22 @@ export default function ProfilePage() {
   const unlockedAchievements = ['first-challenge', 'versatile', 'speed-demon'];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-blue-50 to-green-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 paint-splash">
+      {/* Artistic Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="paint-blob absolute top-1/3 right-20 w-72 h-72 bg-gradient-to-br from-purple-400 to-indigo-400" />
+        <div className="paint-blob absolute bottom-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-green-400 to-teal-400" style={{ animationDelay: '5s' }} />
+      </div>
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Profile Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-8"
+          className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-3xl shadow-xl p-8 mb-8 relative overflow-hidden paint-texture"
         >
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
             <div className="relative">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-orange-500 via-green-500 to-blue-500 flex items-center justify-center text-white text-4xl font-bold">
+              <div className="w-24 h-24 rounded-full bg-gray-900 dark:bg-white flex items-center justify-center text-white dark:text-gray-900 text-4xl font-bold shadow-xl">
                 🌈
               </div>
               <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white text-sm font-bold">

@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CreativeFlow - Daily Creative Challenges",
-  description: "Push your creative boundaries with daily challenges in writing, art, music, and more.",
+  title: "Creative Challenge - AI-Inspired Artistic Platform",
+  description: "Experience artistic challenges with an AI art aesthetic. Paint, create, and explore your creativity.",
 };
 
 export default function RootLayout({

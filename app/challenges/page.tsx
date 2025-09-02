@@ -24,7 +24,12 @@ export default function ChallengesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-blue-50 to-green-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 paint-splash">
+      {/* Paint Splash Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="paint-blob absolute top-1/4 left-20 w-64 h-64 bg-gradient-to-br from-teal-400 to-blue-400" />
+        <div className="paint-blob absolute bottom-1/3 right-10 w-80 h-80 bg-gradient-to-br from-orange-400 to-pink-400" style={{ animationDelay: '3s' }} />
+      </div>
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
@@ -33,8 +38,8 @@ export default function ChallengesPage() {
           className="mb-8"
         >
           <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="w-8 h-8 text-orange-600" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 via-red-600 to-purple-600 bg-clip-text text-transparent">
+            <Sparkles className="w-8 h-8 text-gray-700 dark:text-gray-300" />
+            <h1 className="text-4xl font-bold metallic-gold">
               Creative Challenges
             </h1>
           </div>
@@ -58,7 +63,7 @@ export default function ChallengesPage() {
                 placeholder="Search challenges..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-gray-400 shadow-sm"
               />
             </div>
             
@@ -67,7 +72,7 @@ export default function ChallengesPage() {
               <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
-                className="px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-4 py-3 rounded-xl border border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-gray-400 shadow-sm"
               >
                 <option value="all">All Levels</option>
                 <option value="beginner">Beginner</option>

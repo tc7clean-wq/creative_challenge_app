@@ -17,10 +17,16 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-blue-50 to-green-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 paint-splash">
+      {/* Paint Splash Background Elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="paint-blob absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-orange-400 to-red-400" />
+        <div className="paint-blob absolute top-40 right-20 w-80 h-80 bg-gradient-to-br from-blue-400 to-purple-400" style={{ animationDelay: '2s' }} />
+        <div className="paint-blob absolute bottom-20 left-1/3 w-72 h-72 bg-gradient-to-br from-green-400 to-teal-400" style={{ animationDelay: '4s' }} />
+        <div className="paint-blob absolute bottom-40 right-1/4 w-64 h-64 bg-gradient-to-br from-purple-400 to-pink-400" style={{ animationDelay: '6s' }} />
+      </div>
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-20 pb-32 px-4">
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-600/10 to-blue-600/10 dark:from-orange-600/20 dark:to-blue-600/20" />
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -28,20 +34,23 @@ export default function Home() {
           transition={{ duration: 0.6 }}
           className="relative max-w-6xl mx-auto text-center"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-100 to-green-100 dark:from-orange-900/30 dark:to-green-900/30 rounded-full mb-6">
-            <Sparkles className="w-4 h-4 text-orange-600 dark:text-orange-400" />
-            <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-orange-700 to-green-700 dark:from-orange-300 dark:to-green-300">
-              Unleash Your Creative Potential
+          {/* Metallic Gold Title */}
+          <h1 className="text-6xl md:text-8xl font-bold mb-4 metallic-gold tracking-tight">
+            CREATIVE CHALLENGE
+          </h1>
+          
+          <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full mb-6 shadow-xl">
+            <Sparkles className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Unleash Your Artistic Potential with AI-Inspired Creativity
             </span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-orange-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Creative Challenges
-            </span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">
+            <span className="text-gray-900 dark:text-white">Daily Artistic</span>
             <br />
-            <span className="text-gray-900 dark:text-white">Every Single Day</span>
-          </h1>
+            <span className="text-gray-700 dark:text-gray-300">Challenges</span>
+          </h2>
           
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
             Push your creative boundaries with daily challenges in writing, art, music, and more. 
@@ -53,17 +62,19 @@ export default function Home() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-gradient-to-r from-orange-600 via-red-600 to-purple-600 text-white rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all flex items-center gap-2"
+                className="px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all flex items-center gap-2 relative overflow-hidden group"
               >
-                Start Creating
-                <ArrowRight className="w-5 h-5" />
+                <span className="absolute inset-0 bg-gradient-to-r from-orange-600 via-red-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="relative">Start Creating</span>
+                <ArrowRight className="w-5 h-5 relative" />
+              >
               </motion.button>
             </Link>
             <Link href="/leaderboard">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all"
+                className="px-8 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-900 dark:text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
               >
                 View Leaderboard
               </motion.button>
@@ -73,8 +84,9 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+      <section className="py-16 px-4 relative">
+        <div className="absolute inset-0 bg-white/30 dark:bg-gray-800/30 backdrop-blur-md" />
+        <div className="relative max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -83,7 +95,7 @@ export default function Home() {
               transition={{ duration: 0.4, delay: index * 0.1 }}
               className="text-center"
             >
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-blue-500 text-white mb-3">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 mb-3 shadow-lg">
                 <stat.icon className="w-6 h-6" />
               </div>
               <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>

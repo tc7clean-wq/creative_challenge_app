@@ -58,7 +58,12 @@ export default function LeaderboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-blue-50 to-green-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 paint-splash">
+      {/* Paint Splash Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="paint-blob absolute top-10 left-1/3 w-80 h-80 bg-gradient-to-br from-yellow-400 to-orange-400" />
+        <div className="paint-blob absolute bottom-20 right-1/4 w-72 h-72 bg-gradient-to-br from-red-400 to-pink-400" style={{ animationDelay: '4s' }} />
+      </div>
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
@@ -69,10 +74,8 @@ export default function LeaderboardPage() {
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 via-red-500 to-purple-500 mb-4">
             <Trophy className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-orange-500 via-red-500 to-blue-500 bg-clip-text text-transparent">
-              Leaderboard
-            </span>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 metallic-gold">
+            Leaderboard
           </h1>
           <p className="text-gray-600 dark:text-gray-300 text-lg">
             Celebrating our most creative and dedicated creators
@@ -93,8 +96,8 @@ export default function LeaderboardPage() {
                 className={cn(
                   "px-4 py-2 rounded-lg font-medium transition-all",
                   filter === 'All Time'
-                    ? "bg-gradient-to-r from-orange-600 to-blue-600 text-white"
-                    : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-lg"
+                    : "bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200/50 dark:border-gray-700/50"
                 )}
               >
                 {filter}

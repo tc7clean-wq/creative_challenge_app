@@ -17,10 +17,10 @@ export default function CategoryFilter({ selectedCategory, onCategoryChange }: C
         whileTap={{ scale: 0.95 }}
         onClick={() => onCategoryChange(null)}
         className={cn(
-          "px-4 py-2 rounded-full font-medium transition-all",
+          "px-4 py-2 rounded-full font-medium transition-all relative overflow-hidden",
           selectedCategory === null
-            ? "bg-gradient-to-r from-orange-600 via-green-600 to-blue-600 text-white shadow-lg"
-            : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+            ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-lg"
+            : "bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200/50 dark:border-gray-700/50"
         )}
       >
         All Challenges
@@ -33,16 +33,11 @@ export default function CategoryFilter({ selectedCategory, onCategoryChange }: C
           whileTap={{ scale: 0.95 }}
           onClick={() => onCategoryChange(category.name)}
           className={cn(
-            "px-4 py-2 rounded-full font-medium transition-all flex items-center gap-2",
+            "px-4 py-2 rounded-full font-medium transition-all flex items-center gap-2 relative overflow-hidden",
             selectedCategory === category.name
-              ? "text-white shadow-lg"
-              : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+              ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-lg"
+              : "bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200/50 dark:border-gray-700/50"
           )}
-          style={{
-            background: selectedCategory === category.name
-              ? `linear-gradient(135deg, ${category.color.split(' ').join(', ')})`
-              : undefined
-          }}
         >
           <span>{category.icon}</span>
           <span>{category.name}</span>
