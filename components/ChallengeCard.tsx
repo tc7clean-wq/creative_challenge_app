@@ -18,12 +18,12 @@ export default function ChallengeCard({ challenge, index = 0 }: ChallengeCardPro
   };
 
   const categoryGradients: { [key: string]: string } = {
-    'Writing': 'from-blue-500 to-purple-600',
-    'Visual Arts': 'from-pink-500 to-rose-600',
-    'Poetry': 'from-green-500 to-teal-600',
-    'Music': 'from-yellow-500 to-orange-600',
-    'Photography': 'from-indigo-500 to-blue-600',
-    'Design': 'from-purple-500 to-pink-600'
+    'Writing': 'from-blue-500 to-green-500',
+    'Visual Arts': 'from-orange-500 to-red-500',
+    'Poetry': 'from-purple-500 to-blue-500',
+    'Music': 'from-green-500 to-orange-500',
+    'Photography': 'from-red-500 to-purple-500',
+    'Design': 'from-blue-500 to-orange-500'
   };
 
   return (
@@ -61,7 +61,7 @@ export default function ChallengeCard({ challenge, index = 0 }: ChallengeCardPro
               {challenge.description}
             </p>
           </div>
-          <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold">
+          <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 text-white font-bold">
             {challenge.points}
           </div>
         </div>
@@ -96,7 +96,7 @@ export default function ChallengeCard({ challenge, index = 0 }: ChallengeCardPro
               </div>
             )}
           </div>
-          <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors" />
+          <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors" />
         </div>
       </div>
 

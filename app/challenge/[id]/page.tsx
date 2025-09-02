@@ -91,14 +91,14 @@ export default function ChallengePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-blue-50 to-green-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Back Button */}
         <Link href="/challenges">
           <motion.button
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 mb-6 transition-colors"
+            className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 mb-6 transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
             Back to Challenges
@@ -132,7 +132,7 @@ export default function ChallengePage() {
               </p>
             </div>
             <div className="flex flex-col items-center">
-              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xl">
+              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500 via-red-500 to-purple-500 flex items-center justify-center text-white font-bold text-xl">
                 {challenge.points}
               </div>
               <span className="text-xs text-gray-500 mt-1">points</span>
@@ -172,7 +172,7 @@ export default function ChallengePage() {
             </h2>
             <div className={cn(
               "text-6xl font-bold mb-6",
-              timeLeft === 0 ? "text-red-500" : isRunning ? "text-purple-600" : "text-gray-600 dark:text-gray-400"
+              timeLeft === 0 ? "text-red-500" : isRunning ? "text-green-600" : "text-gray-600 dark:text-gray-400"
             )}>
               {formatTime(timeLeft)}
             </div>
@@ -182,7 +182,7 @@ export default function ChallengePage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleStart}
-                  className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
+                  className="px-6 py-3 bg-gradient-to-r from-orange-600 via-red-600 to-purple-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
                 >
                   <Play className="w-5 h-5" />
                   Start Challenge
@@ -233,7 +233,7 @@ export default function ChallengePage() {
               className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6"
             >
               <div className="flex items-center gap-2 mb-4">
-                <Target className="w-5 h-5 text-purple-600" />
+                <Target className="w-5 h-5 text-orange-600" />
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Requirements
                 </h3>
@@ -241,7 +241,7 @@ export default function ChallengePage() {
               <ul className="space-y-2">
                 {challenge.requirements.map((req, index) => (
                   <li key={index} className="flex items-start gap-2 text-gray-600 dark:text-gray-300">
-                    <span className="text-purple-600 mt-1">•</span>
+                    <span className="text-orange-600 mt-1">•</span>
                     <span>{req}</span>
                   </li>
                 ))}
@@ -257,7 +257,7 @@ export default function ChallengePage() {
               className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6"
             >
               <div className="flex items-center gap-2 mb-4">
-                <Lightbulb className="w-5 h-5 text-yellow-500" />
+                <Lightbulb className="w-5 h-5 text-blue-500" />
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Example Ideas
                 </h3>
@@ -265,7 +265,7 @@ export default function ChallengePage() {
               <ul className="space-y-2">
                 {challenge.examples.map((example, index) => (
                   <li key={index} className="flex items-start gap-2 text-gray-600 dark:text-gray-300">
-                    <span className="text-yellow-500 mt-1">•</span>
+                    <span className="text-blue-500 mt-1">•</span>
                     <span>{example}</span>
                   </li>
                 ))}
@@ -279,7 +279,7 @@ export default function ChallengePage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl p-8"
+            className="bg-gradient-to-br from-green-100 via-blue-100 to-purple-100 dark:from-green-900/20 dark:via-blue-900/20 dark:to-purple-900/20 rounded-2xl p-8"
           >
             <div className="text-center mb-6">
               <Award className="w-16 h-16 text-green-600 mx-auto mb-4" />
@@ -298,7 +298,7 @@ export default function ChallengePage() {
                 value={submission}
                 onChange={(e) => setSubmission(e.target.value)}
                 placeholder="Describe what you created..."
-                className="w-full p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 rows={4}
               />
               <button className="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all">

@@ -27,7 +27,7 @@ export default function ProfilePage() {
   const unlockedAchievements = ['first-challenge', 'versatile', 'speed-demon'];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-blue-50 to-green-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Profile Header */}
         <motion.div
@@ -37,10 +37,10 @@ export default function ProfilePage() {
         >
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
             <div className="relative">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-4xl font-bold">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-orange-500 via-green-500 to-blue-500 flex items-center justify-center text-white text-4xl font-bold">
                 🌈
               </div>
-              <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center text-white text-sm font-bold">
+              <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white text-sm font-bold">
                 {userStats.rank}
               </div>
             </div>
@@ -53,7 +53,7 @@ export default function ProfilePage() {
                 Creative enthusiast • Joined {userStats.joinedDate}
               </p>
               <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-sm">
+                <span className="px-3 py-1 bg-gradient-to-r from-orange-100 to-blue-100 dark:from-orange-900/30 dark:to-blue-900/30 text-transparent bg-clip-text bg-gradient-to-r from-orange-700 to-blue-700 dark:from-orange-300 dark:to-blue-300 rounded-full text-sm">
                   {userStats.favoriteCategory}
                 </span>
                 <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm">
@@ -89,13 +89,13 @@ export default function ProfilePage() {
           className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
         >
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
-            <Trophy className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
+            <Trophy className="w-8 h-8 text-orange-500 mx-auto mb-2" />
             <div className="text-2xl font-bold text-gray-900 dark:text-white">{userStats.totalPoints}</div>
             <div className="text-sm text-gray-600 dark:text-gray-400">Total Points</div>
           </div>
           
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
-            <Target className="w-8 h-8 text-purple-500 mx-auto mb-2" />
+            <Target className="w-8 h-8 text-blue-500 mx-auto mb-2" />
             <div className="text-2xl font-bold text-gray-900 dark:text-white">{userStats.challengesCompleted}</div>
             <div className="text-sm text-gray-600 dark:text-gray-400">Completed</div>
           </div>
@@ -107,7 +107,7 @@ export default function ProfilePage() {
           </div>
           
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
-            <Star className="w-8 h-8 text-orange-500 mx-auto mb-2" />
+            <Star className="w-8 h-8 text-red-500 mx-auto mb-2" />
             <div className="text-2xl font-bold text-gray-900 dark:text-white">#{userStats.rank}</div>
             <div className="text-sm text-gray-600 dark:text-gray-400">Ranking</div>
           </div>
@@ -122,7 +122,7 @@ export default function ProfilePage() {
             className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6"
           >
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-purple-600" />
+              <Clock className="w-5 h-5 text-orange-600" />
               Recent Activity
             </h2>
             <div className="space-y-3">
@@ -138,21 +138,21 @@ export default function ProfilePage() {
                     <div className="w-2 h-2 rounded-full bg-green-500" />
                     <div>
                       <Link href={`/challenge/${activity.id}`}>
-                        <p className="font-medium text-gray-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                        <p className="font-medium text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
                           {activity.title}
                         </p>
                       </Link>
                       <p className="text-xs text-gray-500 dark:text-gray-400">{activity.date}</p>
                     </div>
                   </div>
-                  <span className="text-sm font-medium text-purple-600 dark:text-purple-400">
+                  <span className="text-sm font-medium text-green-600 dark:text-green-400">
                     +{activity.points}
                   </span>
                 </motion.div>
               ))}
             </div>
             <Link href="/challenges">
-              <button className="w-full mt-4 px-4 py-2 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-lg font-medium hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors">
+              <button className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-orange-100 to-blue-100 dark:from-orange-900/30 dark:to-blue-900/30 text-transparent bg-clip-text bg-gradient-to-r from-orange-700 to-blue-700 dark:from-orange-300 dark:to-blue-300 rounded-lg font-medium hover:from-orange-200 hover:to-blue-200 dark:hover:from-orange-900/50 dark:hover:to-blue-900/50 transition-colors">
                 View All Activity
               </button>
             </Link>
@@ -166,7 +166,7 @@ export default function ProfilePage() {
             className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6"
           >
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-              <Award className="w-5 h-5 text-yellow-500" />
+              <Award className="w-5 h-5 text-purple-500" />
               Achievements
             </h2>
             <div className="grid grid-cols-3 gap-3">
@@ -182,7 +182,7 @@ export default function ProfilePage() {
                     className={cn(
                       "aspect-square rounded-xl flex flex-col items-center justify-center p-3 transition-all",
                       isUnlocked
-                        ? "bg-gradient-to-br from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30"
+                        ? "bg-gradient-to-br from-orange-100 via-green-100 to-blue-100 dark:from-orange-900/30 dark:via-green-900/30 dark:to-blue-900/30"
                         : "bg-gray-100 dark:bg-gray-700/50 opacity-50"
                     )}
                   >
@@ -194,8 +194,8 @@ export default function ProfilePage() {
                 );
               })}
             </div>
-            <div className="mt-4 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-              <p className="text-sm text-purple-700 dark:text-purple-300">
+            <div className="mt-4 p-3 bg-gradient-to-r from-orange-50 to-blue-50 dark:from-orange-900/20 dark:to-blue-900/20 rounded-lg">
+              <p className="text-sm text-transparent bg-clip-text bg-gradient-to-r from-orange-700 to-blue-700 dark:from-orange-300 dark:to-blue-300">
                 <Zap className="inline w-4 h-4 mr-1" />
                 {unlockedAchievements.length} of {achievements.length} achievements unlocked
               </p>
@@ -211,7 +211,7 @@ export default function ProfilePage() {
           className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mt-8"
         >
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-blue-500" />
+                          <Calendar className="w-5 h-5 text-green-500" />
             Weekly Progress
           </h2>
           <div className="flex items-end justify-between gap-2 h-32">
@@ -227,7 +227,7 @@ export default function ProfilePage() {
                     className={cn(
                       "w-full rounded-t-lg transition-colors",
                       isToday
-                        ? "bg-gradient-to-t from-purple-600 to-pink-600"
+                        ? "bg-gradient-to-t from-orange-600 via-red-600 to-purple-600"
                         : "bg-gradient-to-t from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-500"
                     )}
                   />

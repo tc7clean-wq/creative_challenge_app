@@ -205,10 +205,10 @@ export const achievements: Achievement[] = [
 ];
 
 export const categories = [
-  { name: 'Writing', icon: '✍️', color: 'from-blue-500 to-purple-600' },
-  { name: 'Visual Arts', icon: '🎨', color: 'from-pink-500 to-rose-600' },
-  { name: 'Poetry', icon: '📝', color: 'from-green-500 to-teal-600' },
-  { name: 'Music', icon: '🎵', color: 'from-yellow-500 to-orange-600' },
-  { name: 'Photography', icon: '📸', color: 'from-indigo-500 to-blue-600' },
-  { name: 'Design', icon: '🎯', color: 'from-purple-500 to-pink-600' }
+  { name: 'Writing', icon: '✍️', color: 'from-blue-500 to-green-500' },
+  { name: 'Visual Arts', icon: '🎨', color: 'from-orange-500 to-red-500' },
+  { name: 'Poetry', icon: '📝', color: 'from-purple-500 to-blue-500' },
+  { name: 'Music', icon: '🎵', color: 'from-green-500 to-orange-500' },
+  { name: 'Photography', icon: '📸', color: 'from-red-500 to-purple-500' },
+  { name: 'Design', icon: '🎯', color: 'from-blue-500 to-orange-500' }
 ];

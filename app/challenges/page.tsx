@@ -24,7 +24,7 @@ export default function ChallengesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-blue-50 to-green-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
@@ -33,8 +33,8 @@ export default function ChallengesPage() {
           className="mb-8"
         >
           <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="w-8 h-8 text-purple-600" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <Sparkles className="w-8 h-8 text-orange-600" />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 via-red-600 to-purple-600 bg-clip-text text-transparent">
               Creative Challenges
             </h1>
           </div>
@@ -58,7 +58,7 @@ export default function ChallengesPage() {
                 placeholder="Search challenges..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
             </div>
             
@@ -67,7 +67,7 @@ export default function ChallengesPage() {
               <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
-                className="px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="all">All Levels</option>
                 <option value="beginner">Beginner</option>

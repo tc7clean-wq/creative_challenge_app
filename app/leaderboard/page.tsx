@@ -58,7 +58,7 @@ export default function LeaderboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-blue-50 to-green-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
@@ -66,11 +66,11 @@ export default function LeaderboardPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 mb-4">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 via-red-500 to-purple-500 mb-4">
             <Trophy className="w-10 h-10 text-white" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-orange-500 via-red-500 to-blue-500 bg-clip-text text-transparent">
               Leaderboard
             </span>
           </h1>
@@ -93,7 +93,7 @@ export default function LeaderboardPage() {
                 className={cn(
                   "px-4 py-2 rounded-lg font-medium transition-all",
                   filter === 'All Time'
-                    ? "bg-purple-600 text-white"
+                    ? "bg-gradient-to-r from-orange-600 to-blue-600 text-white"
                     : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                 )}
               >
@@ -226,7 +226,7 @@ export default function LeaderboardPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       <div className="flex items-center justify-center gap-1">
-                        <Target className="w-4 h-4 text-purple-500" />
+                        <Target className="w-4 h-4 text-orange-500" />
                         <span className="text-sm text-gray-600 dark:text-gray-300">
                           {user.challenges}
                         </span>
@@ -254,12 +254,12 @@ export default function LeaderboardPage() {
           transition={{ delay: 0.4 }}
           className="grid md:grid-cols-3 gap-6 mt-12"
         >
-          <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-6 text-white">
+          <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl p-6 text-white">
             <Clock className="w-8 h-8 mb-3" />
             <h3 className="text-2xl font-bold mb-1">24h</h3>
             <p className="opacity-90">Most active time</p>
           </div>
-          <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl p-6 text-white">
+          <div className="bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl p-6 text-white">
             <Target className="w-8 h-8 mb-3" />
             <h3 className="text-2xl font-bold mb-1">523</h3>
             <p className="opacity-90">Challenges today</p>

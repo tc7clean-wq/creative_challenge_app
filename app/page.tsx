@@ -17,10 +17,10 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-blue-50 to-green-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-20 pb-32 px-4">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-pink-600/10 dark:from-purple-600/20 dark:to-pink-600/20" />
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-600/10 to-blue-600/10 dark:from-orange-600/20 dark:to-blue-600/20" />
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -28,15 +28,15 @@ export default function Home() {
           transition={{ duration: 0.6 }}
           className="relative max-w-6xl mx-auto text-center"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 dark:bg-purple-900/30 rounded-full mb-6">
-            <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-            <span className="text-sm font-medium text-purple-700 dark:text-purple-300">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-100 to-green-100 dark:from-orange-900/30 dark:to-green-900/30 rounded-full mb-6">
+            <Sparkles className="w-4 h-4 text-orange-600 dark:text-orange-400" />
+            <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-orange-700 to-green-700 dark:from-orange-300 dark:to-green-300">
               Unleash Your Creative Potential
             </span>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-orange-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
               Creative Challenges
             </span>
             <br />
@@ -53,7 +53,7 @@ export default function Home() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all flex items-center gap-2"
+                className="px-8 py-4 bg-gradient-to-r from-orange-600 via-red-600 to-purple-600 text-white rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all flex items-center gap-2"
               >
                 Start Creating
                 <ArrowRight className="w-5 h-5" />
@@ -83,7 +83,7 @@ export default function Home() {
               transition={{ duration: 0.4, delay: index * 0.1 }}
               className="text-center"
             >
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-white mb-3">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-blue-500 text-white mb-3">
                 <stat.icon className="w-6 h-6" />
               </div>
               <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
@@ -152,7 +152,7 @@ export default function Home() {
               </p>
             </div>
             <Link href="/challenges">
-              <button className="hidden md:flex items-center gap-2 text-purple-600 dark:text-purple-400 font-medium hover:gap-3 transition-all">
+              <button className="hidden md:flex items-center gap-2 text-orange-600 dark:text-orange-400 font-medium hover:gap-3 transition-all">
                 View All
                 <ArrowRight className="w-5 h-5" />
               </button>
@@ -169,7 +169,7 @@ export default function Home() {
           
           <div className="text-center mt-8 md:hidden">
             <Link href="/challenges">
-              <button className="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-medium">
+              <button className="inline-flex items-center gap-2 text-orange-600 dark:text-orange-400 font-medium">
                 View All Challenges
                 <ArrowRight className="w-5 h-5" />
               </button>

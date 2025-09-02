@@ -19,7 +19,7 @@ export default function CategoryFilter({ selectedCategory, onCategoryChange }: C
         className={cn(
           "px-4 py-2 rounded-full font-medium transition-all",
           selectedCategory === null
-            ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg"
+            ? "bg-gradient-to-r from-orange-600 via-green-600 to-blue-600 text-white shadow-lg"
             : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
         )}
       >

@@ -20,8 +20,8 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="hidden md:flex items-center gap-2 font-bold text-xl">
-            <Sparkles className="w-6 h-6 text-purple-600" />
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <Sparkles className="w-6 h-6 text-orange-600" />
+            <span className="bg-gradient-to-r from-orange-600 to-blue-600 bg-clip-text text-transparent">
               CreativeFlow
             </span>
           </Link>
@@ -35,7 +35,7 @@ export default function Navbar() {
                   "flex flex-col md:flex-row items-center gap-1 md:gap-2 px-3 md:px-4 py-2 rounded-lg transition-all",
                   "hover:bg-gray-100 dark:hover:bg-gray-800",
                   pathname === href
-                    ? "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20"
+                    ? "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20"
                     : "text-gray-600 dark:text-gray-400"
                 )}
               >
