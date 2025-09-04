@@ -104,10 +104,9 @@ export default function HomePage() {
         <div className="flex flex-col sm:flex-row gap-4 mb-12">
           <button
             onClick={handleGetStarted}
-            disabled={isLoading}
-            className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold py-4 px-8 rounded-xl text-lg transform hover:scale-105 transition-all duration-300 shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold py-4 px-8 rounded-xl text-lg transform hover:scale-105 transition-all duration-300 shadow-2xl"
           >
-            {isLoading ? 'Loading...' : '🎨 Showcase Your Art'}
+            🎨 Showcase Your Art
           </button>
           <Link
             href="/gallery"
@@ -143,10 +142,9 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={handleGetStarted}
-              disabled={isLoading}
-              className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold py-4 px-8 rounded-xl text-lg transform hover:scale-105 transition-all duration-300 shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold py-4 px-8 rounded-xl text-lg transform hover:scale-105 transition-all duration-300 shadow-2xl"
             >
-              {isLoading ? 'Loading...' : '🎨 Showcase Your Art Now'}
+              🎨 Showcase Your Art Now
             </button>
             <Link
               href="/auth"
