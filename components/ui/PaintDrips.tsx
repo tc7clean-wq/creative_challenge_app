@@ -1,0 +1,230 @@
+'use client'
+
+export default function PaintDrips() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1200 800" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="pinkGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#ec4899" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#f472b6" stopOpacity="0.8"/>
+            <stop offset="100%" stopColor="#fbbf24" stopOpacity="0.7"/>
+          </linearGradient>
+          <linearGradient id="cyanGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#22d3ee" stopOpacity="0.8"/>
+            <stop offset="100%" stopColor="#67e8f9" stopOpacity="0.7"/>
+          </linearGradient>
+          <linearGradient id="yellowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#eab308" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#facc15" stopOpacity="0.8"/>
+            <stop offset="100%" stopColor="#fde047" stopOpacity="0.7"/>
+          </linearGradient>
+          <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#ea580c" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#fb923c" stopOpacity="0.8"/>
+            <stop offset="100%" stopColor="#fdba74" stopOpacity="0.7"/>
+          </linearGradient>
+          <linearGradient id="redGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#dc2626" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#ef4444" stopOpacity="0.8"/>
+            <stop offset="100%" stopColor="#f87171" stopOpacity="0.7"/>
+          </linearGradient>
+          <linearGradient id="greenGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#16a34a" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#22c55e" stopOpacity="0.8"/>
+            <stop offset="100%" stopColor="#4ade80" stopOpacity="0.7"/>
+          </linearGradient>
+          <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#9333ea" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#a855f7" stopOpacity="0.8"/>
+            <stop offset="100%" stopColor="#c084fc" stopOpacity="0.7"/>
+          </linearGradient>
+          <linearGradient id="blueGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#2563eb" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.8"/>
+            <stop offset="100%" stopColor="#60a5fa" stopOpacity="0.7"/>
+          </linearGradient>
+        </defs>
+        
+        {/* Paint Drip 1 - Pink (Organic shape) */}
+        <path d="M 150 0 
+                 Q 160 50 155 100 
+                 Q 150 150 160 200 
+                 Q 165 250 155 300 
+                 Q 150 350 160 400 
+                 Q 165 450 155 500 
+                 Q 150 550 160 600 
+                 Q 165 650 155 700 
+                 Q 150 750 160 800 
+                 L 140 800 
+                 Q 130 750 135 700 
+                 Q 140 650 130 600 
+                 Q 125 550 135 500 
+                 Q 140 450 130 400 
+                 Q 125 350 135 300 
+                 Q 140 250 130 200 
+                 Q 125 150 135 100 
+                 Q 140 50 130 0 
+                 Z" 
+              fill="url(#pinkGradient)" 
+              className="animate-drip" 
+              style={{ transform: 'rotate(1deg)' }}/>
+        
+        {/* Paint Drip 2 - Cyan (Thin with bulges) */}
+        <path d="M 950 0 
+                 Q 960 80 955 160 
+                 Q 950 240 960 320 
+                 Q 965 400 955 480 
+                 Q 950 560 960 640 
+                 Q 965 720 955 800 
+                 L 935 800 
+                 Q 925 720 930 640 
+                 Q 935 560 925 480 
+                 Q 920 400 930 320 
+                 Q 935 240 925 160 
+                 Q 920 80 930 0 
+                 Z" 
+              fill="url(#cyanGradient)" 
+              className="animate-drip" 
+              style={{ transform: 'rotate(-2deg)' }}/>
+        
+        {/* Paint Drip 3 - Yellow (Wide with multiple bulges) */}
+        <path d="M 400 0 
+                 Q 420 60 410 120 
+                 Q 400 180 420 240 
+                 Q 430 300 410 360 
+                 Q 400 420 420 480 
+                 Q 430 540 410 600 
+                 Q 400 660 420 720 
+                 Q 430 780 410 800 
+                 L 380 800 
+                 Q 360 780 370 720 
+                 Q 380 660 360 600 
+                 Q 350 540 370 480 
+                 Q 380 420 360 360 
+                 Q 350 300 370 240 
+                 Q 380 180 360 120 
+                 Q 350 60 370 0 
+                 Z" 
+              fill="url(#yellowGradient)" 
+              className="animate-drip" 
+              style={{ transform: 'rotate(0.5deg)' }}/>
+        
+        {/* Paint Drip 4 - Orange (Medium with smooth curves) */}
+        <path d="M 750 0 
+                 Q 765 70 755 140 
+                 Q 745 210 765 280 
+                 Q 775 350 755 420 
+                 Q 745 490 765 560 
+                 Q 775 630 755 700 
+                 Q 745 770 765 800 
+                 L 735 800 
+                 Q 715 770 725 700 
+                 Q 735 630 715 560 
+                 Q 705 490 725 420 
+                 Q 735 350 715 280 
+                 Q 705 210 725 140 
+                 Q 735 70 715 0 
+                 Z" 
+              fill="url(#orangeGradient)" 
+              className="animate-drip" 
+              style={{ transform: 'rotate(-1.5deg)' }}/>
+        
+        {/* Paint Drip 5 - Red (Thin with sharp curves) */}
+        <path d="M 600 0 
+                 Q 610 100 605 200 
+                 Q 600 300 610 400 
+                 Q 615 500 605 600 
+                 Q 600 700 610 800 
+                 L 590 800 
+                 Q 580 700 585 600 
+                 Q 590 500 580 400 
+                 Q 575 300 585 200 
+                 Q 590 100 580 0 
+                 Z" 
+              fill="url(#redGradient)" 
+              className="animate-drip" 
+              style={{ transform: 'rotate(3deg)' }}/>
+        
+        {/* Paint Drip 6 - Green (Wide with multiple sections) */}
+        <path d="M 300 0 
+                 Q 320 50 310 100 
+                 Q 300 150 320 200 
+                 Q 330 250 310 300 
+                 Q 300 350 320 400 
+                 Q 330 450 310 500 
+                 Q 300 550 320 600 
+                 Q 330 650 310 700 
+                 Q 300 750 320 800 
+                 L 280 800 
+                 Q 260 750 270 700 
+                 Q 280 650 260 600 
+                 Q 250 550 270 500 
+                 Q 280 450 260 400 
+                 Q 250 350 270 300 
+                 Q 280 250 260 200 
+                 Q 250 150 270 100 
+                 Q 280 50 260 0 
+                 Z" 
+              fill="url(#greenGradient)" 
+              className="animate-drip" 
+              style={{ transform: 'rotate(-0.5deg)' }}/>
+        
+        {/* Paint Drip 7 - Purple (Medium with smooth flow) */}
+        <path d="M 500 0 
+                 Q 515 80 505 160 
+                 Q 495 240 515 320 
+                 Q 525 400 505 480 
+                 Q 495 560 515 640 
+                 Q 525 720 505 800 
+                 L 485 800 
+                 Q 465 720 475 640 
+                 Q 485 560 465 480 
+                 Q 455 400 475 320 
+                 Q 485 240 465 160 
+                 Q 455 80 475 0 
+                 Z" 
+              fill="url(#purpleGradient)" 
+              className="animate-drip" 
+              style={{ transform: 'rotate(2deg)' }}/>
+        
+        {/* Paint Drip 8 - Blue (Thick with organic shape) */}
+        <path d="M 800 0 
+                 Q 820 40 810 80 
+                 Q 800 120 820 160 
+                 Q 830 200 810 240 
+                 Q 800 280 820 320 
+                 Q 830 360 810 400 
+                 Q 800 440 820 480 
+                 Q 830 520 810 560 
+                 Q 800 600 820 640 
+                 Q 830 680 810 720 
+                 Q 800 760 820 800 
+                 L 780 800 
+                 Q 760 760 770 720 
+                 Q 780 680 760 640 
+                 Q 750 600 770 560 
+                 Q 780 520 760 480 
+                 Q 750 440 770 400 
+                 Q 780 360 760 320 
+                 Q 750 280 770 240 
+                 Q 780 200 760 160 
+                 Q 750 120 770 80 
+                 Q 780 40 760 0 
+                 Z" 
+              fill="url(#blueGradient)" 
+              className="animate-drip" 
+              style={{ transform: 'rotate(-1deg)' }}/>
+        
+        {/* Paint Splatters */}
+        <circle cx="200" cy="200" r="8" fill="#ec4899" opacity="0.8" className="animate-pulse"/>
+        <circle cx="1000" cy="300" r="6" fill="#06b6d4" opacity="0.8" className="animate-pulse"/>
+        <circle cx="350" cy="500" r="10" fill="#eab308" opacity="0.8" className="animate-pulse"/>
+        <circle cx="850" cy="600" r="7" fill="#ea580c" opacity="0.8" className="animate-pulse"/>
+        <circle cx="150" cy="400" r="9" fill="#dc2626" opacity="0.8" className="animate-pulse"/>
+        <circle cx="1050" cy="500" r="5" fill="#16a34a" opacity="0.8" className="animate-pulse"/>
+      </svg>
+    </div>
+  )
+}
