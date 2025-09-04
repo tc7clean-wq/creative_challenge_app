@@ -1,46 +1,46 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { createClient } from '@/utils/supabase/client'
 
 export default function HomePage() {
-  const [isLoading, setIsLoading] = useState(false)
 
-  const handleGetStarted = async () => {
-    setIsLoading(true)
-    try {
-      const supabase = createClient()
-      const { data: { session } } = await supabase.auth.getSession()
-      
-      if (session) {
-        window.location.href = '/gallery'
-      } else {
-        window.location.href = '/auth'
-      }
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error checking auth:', error)
-      }
-      window.location.href = '/auth'
-    } finally {
-      setIsLoading(false)
-    }
+  const handleGetStarted = () => {
+    // Go directly to submit page - no login required
+    window.location.href = '/submit'
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      {/* Spray Paint Drip Effects */}
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+      {/* Enhanced Spray Paint Drip Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-32 h-40 bg-gradient-to-b from-purple-600 to-transparent opacity-30 transform rotate-12" 
+        {/* Large paint drips */}
+        <div className="absolute top-10 left-5 w-40 h-60 bg-gradient-to-b from-purple-600 via-purple-500 to-transparent opacity-40 transform rotate-12 animate-drip" 
              style={{ clipPath: 'polygon(0 0, 100% 0, 85% 100%, 15% 100%)' }}></div>
-        <div className="absolute top-40 right-20 w-24 h-32 bg-gradient-to-b from-blue-500 to-transparent opacity-25 transform -rotate-6" 
+        <div className="absolute top-20 right-10 w-32 h-50 bg-gradient-to-b from-blue-500 via-blue-400 to-transparent opacity-35 transform -rotate-8 animate-drip" 
              style={{ clipPath: 'polygon(0 0, 100% 0, 90% 100%, 10% 100%)' }}></div>
-        <div className="absolute bottom-32 left-1/4 w-28 h-36 bg-gradient-to-b from-indigo-600 to-transparent opacity-20 transform rotate-3" 
+        <div className="absolute bottom-20 left-1/4 w-36 h-48 bg-gradient-to-b from-indigo-600 via-indigo-500 to-transparent opacity-30 transform rotate-5 animate-drip" 
              style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 20% 100%)' }}></div>
-        <div className="absolute bottom-20 right-1/3 w-20 h-28 bg-gradient-to-b from-purple-500 to-transparent opacity-30 transform -rotate-12" 
+        <div className="absolute bottom-10 right-1/3 w-28 h-40 bg-gradient-to-b from-purple-500 via-purple-400 to-transparent opacity-40 transform -rotate-15 animate-drip" 
              style={{ clipPath: 'polygon(0 0, 100% 0, 75% 100%, 25% 100%)' }}></div>
+        
+        {/* Medium drips */}
+        <div className="absolute top-32 left-1/3 w-24 h-35 bg-gradient-to-b from-pink-500 to-transparent opacity-25 transform rotate-20 animate-drip" 
+             style={{ clipPath: 'polygon(0 0, 100% 0, 70% 100%, 30% 100%)' }}></div>
+        <div className="absolute top-60 right-1/4 w-20 h-30 bg-gradient-to-b from-cyan-400 to-transparent opacity-30 transform -rotate-10 animate-drip" 
+             style={{ clipPath: 'polygon(0 0, 100% 0, 85% 100%, 15% 100%)' }}></div>
+        
+        {/* Small drips */}
+        <div className="absolute top-80 left-1/2 w-16 h-25 bg-gradient-to-b from-violet-400 to-transparent opacity-35 transform rotate-8 animate-drip" 
+             style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 20% 100%)' }}></div>
+        <div className="absolute bottom-40 right-1/5 w-18 h-28 bg-gradient-to-b from-blue-400 to-transparent opacity-25 transform -rotate-5 animate-drip" 
+             style={{ clipPath: 'polygon(0 0, 100% 0, 75% 100%, 25% 100%)' }}></div>
+        
+        {/* Paint splatter effects */}
+        <div className="absolute top-1/4 left-1/6 w-8 h-8 bg-purple-400 rounded-full opacity-20 animate-pulse"></div>
+        <div className="absolute top-1/3 right-1/5 w-6 h-6 bg-blue-400 rounded-full opacity-25 animate-pulse"></div>
+        <div className="absolute bottom-1/3 left-1/5 w-10 h-10 bg-indigo-400 rounded-full opacity-15 animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/6 w-7 h-7 bg-purple-300 rounded-full opacity-30 animate-pulse"></div>
       </div>
 
       <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">

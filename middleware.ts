@@ -43,7 +43,6 @@ export async function middleware(req: NextRequest) {
     '/favorites',
     '/artists',
     '/profile',
-    '/submit',
     '/gallery',
     '/setup-username'
   ]

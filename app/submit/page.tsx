@@ -65,17 +65,14 @@ export default function SubmitPage() {
 
     try {
       const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
       
-      if (!user) {
-        router.push('/auth')
-        return
-      }
-
-      // Upload image to Supabase Storage
+      // Allow anonymous submissions - no user authentication required
+      // Generate a unique filename using timestamp and random string
       const fileExt = imageFile.name.split('.').pop()
-      const fileName = `${user.id}-${Date.now()}.${fileExt}`
+      const randomId = Math.random().toString(36).substring(2, 15)
+      const fileName = `anonymous-${Date.now()}-${randomId}.${fileExt}`
       
+      // Upload image to Supabase Storage
       const { error: uploadError } = await supabase.storage
         .from('artwork-images')
         .upload(fileName, imageFile)
@@ -93,16 +90,17 @@ export default function SubmitPage() {
         .from('artwork-images')
         .getPublicUrl(fileName)
 
-      // Create submission record
+      // Create submission record (anonymous)
       const { error: submitError } = await supabase
         .from('submissions')
         .insert({
           title: title.trim(),
           description: description.trim(),
           image_url: publicUrl,
-          user_id: user.id,
+          user_id: null, // Anonymous submission
           status: 'pending',
-          votes: 0
+          votes: 0,
+          artist_name: 'Anonymous Artist' // Default name for anonymous submissions
         })
 
       if (submitError) {

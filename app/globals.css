@@ -32,6 +32,27 @@
   animation: scroll 30s linear infinite;
 }
 
+/* Paint Drip Animation */
+@keyframes drip {
+  0% {
+    transform: translateY(-10px) rotate(var(--rotation, 0deg));
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(5px) rotate(var(--rotation, 0deg));
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(0px) rotate(var(--rotation, 0deg));
+    opacity: 0.4;
+  }
+}
+
+.animate-drip {
+  animation: drip 3s ease-in-out infinite;
+  --rotation: 0deg;
+}
+
 /* Mobile Optimizations */
 @media (max-width: 768px) {
   /* Ensure touch targets are at least 44px */
