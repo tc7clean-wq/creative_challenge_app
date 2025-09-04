@@ -6,8 +6,10 @@ import Link from 'next/link'
 
 export default function ErrorPage() {
   useEffect(() => {
-    // Log the error to the console
-    console.error('Application error occurred')
+    // Log the error to the console (development only)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Application error occurred')
+    }
   }, [])
 
   return (

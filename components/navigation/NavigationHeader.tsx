@@ -2,7 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import UserMenu from './UserMenu'
+import GlobalSearch from '../search/GlobalSearch'
 
 interface NavigationHeaderProps {
   showLogo?: boolean
@@ -14,8 +16,9 @@ export default function NavigationHeader({ showLogo = true, className = '' }: Na
 
   const navigationItems = [
     { label: 'Home', href: '/', icon: '🏠' },
-    { label: 'Contests', href: '/authenticated-home', icon: '🎨' },
-    { label: 'Payouts', href: '/payouts', icon: '💰' },
+    { label: 'Gallery', href: '/gallery', icon: '🎨' },
+    { label: 'Submit', href: '/submit', icon: '📤' },
+    { label: 'Profile', href: '/profile', icon: '👤' },
   ]
 
   return (
@@ -26,10 +29,33 @@ export default function NavigationHeader({ showLogo = true, className = '' }: Na
           {showLogo && (
             <Link
               href="/"
-              className="flex items-center gap-2 text-white font-bold text-xl hover:text-white/80 transition-colors"
+              className="flex items-center gap-3 hover:opacity-80 transition-all duration-300"
             >
-              <span className="text-2xl">🎨</span>
-              <span className="hidden sm:block">Creative Challenge</span>
+              <Image
+                src="/creative-challenge-logo.png"
+                alt="Creative Challenge Logo"
+                width={40}
+                height={40}
+                className="rounded-lg"
+              />
+              <span className="hidden sm:block text-white font-bold text-xl font-black tracking-wide"
+                    style={{
+                      fontFamily: 'var(--font-bebas-neue), "Arial Black", "Impact", sans-serif',
+                      background: 'linear-gradient(45deg, #FFD700, #FFA500, #FF8C00, #FFD700, #FFA500)',
+                      backgroundSize: '200% 200%',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                      animation: 'goldenShimmer 2s ease-in-out infinite',
+                      textShadow: '2px 2px 0px #8B4513, 4px 4px 0px #654321',
+                      filter: 'drop-shadow(1px 1px 3px rgba(0,0,0,0.7))',
+                      fontWeight: '900',
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      fontStyle: 'normal'
+                    }}>
+                LET&apos;S SPARK CREATIVITY
+              </span>
             </Link>
           )}
 
@@ -47,6 +73,11 @@ export default function NavigationHeader({ showLogo = true, className = '' }: Na
             ))}
           </nav>
 
+          {/* Global Search */}
+          <div className="hidden md:block">
+            <GlobalSearch />
+          </div>
+
           {/* Right side - User Menu */}
           <div className="flex items-center gap-4">
             <UserMenu />
@@ -54,7 +85,7 @@ export default function NavigationHeader({ showLogo = true, className = '' }: Na
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-white/70 hover:text-white transition-colors"
+              className="md:hidden p-3 text-white/70 hover:text-white transition-colors rounded-lg hover:bg-white/10"
             >
               <svg
                 className="w-6 h-6"

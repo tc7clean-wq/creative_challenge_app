@@ -115,7 +115,9 @@ export default function Gallery() {
         if (contestError) {
           // Check if it's a "no rows returned" error (which is normal when no contests exist)
           if (contestError.code === 'PGRST116') {
-            console.log('No active contests found in database')
+            if (process.env.NODE_ENV === 'development') {
+              console.log('No active contests found in database')
+            }
             setIsLoading(false)
             return
           }
@@ -125,12 +127,16 @@ export default function Gallery() {
             throw new Error('Database connection failed. Please check your connection and try again.')
           }
           
-          console.error('Error fetching active contest:', contestError)
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Error fetching active contest:', contestError)
+          }
           throw new Error('Failed to fetch contest information. Please try again.')
         }
 
         if (!contest) {
-          console.log('No active contest found')
+          if (process.env.NODE_ENV === 'development') {
+            console.log('No active contest found')
+          }
           setIsLoading(false)
           return
         }
@@ -141,13 +147,17 @@ export default function Gallery() {
         const { data: submissionsData, error: submissionsError } = await submissionsQuery(contest.id)
 
         if (submissionsError) {
-          console.error('Error fetching submissions:', submissionsError)
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Error fetching submissions:', submissionsError)
+          }
           throw new Error('Failed to fetch submissions. Please try again.')
         } else {
           setSubmissions(submissionsData || [])
         }
       } catch (error) {
-        console.error('Error fetching contest and submissions:', error)
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error fetching contest and submissions:', error)
+        }
         setError(error instanceof Error ? error.message : 'An unexpected error occurred')
         
         // Auto-retry logic for network errors

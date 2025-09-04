@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import NavigationHeader from '@/components/navigation/NavigationHeader'
+import { useRouter } from 'next/navigation'
 
 interface Submission {
   id: string
@@ -30,6 +31,7 @@ export default function SimpleAuthenticatedHomePage() {
   const [userStats, setUserStats] = useState<UserStats>({ total_submissions: 0, total_votes_received: 0 })
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<{ user_metadata?: { full_name?: string }; email?: string } | null>(null)
+  const router = useRouter()
 
   const supabase = createClient()
 
@@ -41,6 +43,18 @@ export default function SimpleAuthenticatedHomePage() {
         setUser(user)
 
         if (user) {
+          // Check if user has a username set
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('username')
+            .eq('id', user.id)
+            .single()
+
+          if (!profile?.username) {
+            // User doesn't have a username, redirect to setup
+            router.push('/setup-username')
+            return
+          }
           // Fetch recent submissions
           const { data: submissionsData } = await supabase
             .from('submissions')
@@ -81,14 +95,16 @@ export default function SimpleAuthenticatedHomePage() {
           })
         }
       } catch (error) {
-        console.error('Error fetching data:', error)
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error fetching data:', error)
+        }
       } finally {
         setLoading(false)
       }
     }
 
     fetchData()
-  }, [supabase])
+  }, [supabase, router])
 
   if (loading) {
     return (

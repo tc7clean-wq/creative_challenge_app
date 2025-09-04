@@ -100,7 +100,9 @@ export default function WalletToWalletPayment({
       setStep(3); // Success step
       
     } catch (error) {
-      console.error('Payment error:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Payment error:', error);
+      }
       onError(error instanceof Error ? error.message : 'Payment failed');
     } finally {
       setIsProcessing(false);

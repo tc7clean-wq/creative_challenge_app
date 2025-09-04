@@ -236,13 +236,13 @@ export default function AIArtTutorial({ className = '' }: AIArtTutorialProps) {
       <div className="mt-6 bg-gradient-to-r from-green-500/20 to-blue-500/20 border border-green-500/30 rounded-lg p-4">
         <h4 className="text-green-300 font-semibold mb-2">🚀 Quick Start</h4>
         <p className="text-green-200 text-sm mb-3">
-          Don&apos;t want to read the full tutorial? Here&apos;s the TL;DR:
+          <strong>Quick Steps to Get Started:</strong>
         </p>
         <ol className="text-green-200 text-sm space-y-1 list-decimal list-inside">
-          <li>Go to <strong>DALL-E 3</strong> or <strong>Midjourney</strong></li>
-          <li>Write a detailed prompt about what you want to create</li>
-          <li>Generate your art and download the best version</li>
-          <li>Submit it to a contest here with a creative title!</li>
+          <li>Choose your AI art tool: <strong>DALL-E 3</strong>, <strong>Midjourney</strong>, or <strong>Stable Diffusion</strong></li>
+          <li>Craft a detailed prompt describing your creative vision</li>
+          <li>Generate multiple variations and select your best artwork</li>
+          <li>Upload your masterpiece and enter it in our creative contest!</li>
         </ol>
       </div>
     </div>

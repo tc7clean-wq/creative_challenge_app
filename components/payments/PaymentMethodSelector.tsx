@@ -61,7 +61,9 @@ export default function PaymentMethodSelector({
 
       onStripeSuccess();
     } catch (error) {
-      console.error('Stripe error:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Stripe error:', error);
+      }
       onError(error instanceof Error ? error.message : 'Stripe payment failed');
     } finally {
       setIsLoading(false);

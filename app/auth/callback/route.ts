@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/authenticated-home'
+  const next = searchParams.get('next') ?? '/setup-username'
 
   if (code) {
     try {
@@ -13,10 +13,12 @@ export async function GET(request: NextRequest) {
       const { data, error } = await supabase.auth.exchangeCodeForSession(code)
       
       if (!error && data.session) {
-        console.log('OAuth callback successful, redirecting to:', next)
+        if (process.env.NODE_ENV === 'development') {
+          console.log('OAuth callback successful, redirecting to:', next)
+        }
         
         // Create a response with the redirect
-        const response = NextResponse.redirect(`${origin}${next}`)
+        const response = NextResponse.redirect(new URL(next, origin))
         
         // Set the session cookies properly
         if (data.session.access_token) {
@@ -39,15 +41,19 @@ export async function GET(request: NextRequest) {
         
         return response
       } else {
-        console.error('Auth callback error:', error)
-        return NextResponse.redirect(`${origin}/login?error=auth_failed&details=${encodeURIComponent(error?.message || 'Authentication failed')}`)
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Auth callback error:', error)
+        }
+        return NextResponse.redirect(new URL(`/login?error=auth_failed&details=${encodeURIComponent(error?.message || 'Authentication failed')}`, origin))
       }
     } catch (error) {
-      console.error('Auth callback exception:', error)
-      return NextResponse.redirect(`${origin}/login?error=auth_failed&details=Unexpected error`)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Auth callback exception:', error)
+      }
+      return NextResponse.redirect(new URL('/login?error=auth_failed&details=Unexpected error', origin))
     }
   }
 
   // No code provided, redirect to login with error
-  return NextResponse.redirect(`${origin}/login?error=auth_failed&details=No authorization code`)
+  return NextResponse.redirect(new URL('/login?error=auth_failed&details=No authorization code', origin))
 }

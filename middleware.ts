@@ -24,7 +24,9 @@ export async function middleware(req: NextRequest) {
 
   // Check if required environment variables are set
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY) {
-    console.error('Missing required Supabase environment variables')
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Missing required Supabase environment variables')
+    }
     return NextResponse.redirect(new URL('/error', req.url))
   }
 
@@ -41,7 +43,9 @@ export async function middleware(req: NextRequest) {
     '/favorites',
     '/artists',
     '/profile',
-    '/submit'
+    '/submit',
+    '/gallery',
+    '/setup-username'
   ]
 
   // Auth routes that should redirect if already authenticated
@@ -57,7 +61,7 @@ export async function middleware(req: NextRequest) {
 
   // Redirect authenticated users from auth routes
   if (isAuthRoute && session) {
-    return NextResponse.redirect(new URL('/authenticated-home', req.url))
+    return NextResponse.redirect(new URL('/authenticated-home-simple', req.url))
   }
 
   return res

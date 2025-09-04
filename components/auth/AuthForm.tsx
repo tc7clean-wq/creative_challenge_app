@@ -28,8 +28,10 @@ export default function AuthForm({ view = 'sign_in' }: AuthFormProps) {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session: Session | null) => {
-      console.log('Auth state changed:', event, session?.user?.email)
+    } =     supabase.auth.onAuthStateChange((event, session: Session | null) => {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Auth state changed:', event, session?.user?.email)
+      }
       
       if (event === 'SIGNED_IN' && session) {
         // Clear any previous errors
@@ -48,7 +50,9 @@ export default function AuthForm({ view = 'sign_in' }: AuthFormProps) {
         router.refresh()
       } else if (event === 'TOKEN_REFRESHED') {
         // Token refreshed successfully
-        console.log('Token refreshed successfully')
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Token refreshed successfully')
+        }
       }
     })
 
