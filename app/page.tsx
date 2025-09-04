@@ -12,47 +12,81 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-800 via-purple-900 to-indigo-900 relative overflow-hidden">
-      {/* DRAMATIC Spray Paint Drip Effects */}
+      {/* REAL Paint Drip Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Large DRAMATIC paint drips */}
-        <div className="absolute top-10 left-5 w-52 h-80 bg-gradient-to-b from-pink-400 via-pink-300 to-pink-200 opacity-90 transform rotate-12 animate-drip" 
-             style={{ clipPath: 'polygon(0 0, 100% 0, 85% 100%, 15% 100%)' }}></div>
-        <div className="absolute top-20 right-10 w-44 h-68 bg-gradient-to-b from-cyan-400 via-cyan-300 to-cyan-200 opacity-85 transform -rotate-8 animate-drip" 
-             style={{ clipPath: 'polygon(0 0, 100% 0, 90% 100%, 10% 100%)' }}></div>
-        <div className="absolute bottom-20 left-1/4 w-48 h-64 bg-gradient-to-b from-yellow-400 via-yellow-300 to-yellow-200 opacity-80 transform rotate-5 animate-drip" 
-             style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 20% 100%)' }}></div>
-        <div className="absolute bottom-10 right-1/3 w-40 h-56 bg-gradient-to-b from-orange-400 via-orange-300 to-orange-200 opacity-90 transform -rotate-15 animate-drip" 
-             style={{ clipPath: 'polygon(0 0, 100% 0, 75% 100%, 25% 100%)' }}></div>
+        {/* Paint drip 1 - Pink */}
+        <div className="absolute top-0 left-20 w-8 h-96 bg-gradient-to-b from-pink-500 to-pink-300 opacity-90 animate-drip" 
+             style={{ 
+               clipPath: 'polygon(0 0, 100% 0, 90% 20%, 95% 40%, 85% 60%, 90% 80%, 80% 100%, 20% 100%, 10% 80%, 15% 60%, 5% 40%, 10% 20%)',
+               transform: 'rotate(2deg)'
+             }}></div>
         
-        {/* Medium DRAMATIC drips */}
-        <div className="absolute top-32 left-1/3 w-36 h-48 bg-gradient-to-b from-red-400 via-red-300 to-red-200 opacity-85 transform rotate-20 animate-drip" 
-             style={{ clipPath: 'polygon(0 0, 100% 0, 70% 100%, 30% 100%)' }}></div>
-        <div className="absolute top-60 right-1/4 w-32 h-42 bg-gradient-to-b from-green-400 via-green-300 to-green-200 opacity-80 transform -rotate-10 animate-drip" 
-             style={{ clipPath: 'polygon(0 0, 100% 0, 85% 100%, 15% 100%)' }}></div>
+        {/* Paint drip 2 - Cyan */}
+        <div className="absolute top-0 right-32 w-6 h-80 bg-gradient-to-b from-cyan-500 to-cyan-300 opacity-85 animate-drip" 
+             style={{ 
+               clipPath: 'polygon(0 0, 100% 0, 95% 25%, 85% 50%, 90% 75%, 80% 100%, 20% 100%, 15% 75%, 10% 50%, 5% 25%)',
+               transform: 'rotate(-3deg)'
+             }}></div>
         
-        {/* Small DRAMATIC drips */}
-        <div className="absolute top-80 left-1/2 w-28 h-38 bg-gradient-to-b from-purple-400 via-purple-300 to-purple-200 opacity-90 transform rotate-8 animate-drip" 
-             style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 20% 100%)' }}></div>
-        <div className="absolute bottom-40 right-1/5 w-30 h-40 bg-gradient-to-b from-blue-400 via-blue-300 to-blue-200 opacity-85 transform -rotate-5 animate-drip" 
-             style={{ clipPath: 'polygon(0 0, 100% 0, 75% 100%, 25% 100%)' }}></div>
+        {/* Paint drip 3 - Yellow */}
+        <div className="absolute top-0 left-1/3 w-10 h-88 bg-gradient-to-b from-yellow-500 to-yellow-300 opacity-80 animate-drip" 
+             style={{ 
+               clipPath: 'polygon(0 0, 100% 0, 90% 15%, 95% 35%, 85% 55%, 90% 75%, 85% 100%, 15% 100%, 10% 75%, 15% 55%, 5% 35%, 10% 15%)',
+               transform: 'rotate(1deg)'
+             }}></div>
         
-        {/* DRAMATIC Paint splatter effects */}
-        <div className="absolute top-1/4 left-1/6 w-16 h-16 bg-pink-400 rounded-full opacity-80 animate-pulse"></div>
-        <div className="absolute top-1/3 right-1/5 w-14 h-14 bg-cyan-400 rounded-full opacity-85 animate-pulse"></div>
-        <div className="absolute bottom-1/3 left-1/5 w-20 h-20 bg-yellow-400 rounded-full opacity-75 animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/6 w-18 h-18 bg-orange-400 rounded-full opacity-90 animate-pulse"></div>
+        {/* Paint drip 4 - Orange */}
+        <div className="absolute top-0 right-1/4 w-7 h-72 bg-gradient-to-b from-orange-500 to-orange-300 opacity-90 animate-drip" 
+             style={{ 
+               clipPath: 'polygon(0 0, 100% 0, 95% 20%, 85% 45%, 90% 70%, 80% 100%, 20% 100%, 15% 70%, 10% 45%, 5% 20%)',
+               transform: 'rotate(-2deg)'
+             }}></div>
         
-        {/* Additional DRAMATIC drips for more impact */}
-        <div className="absolute top-1/2 left-1/5 w-24 h-34 bg-gradient-to-b from-red-300 via-red-200 to-red-100 opacity-80 transform rotate-25 animate-drip" 
-             style={{ clipPath: 'polygon(0 0, 100% 0, 60% 100%, 40% 100%)' }}></div>
-        <div className="absolute bottom-1/2 right-1/4 w-26 h-36 bg-gradient-to-b from-green-300 via-green-200 to-green-100 opacity-85 transform -rotate-20 animate-drip" 
-             style={{ clipPath: 'polygon(0 0, 100% 0, 65% 100%, 35% 100%)' }}></div>
+        {/* Paint drip 5 - Red */}
+        <div className="absolute top-0 left-1/2 w-5 h-76 bg-gradient-to-b from-red-500 to-red-300 opacity-85 animate-drip" 
+             style={{ 
+               clipPath: 'polygon(0 0, 100% 0, 90% 30%, 95% 60%, 85% 100%, 15% 100%, 5% 60%, 10% 30%)',
+               transform: 'rotate(4deg)'
+             }}></div>
         
-        {/* Extra dramatic drips */}
-        <div className="absolute top-1/6 right-1/6 w-20 h-32 bg-gradient-to-b from-violet-400 via-violet-300 to-violet-200 opacity-90 transform rotate-30 animate-drip" 
-             style={{ clipPath: 'polygon(0 0, 100% 0, 55% 100%, 45% 100%)' }}></div>
-        <div className="absolute bottom-1/6 left-1/6 w-22 h-34 bg-gradient-to-b from-teal-400 via-teal-300 to-teal-200 opacity-85 transform -rotate-25 animate-drip" 
-             style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%, 50% 100%)' }}></div>
+        {/* Paint drip 6 - Green */}
+        <div className="absolute top-0 right-1/5 w-9 h-84 bg-gradient-to-b from-green-500 to-green-300 opacity-80 animate-drip" 
+             style={{ 
+               clipPath: 'polygon(0 0, 100% 0, 90% 10%, 95% 30%, 85% 50%, 90% 70%, 85% 100%, 15% 100%, 10% 70%, 15% 50%, 5% 30%, 10% 10%)',
+               transform: 'rotate(-1deg)'
+             }}></div>
+        
+        {/* Paint drip 7 - Purple */}
+        <div className="absolute top-0 left-1/6 w-6 h-68 bg-gradient-to-b from-purple-500 to-purple-300 opacity-90 animate-drip" 
+             style={{ 
+               clipPath: 'polygon(0 0, 100% 0, 95% 25%, 85% 50%, 90% 75%, 80% 100%, 20% 100%, 15% 75%, 10% 50%, 5% 25%)',
+               transform: 'rotate(3deg)'
+             }}></div>
+        
+        {/* Paint drip 8 - Blue */}
+        <div className="absolute top-0 right-1/6 w-8 h-92 bg-gradient-to-b from-blue-500 to-blue-300 opacity-85 animate-drip" 
+             style={{ 
+               clipPath: 'polygon(0 0, 100% 0, 90% 20%, 95% 40%, 85% 60%, 90% 80%, 80% 100%, 20% 100%, 10% 80%, 15% 60%, 5% 40%, 10% 20%)',
+               transform: 'rotate(-2deg)'
+             }}></div>
+        
+        {/* Paint splatters */}
+        <div className="absolute top-1/4 left-1/6 w-12 h-12 bg-pink-400 rounded-full opacity-70 animate-pulse" style={{ transform: 'rotate(45deg)' }}></div>
+        <div className="absolute top-1/3 right-1/5 w-10 h-10 bg-cyan-400 rounded-full opacity-75 animate-pulse" style={{ transform: 'rotate(-30deg)' }}></div>
+        <div className="absolute bottom-1/3 left-1/5 w-14 h-14 bg-yellow-400 rounded-full opacity-65 animate-pulse" style={{ transform: 'rotate(60deg)' }}></div>
+        <div className="absolute bottom-1/4 right-1/6 w-11 h-11 bg-orange-400 rounded-full opacity-80 animate-pulse" style={{ transform: 'rotate(-45deg)' }}></div>
+        
+        {/* Additional paint drips for more coverage */}
+        <div className="absolute top-0 left-2/3 w-4 h-64 bg-gradient-to-b from-red-400 to-red-200 opacity-80 animate-drip" 
+             style={{ 
+               clipPath: 'polygon(0 0, 100% 0, 90% 40%, 85% 100%, 15% 100%, 10% 40%)',
+               transform: 'rotate(-4deg)'
+             }}></div>
+        <div className="absolute top-0 right-2/3 w-7 h-80 bg-gradient-to-b from-green-400 to-green-200 opacity-75 animate-drip" 
+             style={{ 
+               clipPath: 'polygon(0 0, 100% 0, 95% 15%, 85% 35%, 90% 55%, 85% 100%, 15% 100%, 10% 55%, 15% 35%, 5% 15%)',
+               transform: 'rotate(2deg)'
+             }}></div>
       </div>
 
       <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">
