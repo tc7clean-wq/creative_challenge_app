@@ -5,60 +5,52 @@ export default function PaintDrips() {
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1200 800" preserveAspectRatio="none">
         <defs>
-          {/* Professional graffiti paint gradients */}
-          <linearGradient id="neonPink" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#ff0080" stopOpacity="0.95"/>
-            <stop offset="30%" stopColor="#ff1493" stopOpacity="0.9"/>
-            <stop offset="70%" stopColor="#ff69b4" stopOpacity="0.85"/>
-            <stop offset="100%" stopColor="#ffb6c1" stopOpacity="0.8"/>
-          </linearGradient>
-          <linearGradient id="electricBlue" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#00bfff" stopOpacity="0.95"/>
-            <stop offset="30%" stopColor="#1e90ff" stopOpacity="0.9"/>
-            <stop offset="70%" stopColor="#87ceeb" stopOpacity="0.85"/>
-            <stop offset="100%" stopColor="#b0e0e6" stopOpacity="0.8"/>
-          </linearGradient>
-          <linearGradient id="limeGreen" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#32cd32" stopOpacity="0.95"/>
-            <stop offset="30%" stopColor="#00ff00" stopOpacity="0.9"/>
-            <stop offset="70%" stopColor="#90ee90" stopOpacity="0.85"/>
-            <stop offset="100%" stopColor="#98fb98" stopOpacity="0.8"/>
-          </linearGradient>
-          <linearGradient id="hotOrange" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#ff4500" stopOpacity="0.95"/>
-            <stop offset="30%" stopColor="#ff6347" stopOpacity="0.9"/>
-            <stop offset="70%" stopColor="#ffa500" stopOpacity="0.85"/>
-            <stop offset="100%" stopColor="#ffd700" stopOpacity="0.8"/>
-          </linearGradient>
-          <linearGradient id="crimsonRed" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#dc143c" stopOpacity="0.95"/>
-            <stop offset="30%" stopColor="#ff0000" stopOpacity="0.9"/>
-            <stop offset="70%" stopColor="#ff6b6b" stopOpacity="0.85"/>
-            <stop offset="100%" stopColor="#ffa8a8" stopOpacity="0.8"/>
-          </linearGradient>
-          <linearGradient id="purpleHaze" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#8a2be2" stopOpacity="0.95"/>
-            <stop offset="30%" stopColor="#9370db" stopOpacity="0.9"/>
-            <stop offset="70%" stopColor="#ba55d3" stopOpacity="0.85"/>
-            <stop offset="100%" stopColor="#dda0dd" stopOpacity="0.8"/>
-          </linearGradient>
-          <linearGradient id="goldenYellow" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#ffd700" stopOpacity="0.95"/>
-            <stop offset="30%" stopColor="#ffff00" stopOpacity="0.9"/>
-            <stop offset="70%" stopColor="#ffffe0" stopOpacity="0.85"/>
-            <stop offset="100%" stopColor="#fffacd" stopOpacity="0.8"/>
-          </linearGradient>
-          <linearGradient id="turquoise" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#40e0d0" stopOpacity="0.95"/>
-            <stop offset="30%" stopColor="#00ced1" stopOpacity="0.9"/>
-            <stop offset="70%" stopColor="#20b2aa" stopOpacity="0.85"/>
-            <stop offset="100%" stopColor="#afeeee" stopOpacity="0.8"/>
-          </linearGradient>
+          {/* Spray paint gradients - realistic spray can colors */}
+          <radialGradient id="sprayPink" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stopColor="#ff1493" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#ff69b4" stopOpacity="0.7"/>
+            <stop offset="100%" stopColor="#ffb6c1" stopOpacity="0.4"/>
+          </radialGradient>
+          <radialGradient id="sprayBlue" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stopColor="#00bfff" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#87ceeb" stopOpacity="0.7"/>
+            <stop offset="100%" stopColor="#b0e0e6" stopOpacity="0.4"/>
+          </radialGradient>
+          <radialGradient id="sprayGreen" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stopColor="#32cd32" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#90ee90" stopOpacity="0.7"/>
+            <stop offset="100%" stopColor="#98fb98" stopOpacity="0.4"/>
+          </radialGradient>
+          <radialGradient id="sprayOrange" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stopColor="#ff4500" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#ffa500" stopOpacity="0.7"/>
+            <stop offset="100%" stopColor="#ffd700" stopOpacity="0.4"/>
+          </radialGradient>
+          <radialGradient id="sprayRed" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stopColor="#dc143c" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#ff6b6b" stopOpacity="0.7"/>
+            <stop offset="100%" stopColor="#ffa8a8" stopOpacity="0.4"/>
+          </radialGradient>
+          <radialGradient id="sprayPurple" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stopColor="#8a2be2" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#ba55d3" stopOpacity="0.7"/>
+            <stop offset="100%" stopColor="#dda0dd" stopOpacity="0.4"/>
+          </radialGradient>
+          <radialGradient id="sprayYellow" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stopColor="#ffd700" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#ffff00" stopOpacity="0.7"/>
+            <stop offset="100%" stopColor="#ffffe0" stopOpacity="0.4"/>
+          </radialGradient>
+          <radialGradient id="sprayCyan" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stopColor="#00ced1" stopOpacity="0.9"/>
+            <stop offset="50%" stopColor="#20b2aa" stopOpacity="0.7"/>
+            <stop offset="100%" stopColor="#afeeee" stopOpacity="0.4"/>
+          </radialGradient>
           
-          {/* Paint splatter patterns */}
-          <filter id="splatter" x="-50%" y="-50%" width="200%" height="200%">
-            <feTurbulence baseFrequency="0.9" numOctaves="4" result="noise"/>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3"/>
+          {/* Spray paint texture filter */}
+          <filter id="sprayTexture" x="-50%" y="-50%" width="200%" height="200%">
+            <feTurbulence baseFrequency="0.8" numOctaves="3" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2"/>
           </filter>
         </defs>
         

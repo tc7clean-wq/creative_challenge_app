@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import PaintDrips from '@/components/ui/PaintDrips'
+import SprayPaintMarks from '@/components/ui/SprayPaintMarks'
 
 export default function HomePage() {
 
@@ -12,8 +12,8 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-800 via-purple-900 to-indigo-900 relative overflow-hidden">
-      <PaintDrips />
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      <SprayPaintMarks />
 
       <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">
         {/* Logo */}
