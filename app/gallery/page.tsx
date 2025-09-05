@@ -170,9 +170,9 @@ export default function GalleryPage() {
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
           }}>
-            ART GALLERY
+            PROFESSIONAL GALLERY
           </h1>
-          <p className="text-xl text-white/80 mb-8">Discover amazing AI-generated artwork from talented artists</p>
+          <p className="text-xl text-white/80 mb-8">Explore exceptional AI-generated artwork from our community of professional artists</p>
           
           {/* Sort Options */}
           <div className="flex justify-center gap-4 mb-8">

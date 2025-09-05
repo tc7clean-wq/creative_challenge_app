@@ -42,7 +42,7 @@ export default function OAuthTest() {
     // Test 2: Supabase Client
     addResult('🔍 Testing Supabase client...')
     try {
-      const { data, error } = await supabase.auth.getSession()
+      const { error } = await supabase.auth.getSession()
       if (error) {
         addResult(`❌ Supabase client error: ${error.message}`)
         setStatus('Supabase Error')
@@ -110,7 +110,7 @@ export default function OAuthTest() {
     addResult('🚀 Initiating OAuth flow...')
     
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: `${window.location.origin}/auth/callback`

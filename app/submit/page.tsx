@@ -139,7 +139,7 @@ export default function SubmitPage() {
           }}>
             SUBMIT ARTWORK
           </h1>
-          <p className="text-xl text-white/80">Share your AI-generated masterpiece with the world</p>
+          <p className="text-xl text-white/80">Present your AI-generated artwork to our professional community</p>
         </div>
 
         {/* Progress Steps */}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
 import "./globals.css";
+import "../styles/design-system.css";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import LiveTicker from "@/components/ui/LiveTicker";
 

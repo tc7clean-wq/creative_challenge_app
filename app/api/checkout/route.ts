@@ -42,6 +42,15 @@ const checkRateLimit = (userId: string): boolean => {
   return true
 }
 
+export async function GET() {
+  return NextResponse.json({ 
+    status: 'ok', 
+    message: 'Checkout API is running',
+    methods: ['POST'],
+    timestamp: new Date().toISOString()
+  })
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Verify user authentication

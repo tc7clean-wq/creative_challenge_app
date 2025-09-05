@@ -18,6 +18,15 @@ const getEndpointSecret = () => {
   return process.env.STRIPE_WEBHOOK_SECRET
 }
 
+export async function GET() {
+  return NextResponse.json({ 
+    status: 'ok', 
+    message: 'Stripe Webhooks API is running',
+    methods: ['POST'],
+    timestamp: new Date().toISOString()
+  })
+}
+
 export async function POST(request: NextRequest) {
   const body = await request.text()
   const sig = request.headers.get('stripe-signature')!

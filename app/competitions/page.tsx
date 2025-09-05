@@ -147,7 +147,7 @@ export default function CompetitionsPage() {
               COMPETITIONS
             </h1>
             <p className="text-2xl text-white/80 max-w-3xl mx-auto">
-              Compete in free AI art challenges and win exclusive platform rewards!
+              Participate in professional AI art competitions and earn recognition for your creative achievements
             </p>
           </div>
 

@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 
+export async function GET() {
+  return NextResponse.json({ 
+    status: 'ok', 
+    message: 'Payouts API is running',
+    methods: ['POST'],
+    timestamp: new Date().toISOString()
+  })
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { payoutIds, batchId } = await request.json()

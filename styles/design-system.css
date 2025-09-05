@@ -1,0 +1,330 @@
+/* ========================================
+   REVOLUTIONARY DESIGN SYSTEM 2024
+   ======================================== */
+
+:root {
+  /* === NEUROMORPHIC COLOR PALETTE === */
+  --primary-neural: #6366f1;
+  --primary-neural-light: #818cf8;
+  --primary-neural-dark: #4f46e5;
+  
+  --secondary-holographic: #06b6d4;
+  --secondary-holographic-light: #22d3ee;
+  --secondary-holographic-dark: #0891b2;
+  
+  --accent-cyber: #f59e0b;
+  --accent-cyber-light: #fbbf24;
+  --accent-cyber-dark: #d97706;
+  
+  --success-quantum: #10b981;
+  --warning-plasma: #f59e0b;
+  --error-neon: #ef4444;
+  
+  /* === GLASSMORPHISM TOKENS === */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --glass-backdrop: blur(20px);
+  
+  /* === NEUROMORPHIC SHADOWS === */
+  --neu-light: #ffffff;
+  --neu-dark: #d1d5db;
+  --neu-shadow-light: 20px 20px 60px #bebebe;
+  --neu-shadow-dark: -20px -20px 60px #ffffff;
+  
+  /* === QUANTUM GRADIENTS === */
+  --gradient-neural: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-holographic: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-cyber: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --gradient-quantum: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  --gradient-plasma: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  
+  /* === TYPOGRAPHY SCALE === */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  
+  /* === SPACING SYSTEM === */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  
+  /* === BORDER RADIUS === */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+  --radius-full: 9999px;
+  
+  /* === ANIMATION DURATIONS === */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-slower: 750ms;
+  
+  /* === EASING FUNCTIONS === */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ========================================
+   REVOLUTIONARY COMPONENT CLASSES
+   ======================================== */
+
+/* === GLASSMORPHISM COMPONENTS === */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-2xl);
+}
+
+.glass-button {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-xl);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* === NEUROMORPHIC COMPONENTS === */
+.neu-card {
+  background: #f0f0f3;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--neu-shadow-light), var(--neu-shadow-dark);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.neu-card:hover {
+  box-shadow: 
+    25px 25px 50px #bebebe,
+    -25px -25px 50px #ffffff;
+  transform: translateY(-4px);
+}
+
+.neu-button {
+  background: #f0f0f3;
+  border: none;
+  border-radius: var(--radius-xl);
+  box-shadow: 
+    8px 8px 16px #bebebe,
+    -8px -8px 16px #ffffff;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.neu-button:hover {
+  box-shadow: 
+    12px 12px 24px #bebebe,
+    -12px -12px 24px #ffffff;
+  transform: translateY(-2px);
+}
+
+.neu-button:active {
+  box-shadow: 
+    inset 4px 4px 8px #bebebe,
+    inset -4px -4px 8px #ffffff;
+  transform: translateY(0);
+}
+
+/* === QUANTUM ANIMATIONS === */
+@keyframes quantum-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(1deg); }
+  50% { transform: translateY(-20px) rotate(0deg); }
+  75% { transform: translateY(-10px) rotate(-1deg); }
+}
+
+@keyframes neural-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px var(--primary-neural);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 40px var(--primary-neural-light);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes holographic-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes cyber-glow {
+  0%, 100% { 
+    text-shadow: 0 0 5px var(--accent-cyber);
+    color: var(--accent-cyber);
+  }
+  50% { 
+    text-shadow: 0 0 20px var(--accent-cyber-light);
+    color: var(--accent-cyber-light);
+  }
+}
+
+@keyframes plasma-wave {
+  0% { transform: translateX(-100%) rotate(0deg); }
+  100% { transform: translateX(100%) rotate(360deg); }
+}
+
+@keyframes quantum-entanglement {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+    filter: hue-rotate(0deg);
+  }
+  25% { 
+    transform: scale(1.1) rotate(90deg);
+    filter: hue-rotate(90deg);
+  }
+  50% { 
+    transform: scale(1.2) rotate(180deg);
+    filter: hue-rotate(180deg);
+  }
+  75% { 
+    transform: scale(1.1) rotate(270deg);
+    filter: hue-rotate(270deg);
+  }
+}
+
+/* === ANIMATION UTILITY CLASSES === */
+.animate-quantum-float {
+  animation: quantum-float 6s ease-in-out infinite;
+}
+
+.animate-neural-pulse {
+  animation: neural-pulse 2s ease-in-out infinite;
+}
+
+.animate-holographic-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: holographic-shimmer 2s linear infinite;
+}
+
+.animate-cyber-glow {
+  animation: cyber-glow 3s ease-in-out infinite;
+}
+
+.animate-plasma-wave {
+  animation: plasma-wave 4s linear infinite;
+}
+
+.animate-quantum-entanglement {
+  animation: quantum-entanglement 8s ease-in-out infinite;
+}
+
+/* === GRADIENT TEXT EFFECTS === */
+.gradient-text-neural {
+  background: var(--gradient-neural);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-holographic {
+  background: var(--gradient-holographic);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-cyber {
+  background: var(--gradient-cyber);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* === INTERACTIVE STATES === */
+.interactive-hover {
+  transition: all var(--duration-normal) var(--ease-out);
+  cursor: pointer;
+}
+
+.interactive-hover:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.interactive-press {
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.interactive-press:active {
+  transform: translateY(2px) scale(0.98);
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+  .glass-card {
+    border-radius: var(--radius-xl);
+  }
+  
+  .neu-card {
+    border-radius: var(--radius-xl);
+  }
+}
+
+/* === ACCESSIBILITY === */
+@media (prefers-reduced-motion: reduce) {
+  .animate-quantum-float,
+  .animate-neural-pulse,
+  .animate-holographic-shimmer,
+  .animate-cyber-glow,
+  .animate-plasma-wave,
+  .animate-quantum-entanglement {
+    animation: none;
+  }
+}
+
+/* === DARK MODE SUPPORT === */
+@media (prefers-color-scheme: dark) {
+  .neu-card {
+    background: #2a2a2a;
+    box-shadow: 
+      20px 20px 60px #1a1a1a,
+      -20px -20px 60px #3a3a3a;
+  }
+  
+  .neu-button {
+    background: #2a2a2a;
+    box-shadow: 
+      8px 8px 16px #1a1a1a,
+      -8px -8px 16px #3a3a3a;
+  }
+}

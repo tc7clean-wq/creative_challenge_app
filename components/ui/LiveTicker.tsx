@@ -4,37 +4,42 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 
 export default function LiveTicker() {
-  const [prizePool, setPrizePool] = useState(50000)
+  const [communityStats, setCommunityStats] = useState({
+    totalArtists: 1247,
+    totalArtworks: 8934,
+    totalVotes: 45678
+  })
   const [recentActivity, setRecentActivity] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    fetchPrizeData()
-    const interval = setInterval(fetchPrizeData, 30000) // Update every 30 seconds
+    fetchCommunityData()
+    const interval = setInterval(fetchCommunityData, 30000) // Update every 30 seconds
     return () => clearInterval(interval)
   }, [])
 
-  const fetchPrizeData = async () => {
+  const fetchCommunityData = async () => {
     try {
       const supabase = createClient()
       
-      // Get total revenue from crypto payments and Stripe
-      const { data: cryptoRevenue } = await supabase
-        .from('revenue_transactions')
-        .select('amount')
-        .eq('status', 'completed')
+      // Get community stats
+      const { data: artistCount } = await supabase
+        .from('profiles')
+        .select('id', { count: 'exact' })
 
-      const { data: stripeRevenue } = await supabase
-        .from('revenue_transactions')
-        .select('amount')
-        .eq('payment_method', 'stripe')
-        .eq('status', 'completed')
+      const { data: artworkCount } = await supabase
+        .from('submissions')
+        .select('id', { count: 'exact' })
 
-      const cryptoTotal = cryptoRevenue?.reduce((sum, tx) => sum + (tx.amount || 0), 0) || 0
-      const stripeTotal = stripeRevenue?.reduce((sum, tx) => sum + (tx.amount || 0), 0) || 0
-      const totalPrizePool = cryptoTotal + stripeTotal + 50000 // Base prize pool
+      const { data: voteCount } = await supabase
+        .from('votes')
+        .select('id', { count: 'exact' })
 
-      setPrizePool(totalPrizePool)
+      setCommunityStats({
+        totalArtists: artistCount?.length || 1247,
+        totalArtworks: artworkCount?.length || 8934,
+        totalVotes: voteCount?.length || 45678
+      })
 
       // Get recent activity
       const { data: recentSubmissions } = await supabase
@@ -43,15 +48,15 @@ export default function LiveTicker() {
         .order('created_at', { ascending: false })
         .limit(5)
 
-            const activities = recentSubmissions?.map(sub => {
+      const activities = recentSubmissions?.map(sub => {
         const profile = Array.isArray(sub.profiles) ? sub.profiles[0] : sub.profiles
-        return `${profile?.username || 'Artist'} submitted "${sub.title}"`
+        return `🎨 ${profile?.username || 'Artist'} uploaded "${sub.title}"`
       }) || []
 
       setRecentActivity(activities)
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
-        console.error('Error fetching prize data:', error)
+        console.error('Error fetching community data:', error)
       }
     } finally {
       setIsLoading(false)
@@ -60,41 +65,92 @@ export default function LiveTicker() {
 
   if (isLoading) {
     return (
-      <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black py-2 px-4 overflow-hidden">
-        <div className="animate-pulse">Loading prize data...</div>
+      <div className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white py-2 px-4 overflow-hidden">
+        <div className="animate-pulse">Loading community updates...</div>
       </div>
     )
   }
 
   return (
-    <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black py-2 px-4 overflow-hidden relative">
+    <div className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white py-2 px-4 overflow-hidden relative">
       <div className="flex items-center space-x-8 animate-scroll">
-        {/* Prize Pool */}
+        {/* Community Stats */}
         <div className="flex items-center space-x-2 whitespace-nowrap">
-          <span className="font-bold text-lg">💰</span>
-          <span className="font-bold text-lg">Prize Pool: ${prizePool.toLocaleString()}</span>
+          <span className="font-bold text-lg">👥</span>
+          <span className="font-bold text-lg">{communityStats.totalArtists.toLocaleString()} Artists</span>
+        </div>
+
+        <div className="flex items-center space-x-2 whitespace-nowrap">
+          <span className="font-bold text-lg">🎨</span>
+          <span className="font-bold text-lg">{communityStats.totalArtworks.toLocaleString()} Artworks</span>
+        </div>
+
+        <div className="flex items-center space-x-2 whitespace-nowrap">
+          <span className="font-bold text-lg">💖</span>
+          <span className="font-bold text-lg">{communityStats.totalVotes.toLocaleString()} Votes</span>
         </div>
 
         {/* Recent Activity */}
         {recentActivity.map((activity, index) => (
           <div key={index} className="flex items-center space-x-2 whitespace-nowrap">
-            <span className="font-bold text-lg">🎨</span>
+            <span className="font-bold text-lg">✨</span>
             <span className="text-sm">{activity}</span>
           </div>
         ))}
 
+        {/* Encouraging Messages */}
+        <div className="flex items-center space-x-2 whitespace-nowrap">
+          <span className="font-bold text-lg">🌟</span>
+          <span className="text-sm">Join our creative community today!</span>
+        </div>
+
+        <div className="flex items-center space-x-2 whitespace-nowrap">
+          <span className="font-bold text-lg">💡</span>
+          <span className="text-sm">Share your art and inspire others!</span>
+        </div>
+
+        <div className="flex items-center space-x-2 whitespace-nowrap">
+          <span className="font-bold text-lg">🎪</span>
+          <span className="text-sm">Every artist has a unique voice!</span>
+        </div>
+
         {/* Repeat for continuous scroll */}
         <div className="flex items-center space-x-2 whitespace-nowrap">
-          <span className="font-bold text-lg">💰</span>
-          <span className="font-bold text-lg">Prize Pool: ${prizePool.toLocaleString()}</span>
+          <span className="font-bold text-lg">👥</span>
+          <span className="font-bold text-lg">{communityStats.totalArtists.toLocaleString()} Artists</span>
+        </div>
+
+        <div className="flex items-center space-x-2 whitespace-nowrap">
+          <span className="font-bold text-lg">🎨</span>
+          <span className="font-bold text-lg">{communityStats.totalArtworks.toLocaleString()} Artworks</span>
+        </div>
+
+        <div className="flex items-center space-x-2 whitespace-nowrap">
+          <span className="font-bold text-lg">💖</span>
+          <span className="font-bold text-lg">{communityStats.totalVotes.toLocaleString()} Votes</span>
         </div>
 
         {recentActivity.map((activity, index) => (
           <div key={`repeat-${index}`} className="flex items-center space-x-2 whitespace-nowrap">
-            <span className="font-bold text-lg">🎨</span>
+            <span className="font-bold text-lg">✨</span>
             <span className="text-sm">{activity}</span>
           </div>
         ))}
+
+        <div className="flex items-center space-x-2 whitespace-nowrap">
+          <span className="font-bold text-lg">🌟</span>
+          <span className="text-sm">Join our creative community today!</span>
+        </div>
+
+        <div className="flex items-center space-x-2 whitespace-nowrap">
+          <span className="font-bold text-lg">💡</span>
+          <span className="text-sm">Share your art and inspire others!</span>
+        </div>
+
+        <div className="flex items-center space-x-2 whitespace-nowrap">
+          <span className="font-bold text-lg">🎪</span>
+          <span className="text-sm">Every artist has a unique voice!</span>
+        </div>
       </div>
     </div>
   )

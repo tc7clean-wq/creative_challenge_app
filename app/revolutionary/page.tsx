@@ -1,16 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import ParticleSystem from '@/components/quantum/ParticleSystem'
-import QuantumButton from '@/components/quantum/QuantumButton'
-import HolographicCard from '@/components/quantum/HolographicCard'
 
 export default function RevolutionaryHomePage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isLoaded, setIsLoaded] = useState(false)
   const [activeFeature, setActiveFeature] = useState(0)
+  const particleContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setIsLoaded(true)
@@ -66,7 +64,19 @@ export default function RevolutionaryHomePage() {
         <div className="quantum-grid absolute inset-0"></div>
         
         {/* Floating Particles */}
-        <ParticleSystem particleCount={20} />
+        <div ref={particleContainerRef} className="absolute inset-0">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="particle"
+              style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 6}s`,
+                animationDuration: `${6 + Math.random() * 4}s`
+              }}
+            />
+          ))}
+        </div>
         
         {/* Mouse-following Glow */}
         <div
@@ -116,9 +126,9 @@ export default function RevolutionaryHomePage() {
               <button className="quantum-hover px-4 py-2 text-white/70 hover:text-white transition-colors">
                 Sign In
               </button>
-              <QuantumButton href="/auth-simple">
+              <Link href="/auth-simple" className="quantum-button">
                 Get Started
-              </QuantumButton>
+              </Link>
             </div>
           </div>
         </nav>
@@ -144,32 +154,28 @@ export default function RevolutionaryHomePage() {
 
             {/* CTA Buttons */}
             <div className={`flex flex-col sm:flex-row gap-6 justify-center mb-20 transition-all duration-1000 delay-500 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <QuantumButton href="/auth-simple" size="lg">
+              <Link href="/auth-simple" className="quantum-button text-lg px-8 py-4">
                 Start Creating Now
-              </QuantumButton>
-              <QuantumButton href="/gallery" variant="secondary" size="lg">
+              </Link>
+              <Link href="/gallery" className="quantum-hover px-8 py-4 quantum-glass rounded-2xl text-white font-semibold text-lg">
                 Explore Gallery
-              </QuantumButton>
-              <QuantumButton href="/live-sessions" variant="secondary" size="lg">
+              </Link>
+              <Link href="/live-sessions" className="quantum-hover px-8 py-4 quantum-glass rounded-2xl text-white font-semibold text-lg">
                 Join Live Session
-              </QuantumButton>
+              </Link>
             </div>
 
             {/* Live Stats */}
             <div className={`grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto transition-all duration-1000 delay-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               {stats.map((stat, index) => (
-                <HolographicCard
-                  key={index}
-                  glowColor="cyan"
-                  className="p-6 text-center"
-                >
+                <div key={index} className="holographic-card p-6 text-center">
                   <div className={`text-4xl font-bold mb-2 ${stat.color} animate-neural-pulse`}>
                     {stat.number}
                   </div>
                   <div className="text-gray-300 font-medium">
                     {stat.label}
                   </div>
-                </HolographicCard>
+                </div>
               ))}
             </div>
           </div>
@@ -189,10 +195,9 @@ export default function RevolutionaryHomePage() {
 
             <div className="grid md:grid-cols-3 gap-8">
               {features.map((feature, index) => (
-                <HolographicCard
+                <div
                   key={index}
-                  glowColor="purple"
-                  className={`p-8 text-center quantum-hover transition-all duration-500 ${
+                  className={`holographic-card p-8 text-center quantum-hover transition-all duration-500 ${
                     activeFeature === index ? 'scale-105' : 'scale-100'
                   }`}
                 >
@@ -205,7 +210,7 @@ export default function RevolutionaryHomePage() {
                   <p className="text-gray-300 leading-relaxed">
                     {feature.description}
                   </p>
-                </HolographicCard>
+                </div>
               ))}
             </div>
           </div>
@@ -224,7 +229,7 @@ export default function RevolutionaryHomePage() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
-              <HolographicCard glowColor="cyan" className="p-8">
+              <div className="holographic-card p-8">
                 <h3 className="text-2xl font-bold text-white mb-4">Currently Live</h3>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between p-4 quantum-glass rounded-xl">
@@ -242,9 +247,9 @@ export default function RevolutionaryHomePage() {
                     <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                   </div>
                 </div>
-              </HolographicCard>
+              </div>
 
-              <HolographicCard glowColor="pink" className="p-8">
+              <div className="holographic-card p-8">
                 <h3 className="text-2xl font-bold text-white mb-4">Upcoming Sessions</h3>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between p-4 quantum-glass rounded-xl">
@@ -262,7 +267,7 @@ export default function RevolutionaryHomePage() {
                     <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                   </div>
                 </div>
-              </HolographicCard>
+              </div>
             </div>
           </div>
         </section>
@@ -279,7 +284,7 @@ export default function RevolutionaryHomePage() {
               </p>
             </div>
 
-            <HolographicCard glowColor="yellow" className="p-8">
+            <div className="holographic-card p-8">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div>
                   <h3 className="text-3xl font-bold text-white mb-6">Smart Recommendations</h3>
@@ -310,7 +315,7 @@ export default function RevolutionaryHomePage() {
                   </div>
                 </div>
               </div>
-            </HolographicCard>
+            </div>
           </div>
         </section>
 
@@ -324,12 +329,12 @@ export default function RevolutionaryHomePage() {
               Join thousands of artists already revolutionizing digital art
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <QuantumButton href="/auth-simple" size="lg">
+              <Link href="/auth-simple" className="quantum-button text-xl px-12 py-6">
                 Start Your Journey
-              </QuantumButton>
-              <QuantumButton href="/demo" variant="secondary" size="lg">
+              </Link>
+              <Link href="/demo" className="quantum-hover px-12 py-6 quantum-glass-ultra rounded-2xl text-white font-semibold text-xl">
                 Watch Demo
-              </QuantumButton>
+              </Link>
             </div>
           </div>
         </section>
