@@ -62,15 +62,15 @@ export default function HomePage() {
                 backgroundClip: 'text',
                 animation: 'neonPulse 3s ease-in-out infinite, gradientShift 4s ease-in-out infinite'
               }}>
-            SPARK
+            SHOWCASE
             <br />
-            CREATIVITY
+            YOUR AI ART
           </h1>
 
           {/* Subtitle with Gradient */}
           <p className="text-2xl md:text-3xl text-white/90 mb-12 max-w-4xl leading-relaxed font-light">
-            Where <span className="text-cyan-400 font-semibold">AI meets Art</span> in the ultimate 
-            <span className="text-purple-400 font-semibold"> digital revolution</span>
+            The ultimate platform for <span className="text-cyan-400 font-semibold">AI artists</span> to 
+            <span className="text-purple-400 font-semibold"> showcase, compete, and win</span> amazing rewards
           </p>
 
           {/* CTA Buttons with Modern Design */}
@@ -81,17 +81,27 @@ export default function HomePage() {
             >
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <span className="relative flex items-center gap-3">
-                <span className="text-2xl">🚀</span>
-                LAUNCH YOUR ART
+                <span className="text-2xl">🎨</span>
+                SHOWCASE YOUR ART
               </span>
             </button>
+            <Link
+              href="/competitions"
+              className="group relative px-8 py-4 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-2xl text-white font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/25"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative flex items-center gap-3">
+                <span className="text-2xl">🏆</span>
+                JOIN COMPETITIONS
+              </span>
+            </Link>
             <Link
               href="/gallery"
               className="group relative px-8 py-4 bg-transparent border-2 border-cyan-400/50 rounded-2xl text-cyan-400 font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:bg-cyan-400/10"
             >
               <span className="relative flex items-center gap-3">
                 <span className="text-2xl">✨</span>
-                EXPLORE GALLERY
+                DISCOVER ART
               </span>
             </Link>
           </div>
@@ -102,21 +112,44 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative text-center">
                 <div className="text-5xl font-bold bg-gradient-to-r from-cyan-400 to-cyan-300 bg-clip-text text-transparent mb-3">500+</div>
-                <div className="text-white/80 text-lg font-medium">Active Artists</div>
+                <div className="text-white/80 text-lg font-medium">AI Artists</div>
               </div>
             </div>
             <div className="group relative bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-xl rounded-3xl p-8 border border-purple-400/30 hover:border-purple-400/60 transition-all duration-500 hover:scale-105">
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative text-center">
                 <div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent mb-3">2K+</div>
-                <div className="text-white/80 text-lg font-medium">Artworks Created</div>
+                <div className="text-white/80 text-lg font-medium">Artworks Shared</div>
               </div>
             </div>
             <div className="group relative bg-gradient-to-br from-pink-500/10 to-cyan-500/10 backdrop-blur-xl rounded-3xl p-8 border border-pink-400/30 hover:border-pink-400/60 transition-all duration-500 hover:scale-105">
               <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative text-center">
-                <div className="text-5xl font-bold bg-gradient-to-r from-pink-400 to-cyan-300 bg-clip-text text-transparent mb-3">$50K+</div>
-                <div className="text-white/80 text-lg font-medium">Prize Pool</div>
+                <div className="text-5xl font-bold bg-gradient-to-r from-pink-400 to-cyan-300 bg-clip-text text-transparent mb-3">10K+</div>
+                <div className="text-white/80 text-lg font-medium">Views Daily</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Current Competition Banner */}
+          <div className="mb-20">
+            <div className="relative bg-gradient-to-r from-yellow-500/20 via-orange-500/20 to-red-500/20 backdrop-blur-2xl rounded-3xl p-8 border border-yellow-400/30 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/10 via-orange-500/10 to-red-500/10 rounded-3xl"></div>
+              <div className="relative text-center">
+                <div className="text-6xl mb-4">🏆</div>
+                <h2 className="text-4xl font-bold text-white mb-4">Weekly AI Art Challenge</h2>
+                <p className="text-xl text-white/90 mb-6">Theme: &quot;Cyberpunk Dreams&quot; - Win exclusive badges & features!</p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                  <span className="bg-yellow-500/20 text-yellow-300 px-4 py-2 rounded-full text-sm font-semibold">
+                    🎯 3 Days Left
+                  </span>
+                  <span className="bg-purple-500/20 text-purple-300 px-4 py-2 rounded-full text-sm font-semibold">
+                    👥 47 Submissions
+                  </span>
+                  <span className="bg-cyan-500/20 text-cyan-300 px-4 py-2 rounded-full text-sm font-semibold">
+                    🏅 Free to Enter
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -126,9 +159,9 @@ export default function HomePage() {
             <div className="group relative bg-white/5 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 hover:border-cyan-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/10">
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative">
-                <div className="text-5xl mb-6">🤖</div>
-                <h3 className="text-2xl font-bold text-white mb-4">AI-Powered</h3>
-                <p className="text-white/70 text-lg leading-relaxed">Create stunning artwork using cutting-edge AI technology</p>
+                <div className="text-5xl mb-6">🎨</div>
+                <h3 className="text-2xl font-bold text-white mb-4">Showcase Art</h3>
+                <p className="text-white/70 text-lg leading-relaxed">Upload and display your AI-generated masterpieces in a stunning gallery</p>
               </div>
             </div>
             
@@ -136,17 +169,17 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative">
                 <div className="text-5xl mb-6">🏆</div>
-                <h3 className="text-2xl font-bold text-white mb-4">Win Prizes</h3>
-                <p className="text-white/70 text-lg leading-relaxed">Compete for cash prizes and recognition in the community</p>
+                <h3 className="text-2xl font-bold text-white mb-4">Win Rewards</h3>
+                <p className="text-white/70 text-lg leading-relaxed">Compete in free challenges and win exclusive badges & platform features</p>
               </div>
             </div>
             
             <div className="group relative bg-white/5 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 hover:border-pink-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/10">
               <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative">
-                <div className="text-5xl mb-6">👥</div>
-                <h3 className="text-2xl font-bold text-white mb-4">Community</h3>
-                <p className="text-white/70 text-lg leading-relaxed">Connect with fellow artists and art enthusiasts</p>
+                <div className="text-5xl mb-6">🔍</div>
+                <h3 className="text-2xl font-bold text-white mb-4">Discover</h3>
+                <p className="text-white/70 text-lg leading-relaxed">Explore amazing AI art from talented creators worldwide</p>
               </div>
             </div>
           </div>
@@ -155,16 +188,16 @@ export default function HomePage() {
           <div className="text-center relative">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 blur-3xl rounded-full"></div>
             <div className="relative bg-white/5 backdrop-blur-2xl rounded-3xl p-12 border border-white/10">
-              <h2 className="text-5xl font-bold text-white mb-6">Ready to Create?</h2>
-              <p className="text-2xl text-white/80 mb-10">Join the future of digital art</p>
+              <h2 className="text-5xl font-bold text-white mb-6">Ready to Showcase?</h2>
+              <p className="text-2xl text-white/80 mb-10">Join the AI art community and share your creations</p>
               <button
                 onClick={handleGetStarted}
                 className="group relative px-12 py-6 bg-gradient-to-r from-cyan-500 via-purple-600 to-pink-500 rounded-2xl text-white font-bold text-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <span className="relative flex items-center gap-4">
-                  <span className="text-3xl">🚀</span>
-                  LAUNCH NOW
+                  <span className="text-3xl">🎨</span>
+                  START SHOWCASING
                 </span>
               </button>
             </div>

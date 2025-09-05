@@ -17,6 +17,7 @@ export default function NavigationHeader({ showLogo = true, className = '' }: Na
   const navigationItems = [
     { label: 'Home', href: '/', icon: '🏠' },
     { label: 'Gallery', href: '/gallery', icon: '🎨' },
+    { label: 'Competitions', href: '/competitions', icon: '🏆' },
     { label: 'Submit', href: '/submit', icon: '📤' },
     { label: 'Profile', href: '/profile', icon: '👤' },
   ]

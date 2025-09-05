@@ -121,11 +121,11 @@ export default function SimpleAuthenticatedHomePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 bg-clip-text text-transparent font-serif tracking-wide">
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-400 bg-clip-text text-transparent font-serif tracking-wide">
             Welcome back, {user?.user_metadata?.full_name || user?.email}!
           </h1>
           <p className="text-xl text-gray-300">
-            Share your creativity and discover amazing artwork from the community
+            Showcase your AI art and discover amazing creations from fellow artists
           </p>
         </div>
 
@@ -155,30 +155,30 @@ export default function SimpleAuthenticatedHomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           <Link 
             href="/submit"
-            className="bg-gradient-to-r from-purple-600 to-indigo-700 text-white p-8 rounded-2xl hover:from-purple-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-105 border border-purple-400/30"
+            className="bg-gradient-to-r from-cyan-600 to-purple-700 text-white p-8 rounded-2xl hover:from-cyan-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105 border border-cyan-400/30"
           >
             <div className="text-center">
               <div className="text-4xl mb-4">🎨</div>
-              <h3 className="text-2xl font-bold mb-2">Submit Artwork</h3>
-              <p className="text-gray-200">Share your AI-generated artwork with the community</p>
+              <h3 className="text-2xl font-bold mb-2">Showcase Art</h3>
+              <p className="text-gray-200">Upload and share your AI-generated masterpieces</p>
             </div>
           </Link>
           
           <Link 
-            href="/artists"
-            className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white p-8 rounded-2xl hover:from-indigo-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105 border border-indigo-400/30"
+            href="/gallery"
+            className="bg-gradient-to-r from-purple-600 to-pink-700 text-white p-8 rounded-2xl hover:from-purple-700 hover:to-pink-800 transition-all duration-300 transform hover:scale-105 border border-purple-400/30"
           >
             <div className="text-center">
-              <div className="text-4xl mb-4">👥</div>
-              <h3 className="text-2xl font-bold mb-2">Discover Artists</h3>
-              <p className="text-gray-200">Explore amazing artwork from talented creators</p>
+              <div className="text-4xl mb-4">✨</div>
+              <h3 className="text-2xl font-bold mb-2">Explore Gallery</h3>
+              <p className="text-gray-200">Discover amazing AI art from talented creators</p>
             </div>
           </Link>
         </div>
 
         {/* Recent Submissions */}
         <div className="mb-12">
-          <h2 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 bg-clip-text text-transparent font-serif tracking-wide">Recent Community Artwork</h2>
+          <h2 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-400 bg-clip-text text-transparent font-serif tracking-wide">Latest AI Art</h2>
           
           {submissions.length === 0 ? (
             <div className="text-center text-gray-400 py-12">
@@ -235,9 +235,9 @@ export default function SimpleAuthenticatedHomePage() {
         <div className="text-center">
           <Link 
             href="/submit"
-            className="inline-block bg-gradient-to-r from-purple-600 to-indigo-700 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-purple-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-105 border border-purple-400/30 shadow-lg shadow-purple-500/25"
+            className="inline-block bg-gradient-to-r from-cyan-600 to-purple-700 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-cyan-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105 border border-cyan-400/30 shadow-lg shadow-cyan-500/25"
           >
-            🎨 Share Your Artwork
+            🎨 Showcase Your Art
           </Link>
         </div>
       </div>
