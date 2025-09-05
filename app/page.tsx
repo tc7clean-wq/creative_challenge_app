@@ -2,131 +2,175 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import SprayPaintMarks from '@/components/ui/SprayPaintMarks'
+import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
+  const router = useRouter()
 
   const handleGetStarted = () => {
-    // Require login first before submitting artwork
-    window.location.href = '/auth'
+    router.push('/auth')
   }
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
-      <SprayPaintMarks />
-
-      <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">
-        {/* Logo */}
-        <div className="mb-8">
-          <Image 
-            src="/creative-challenge-logo.png" 
-            alt="Creative Challenge Logo" 
-            width={120} 
-            height={120}
-            className="mx-auto rounded-lg shadow-2xl"
-            priority
-          />
+      {/* Futuristic Background */}
+      <div className="absolute inset-0">
+        {/* Animated Grid */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="grid-pattern"></div>
         </div>
+        
+        {/* Floating Orbs */}
+        <div className="absolute top-20 left-10 w-32 h-32 bg-cyan-500/20 rounded-full blur-xl animate-float"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-purple-500/20 rounded-full blur-xl animate-float-delayed"></div>
+        <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-pink-500/20 rounded-full blur-xl animate-float-slow"></div>
+        
+        {/* Neon Lines */}
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent"></div>
+      </div>
+      
+      {/* Main Content */}
+      <div className="relative z-10">
+        <main className="flex flex-col items-center justify-center min-h-screen px-4 text-center">
+          {/* Logo with Glow Effect */}
+          <div className="mb-12 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-purple-400/20 to-pink-400/20 blur-3xl rounded-full"></div>
+            <Image 
+              src="/creative-challenge-logo.png" 
+              alt="Creative Challenge Logo" 
+              width={140} 
+              height={140}
+              className="relative mx-auto rounded-2xl shadow-2xl border border-cyan-400/30"
+              priority
+            />
+          </div>
 
-        {/* Main Heading */}
-        <h1 className="text-6xl md:text-8xl font-bold mb-6 transform hover:scale-105 transition-all duration-300" 
-            style={{
-              fontFamily: 'var(--font-bebas-neue), "Arial Black", "Impact", sans-serif',
-              background: 'linear-gradient(45deg, #FFD700, #FFA500, #FF8C00, #FFD700, #FFA500)',
-              backgroundSize: '200% 200%',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              animation: 'goldenShimmer 2s ease-in-out infinite',
-              textShadow: '4px 4px 0px #8B4513, 8px 8px 0px #654321, 12px 12px 0px #2F1B14',
-              filter: 'drop-shadow(3px 3px 6px rgba(0,0,0,0.7))',
-              position: 'relative',
-              fontWeight: '900',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              fontStyle: 'normal'
-            }}>
-          LET&apos;S SPARK
-          <br />
-          CREATIVITY
+          {/* Main Heading with Neon Effect */}
+          <h1 className="text-7xl md:text-9xl font-black mb-8 tracking-wider transform hover:scale-105 transition-all duration-500" 
+              style={{
+                fontFamily: 'var(--font-bebas-neue), "Arial Black", "Impact", sans-serif',
+                textTransform: 'uppercase',
+                fontWeight: 900,
+                fontStyle: 'normal',
+                filter: 'drop-shadow(0 0 20px rgba(6, 182, 212, 0.5))',
+                letterSpacing: '0.15em',
+                background: 'linear-gradient(45deg, #06b6d4, #8b5cf6, #ec4899, #06b6d4)',
+                backgroundSize: '300% 300%',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                animation: 'neonPulse 3s ease-in-out infinite, gradientShift 4s ease-in-out infinite'
+              }}>
+            SPARK
+            <br />
+            CREATIVITY
           </h1>
 
-        {/* Subtitle */}
-        <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl leading-relaxed">
-          Showcase your AI-generated artwork, compete for prizes, and discover amazing creations from artists worldwide.
-        </p>
+          {/* Subtitle with Gradient */}
+          <p className="text-2xl md:text-3xl text-white/90 mb-12 max-w-4xl leading-relaxed font-light">
+            Where <span className="text-cyan-400 font-semibold">AI meets Art</span> in the ultimate 
+            <span className="text-purple-400 font-semibold"> digital revolution</span>
+          </p>
 
-        {/* Social Proof Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-            <div className="text-3xl font-bold text-yellow-400 mb-2">500+</div>
-            <div className="text-white/80">Artists</div>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-            <div className="text-3xl font-bold text-yellow-400 mb-2">2,000+</div>
-            <div className="text-white/80">Artworks</div>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-            <div className="text-3xl font-bold text-yellow-400 mb-2">$50K+</div>
-            <div className="text-white/80">Prize Pool</div>
-          </div>
-        </div>
-
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-12">
-          <button
-            onClick={handleGetStarted}
-            className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold py-4 px-8 rounded-xl text-lg transform hover:scale-105 transition-all duration-300 shadow-2xl"
-          >
-            🎨 Showcase Your Art
-          </button>
-          <Link
-            href="/gallery"
-            className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-bold py-4 px-8 rounded-xl text-lg border border-white/30 transform hover:scale-105 transition-all duration-300"
-          >
-            ✨ View Gallery
-          </Link>
-        </div>
-
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-4xl">
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-            <div className="text-4xl mb-4">🤖</div>
-            <h3 className="text-xl font-bold text-white mb-3">AI Art Creation</h3>
-            <p className="text-white/70">Use any AI art generator to create stunning artwork. DALL-E, Midjourney, Stable Diffusion - all welcome!</p>
-          </div>
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-            <div className="text-4xl mb-4">🏆</div>
-            <h3 className="text-xl font-bold text-white mb-3">Win Prizes</h3>
-            <p className="text-white/70">Compete in themed contests and win real money prizes. Fast payouts via Stripe!</p>
-          </div>
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-            <div className="text-4xl mb-4">👥</div>
-            <h3 className="text-xl font-bold text-white mb-3">Community</h3>
-            <p className="text-white/70">Join a vibrant community of AI artists, get feedback, and grow your creative skills together.</p>
-          </div>
-        </div>
-
-        {/* Final CTA */}
-        <div className="text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Showcase Your AI Art?</h2>
-          <p className="text-xl text-white/80 mb-8">Join thousands of artists who are already showcasing, competing, and winning on our platform!</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          {/* CTA Buttons with Modern Design */}
+          <div className="flex flex-col sm:flex-row gap-6 mb-16">
             <button
               onClick={handleGetStarted}
-              className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold py-4 px-8 rounded-xl text-lg transform hover:scale-105 transition-all duration-300 shadow-2xl"
+              className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-2xl text-white font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/25"
             >
-              🎨 Showcase Your Art Now
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative flex items-center gap-3">
+                <span className="text-2xl">🚀</span>
+                LAUNCH YOUR ART
+              </span>
             </button>
             <Link
-              href="/auth"
-              className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-bold py-4 px-8 rounded-xl text-lg border border-white/30 transform hover:scale-105 transition-all duration-300"
+              href="/gallery"
+              className="group relative px-8 py-4 bg-transparent border-2 border-cyan-400/50 rounded-2xl text-cyan-400 font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:bg-cyan-400/10"
             >
-              🔑 Sign In
+              <span className="relative flex items-center gap-3">
+                <span className="text-2xl">✨</span>
+                EXPLORE GALLERY
+              </span>
             </Link>
           </div>
-        </div>
-      </main>
+
+          {/* Stats with Neon Effects */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+            <div className="group relative bg-gradient-to-br from-cyan-500/10 to-purple-500/10 backdrop-blur-xl rounded-3xl p-8 border border-cyan-400/30 hover:border-cyan-400/60 transition-all duration-500 hover:scale-105">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative text-center">
+                <div className="text-5xl font-bold bg-gradient-to-r from-cyan-400 to-cyan-300 bg-clip-text text-transparent mb-3">500+</div>
+                <div className="text-white/80 text-lg font-medium">Active Artists</div>
+              </div>
+            </div>
+            <div className="group relative bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-xl rounded-3xl p-8 border border-purple-400/30 hover:border-purple-400/60 transition-all duration-500 hover:scale-105">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative text-center">
+                <div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent mb-3">2K+</div>
+                <div className="text-white/80 text-lg font-medium">Artworks Created</div>
+              </div>
+            </div>
+            <div className="group relative bg-gradient-to-br from-pink-500/10 to-cyan-500/10 backdrop-blur-xl rounded-3xl p-8 border border-pink-400/30 hover:border-pink-400/60 transition-all duration-500 hover:scale-105">
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative text-center">
+                <div className="text-5xl font-bold bg-gradient-to-r from-pink-400 to-cyan-300 bg-clip-text text-transparent mb-3">$50K+</div>
+                <div className="text-white/80 text-lg font-medium">Prize Pool</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Features with Glassmorphism */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20 max-w-6xl">
+            <div className="group relative bg-white/5 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 hover:border-cyan-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/10">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative">
+                <div className="text-5xl mb-6">🤖</div>
+                <h3 className="text-2xl font-bold text-white mb-4">AI-Powered</h3>
+                <p className="text-white/70 text-lg leading-relaxed">Create stunning artwork using cutting-edge AI technology</p>
+              </div>
+            </div>
+            
+            <div className="group relative bg-white/5 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 hover:border-purple-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/10">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative">
+                <div className="text-5xl mb-6">🏆</div>
+                <h3 className="text-2xl font-bold text-white mb-4">Win Prizes</h3>
+                <p className="text-white/70 text-lg leading-relaxed">Compete for cash prizes and recognition in the community</p>
+              </div>
+            </div>
+            
+            <div className="group relative bg-white/5 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 hover:border-pink-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/10">
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative">
+                <div className="text-5xl mb-6">👥</div>
+                <h3 className="text-2xl font-bold text-white mb-4">Community</h3>
+                <p className="text-white/70 text-lg leading-relaxed">Connect with fellow artists and art enthusiasts</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Final CTA with Neon Effect */}
+          <div className="text-center relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 blur-3xl rounded-full"></div>
+            <div className="relative bg-white/5 backdrop-blur-2xl rounded-3xl p-12 border border-white/10">
+              <h2 className="text-5xl font-bold text-white mb-6">Ready to Create?</h2>
+              <p className="text-2xl text-white/80 mb-10">Join the future of digital art</p>
+              <button
+                onClick={handleGetStarted}
+                className="group relative px-12 py-6 bg-gradient-to-r from-cyan-500 via-purple-600 to-pink-500 rounded-2xl text-white font-bold text-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <span className="relative flex items-center gap-4">
+                  <span className="text-3xl">🚀</span>
+                  LAUNCH NOW
+                </span>
+              </button>
+            </div>
+          </div>
+        </main>
       </div>
+    </div>
   )
 }

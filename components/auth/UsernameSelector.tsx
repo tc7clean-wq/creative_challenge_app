@@ -101,18 +101,46 @@ export default function UsernameSelector({ onUsernameSelected, onCancel }: Usern
         return
       }
 
-      // Update the user's profile with the username
-      const { error } = await supabase
+      // First check if profile exists, if not create it
+      const { data: existingProfile } = await supabase
         .from('profiles')
-        .update({ username: username.toLowerCase() })
+        .select('id')
         .eq('id', user.id)
+        .single()
 
-      if (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error updating username:', error)
+      if (existingProfile) {
+        // Update existing profile with username
+        const { error } = await supabase
+          .from('profiles')
+          .update({ username: username.toLowerCase() })
+          .eq('id', user.id)
+
+        if (error) {
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Error updating username:', error)
+          }
+          setError('Failed to set username. Please try again.')
+          return
         }
-        setError('Failed to set username. Please try again.')
-        return
+      } else {
+        // Create new profile with username
+        const { error } = await supabase
+          .from('profiles')
+          .insert({
+            id: user.id,
+            username: username.toLowerCase(),
+            full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
+            avatar_url: user.user_metadata?.avatar_url || null,
+            is_artist: false
+          })
+
+        if (error) {
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Error creating profile:', error)
+          }
+          setError('Failed to create profile. Please try again.')
+          return
+        }
       }
 
       onUsernameSelected(username.toLowerCase())

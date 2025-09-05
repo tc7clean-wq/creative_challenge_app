@@ -66,8 +66,8 @@ export default function SubmitPage() {
     try {
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
-      
-      if (!user) {
+
+  if (!user) {
         router.push('/auth')
         return
       }

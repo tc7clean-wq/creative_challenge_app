@@ -8,7 +8,7 @@ import UsernameSelector from '@/components/auth/UsernameSelector'
 export default function SetupUsernamePage() {
   const [isLoading, setIsLoading] = useState(true)
   const [needsUsername, setNeedsUsername] = useState(false)
-  const [user, setUser] = useState<{ id: string; email?: string } | null>(null)
+  const [, setUser] = useState<{ id: string; email?: string } | null>(null)
   const router = useRouter()
 
   const checkUserProfile = useCallback(async () => {
@@ -70,7 +70,7 @@ export default function SetupUsernamePage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500 mx-auto mb-4"></div>
           <p className="text-white/80">Loading...</p>
@@ -84,7 +84,7 @@ export default function SetupUsernamePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="min-h-screen bg-black relative overflow-hidden">
       <UsernameSelector 
         onUsernameSelected={handleUsernameSelected}
         onCancel={handleCancel}

@@ -40,7 +40,7 @@ export default function SubmitSuccessPage() {
           backgroundClip: 'text'
         }}>
           ARTWORK SUBMITTED!
-        </h1>
+          </h1>
 
         <p className="text-xl text-white/80 mb-8 leading-relaxed">
           Your amazing AI artwork has been submitted successfully! 
