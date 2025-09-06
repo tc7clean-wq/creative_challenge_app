@@ -271,7 +271,7 @@ export default function GalleryPage() {
                       </button>
                       <Link
                         href={`/profile/${artwork.profiles?.username || 'artist'}`}
-                        className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 text-center"
+                        className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 text-center"
                       >
                         👤 Profile
                       </Link>

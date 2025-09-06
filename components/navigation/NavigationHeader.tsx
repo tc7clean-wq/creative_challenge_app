@@ -26,38 +26,40 @@ export default function NavigationHeader({ showLogo = true, className = '' }: Na
     <header className={`bg-white/5 backdrop-blur-sm border-b border-white/10 sticky top-0 z-30 ${className}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {/* Logo - Centered */}
           {showLogo && (
-            <Link
-              href="/"
-              className="flex items-center gap-3 hover:opacity-80 transition-all duration-300"
-            >
-              <Image
-                src="/creative-challenge-logo.png"
-                alt="Creative Challenge Logo"
-                width={40}
-                height={40}
-                className="rounded-lg"
-              />
-              <span className="hidden sm:block text-white font-bold text-xl font-black tracking-wide"
-                    style={{
-                      fontFamily: 'var(--font-bebas-neue), "Arial Black", "Impact", sans-serif',
-                      background: 'linear-gradient(45deg, #FFD700, #FFA500, #FF8C00, #FFD700, #FFA500)',
-                      backgroundSize: '200% 200%',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                      animation: 'goldenShimmer 2s ease-in-out infinite',
-                      textShadow: '2px 2px 0px #8B4513, 4px 4px 0px #654321',
-                      filter: 'drop-shadow(1px 1px 3px rgba(0,0,0,0.7))',
-                      fontWeight: '900',
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      fontStyle: 'normal'
-                    }}>
-                LET&apos;S SPARK CREATIVITY
-              </span>
-            </Link>
+            <div className="flex-1 flex justify-center">
+              <Link
+                href="/"
+                className="flex items-center gap-3 hover:opacity-80 transition-all duration-300"
+              >
+                <Image
+                  src="/creative-challenge-logo.png"
+                  alt="Creative Challenge Logo"
+                  width={40}
+                  height={40}
+                  className="rounded-lg"
+                />
+                <span className="hidden sm:block text-white font-bold text-xl font-black tracking-wide"
+                      style={{
+                        fontFamily: 'var(--font-bebas-neue), "Arial Black", "Impact", sans-serif',
+                        background: 'linear-gradient(45deg, #FFD700, #FFA500, #FF8C00, #FFD700, #FFA500)',
+                        backgroundSize: '200% 200%',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        animation: 'goldenShimmer 2s ease-in-out infinite',
+                        textShadow: '2px 2px 0px #8B4513, 4px 4px 0px #654321',
+                        filter: 'drop-shadow(1px 1px 3px rgba(0,0,0,0.7))',
+                        fontWeight: '900',
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                        fontStyle: 'normal'
+                      }}>
+                  CREATIVE CHALLENGE
+                </span>
+              </Link>
+            </div>
           )}
 
           {/* Desktop Navigation */}
