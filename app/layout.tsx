@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Orbitron, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import ParticleBackground from "@/components/ParticleBackground";
 
 const orbitron = Orbitron({ 
   subsets: ["latin"],
@@ -36,6 +37,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${orbitron.variable} ${robotoMono.variable} cyber-bg`}>
+        <ParticleBackground />
         <ErrorBoundary>
           {children}
         </ErrorBoundary>

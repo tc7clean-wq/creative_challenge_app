@@ -13,13 +13,10 @@ export default function HomePage() {
 
   return (
     <div className="hero-section">
-      {/* Animated circuitry background */}
-      <div className="circuit-background"></div>
-      
-      <div className="hero-content">
+      <div className="hero-content fade-in">
         <h1 className="glitch" data-text="[ACCESS GRANTED]">[ACCESS GRANTED]</h1>
         <p className="sub-header">{'// Your consciousness has been uploaded.'}</p>
-        <a href="/gallery" className="cta-button">&gt; ENGAGE</a>
+        <a href="/gallery" className="cta-button bounce-in">&gt; ENGAGE</a>
       </div>
     </div>
   )

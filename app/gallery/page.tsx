@@ -204,13 +204,13 @@ export default function GalleryPage() {
 
         {/* Artworks Grid */}
         {artworks.length === 0 ? (
-          <div className="text-center text-white/60 text-xl">
+          <div className="text-center text-white/60 text-xl fade-in">
             No artworks yet. Be the first to showcase your AI art!
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {artworks.map((artwork) => (
-              <div key={artwork.id} className="cyber-card rounded-xl overflow-hidden cyber-pulse">
+            {artworks.map((artwork, index) => (
+              <div key={artwork.id} className="cyber-card rounded-xl overflow-hidden cyber-pulse slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
                 {/* Artwork Image */}
                 <div className="relative aspect-square">
                   <Image
@@ -297,12 +297,12 @@ export default function GalleryPage() {
 
         {/* Call to Action */}
         <div className="text-center mt-16">
-          <div className="cyber-card p-8 max-w-2xl mx-auto">
+          <div className="cyber-card p-8 max-w-2xl mx-auto fade-in">
             <h2 className="text-3xl font-bold cyber-text mb-4">Ready to Showcase Your Art?</h2>
             <p className="text-white/80 mb-6">Join the community and start competing for prizes!</p>
             <Link
               href="/submit"
-              className="cyber-btn text-lg transform hover:scale-105 transition-all duration-300 shadow-2xl inline-block"
+              className="cyber-btn text-lg transform hover:scale-105 transition-all duration-300 shadow-2xl inline-block bounce-in"
             >
               🎨 Submit Your Artwork
             </Link>

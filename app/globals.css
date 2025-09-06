@@ -2,17 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* === CYBERPUNK THEME STYLESHEET === */
+/* === DYNAMIC CYBERPUNK THEME V2 === */
 
-/* 1. ROOT VARIABLES & GLOBAL STYLES */
 :root {
     --cyber-black: #0d0d0d;
-    --cyber-near-black: #1a1a1a;
-    --cyber-glow: #00f7ff; /* Main glowing cyan */
-    --cyber-secondary: #f700ff; /* Accent magenta */
+    --cyber-glow: #00f7ff;
+    --cyber-secondary: #f700ff;
     --cyber-text: #cdd0d4;
-    --font-primary: 'Orbitron', sans-serif; /* For headers */
-    --font-secondary: 'Roboto Mono', monospace; /* For body text */
+    --font-primary: 'Orbitron', sans-serif;
+    --font-secondary: 'Roboto Mono', monospace;
 }
 
 body {
@@ -20,10 +18,113 @@ body {
     color: var(--cyber-text);
     font-family: var(--font-secondary);
     margin: 0;
-    overflow-x: hidden;
 }
 
-/* 2. HERO SECTION & ANIMATED BACKGROUND */
+/* 1. NEW ANIMATED PARTICLE BACKGROUND */
+.particles-background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Place it behind all content */
+}
+
+/* 2. GENERAL LAYOUT & ANIMATIONS */
+.container { /* A generic container for your sections */
+    position: relative;
+    z-index: 2;
+    padding: 40px 20px;
+    max-width: 1100px;
+    margin: 40px auto;
+    background: rgba(18, 18, 22, 0.8);
+    border: 1px solid rgba(0, 247, 255, 0.3);
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    border-radius: 8px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 3. DYNAMIC UI ELEMENTS */
+.cta-button, .tab-button {
+    font-family: var(--font-primary);
+    padding: 12px 28px;
+    border: 2px solid var(--cyber-glow);
+    color: var(--cyber-glow);
+    background: transparent;
+    text-decoration: none;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-button:hover, .tab-button.active {
+    background: var(--cyber-glow);
+    color: var(--cyber-black);
+    box-shadow: 0 0 25px var(--cyber-glow);
+}
+
+/* Add a subtle shine effect on hover */
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(0, 247, 255, 0.4), transparent);
+    transition: left 0.4s ease-in-out;
+}
+
+.cta-button:hover::before {
+    left: 100%;
+}
+
+/* 4. SCANNER LINE EFFECT FOR HEADERS */
+h1, h2 {
+    font-family: var(--font-primary);
+    color: var(--cyber-glow);
+    position: relative;
+    display: inline-block;
+    margin-bottom: 30px;
+}
+
+h1::after, h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    height: 3px;
+    background: var(--cyber-glow);
+    box-shadow: 0 0 10px var(--cyber-glow);
+    animation: scan-line 4s linear infinite;
+}
+
+@keyframes scan-line {
+    0% { width: 0%; left: 0; }
+    50% { width: 100%; left: 0; }
+    100% { width: 0%; left: 100%; }
+}
+
+a {
+    color: var(--cyber-secondary);
+    text-decoration: none;
+    transition: text-shadow 0.3s;
+}
+
+a:hover {
+    text-decoration: underline;
+    text-shadow: 0 0 8px var(--cyber-secondary);
+}
+
+/* 5. HERO SECTION & ANIMATED BACKGROUND */
 .hero-section {
     height: 100vh;
     display: flex;
@@ -31,40 +132,22 @@ body {
     align-items: center;
     text-align: center;
     position: relative;
-    overflow: hidden; /* Important for the background effect */
-}
-
-.circuit-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(var(--cyber-glow) 1px, transparent 1px),
-        radial-gradient(var(--cyber-glow) 1px, transparent 1px);
-    background-size: 40px 40px;
-    background-position: 0 0, 20px 20px;
-    animation: move-grid 2s linear infinite;
-    opacity: 0.2;
-    z-index: 1;
-}
-
-@keyframes move-grid {
-    from { background-position: 0 0, 20px 20px; }
-    to { background-position: 40px 40px, 60px 60px; }
+    overflow: hidden;
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
     padding: 20px;
-    background: rgba(13, 13, 13, 0.7); /* Semi-transparent backdrop */
+    background: rgba(13, 13, 13, 0.7);
     border: 1px solid var(--cyber-glow);
     box-shadow: 0 0 20px var(--cyber-glow);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    animation: fadeIn 1s ease-in-out;
 }
 
-/* 3. TYPOGRAPHY & GLITCH EFFECT */
+/* 6. TYPOGRAPHY & GLITCH EFFECT */
 .hero-content h1 {
     font-family: var(--font-primary);
     font-size: clamp(2.5rem, 6vw, 4.5rem);
@@ -97,31 +180,14 @@ body {
     text-transform: uppercase;
 }
 
-/* 4. BUTTONS & LINKS */
-.cta-button {
-    font-family: var(--font-primary);
-    padding: 12px 28px;
-    border: 2px solid var(--cyber-glow);
-    color: var(--cyber-glow);
-    background: transparent;
-    text-decoration: none;
-    font-size: 1rem;
-    text-transform: uppercase;
-    transition: background 0.3s, color 0.3s, text-shadow 0.3s;
-}
-
-.cta-button:hover {
-    background: var(--cyber-glow);
-    color: var(--cyber-black);
-    text-shadow: 0 0 10px var(--cyber-glow);
-}
-
-/* 5. CONTENT SECTION */
+/* 7. CONTENT SECTION */
 .content-section {
     padding: 60px 20px;
     max-width: 800px;
     margin: 0 auto;
     border-top: 1px solid var(--cyber-glow);
+    position: relative;
+    z-index: 2;
 }
 
 .content-section h2 {
@@ -142,27 +208,10 @@ body {
     text-shadow: 0 0 5px var(--cyber-secondary);
 }
 
-/* 6. ENHANCED CYBERPUNK COMPONENTS */
+/* 8. ENHANCED CYBERPUNK COMPONENTS */
 .cyber-bg {
     background: var(--cyber-black);
-    background-image: 
-        radial-gradient(circle at 20% 50%, rgba(0, 247, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(247, 0, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, rgba(255, 255, 0, 0.15) 0%, transparent 50%),
-        linear-gradient(90deg, transparent 98%, rgba(0, 247, 255, 0.1) 100%),
-        linear-gradient(0deg, transparent 98%, rgba(0, 247, 255, 0.1) 100%);
-    background-size: 400% 400%, 400% 400%, 400% 400%, 50px 50px, 50px 50px;
-    animation: cyberShift 20s ease infinite, circuitMove 10s linear infinite;
-}
-
-@keyframes cyberShift {
-    0%, 100% { background-position: 0% 50%, 0% 50%, 0% 50%, 0 0, 0 0; }
-    50% { background-position: 100% 50%, 100% 50%, 100% 50%, 50px 50px, 50px 50px; }
-}
-
-@keyframes circuitMove {
-    0% { background-position: 0% 50%, 0% 50%, 0% 50%, 0 0, 0 0; }
-    100% { background-position: 100% 50%, 100% 50%, 100% 50%, 50px 50px, 50px 50px; }
+    position: relative;
 }
 
 .cyber-card {
@@ -329,6 +378,7 @@ input, textarea, select {
     font-family: var(--font-secondary);
     padding: 8px 12px;
     border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
 input:focus, textarea:focus, select:focus {
@@ -347,4 +397,68 @@ a {
 a:hover {
     color: var(--cyber-secondary);
     text-shadow: 0 0 5px var(--cyber-secondary);
+}
+
+/* Additional dynamic effects */
+.fade-in {
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.slide-up {
+    animation: slideUp 0.8s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bounce-in {
+    animation: bounceIn 0.8s ease-out;
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Loading states */
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.4), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
