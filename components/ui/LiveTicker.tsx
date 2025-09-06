@@ -48,7 +48,8 @@ export default function LiveTicker() {
         .order('created_at', { ascending: false })
         .limit(5)
 
-      const activities = recentSubmissions?.map(sub => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const activities = recentSubmissions?.map((sub: any) => {
         const profile = Array.isArray(sub.profiles) ? sub.profiles[0] : sub.profiles
         return `🎨 ${profile?.username || 'Artist'} uploaded "${sub.title}"`
       }) || []

@@ -65,7 +65,8 @@ export default function GlobalSearch() {
         .limit(5)
 
       const searchResults: SearchResult[] = [
-        ...(artworks || []).map(artwork => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ...(artworks || []).map((artwork: any) => {
           const profile = Array.isArray(artwork.profiles) ? artwork.profiles[0] : artwork.profiles
           return {
             id: artwork.id,
@@ -78,7 +79,8 @@ export default function GlobalSearch() {
             avatar_url: profile.avatar_url
           }
         }),
-        ...(artists || []).map(artist => ({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ...(artists || []).map((artist: any) => ({
           id: artist.id,
           type: 'artist' as const,
           title: artist.full_name || artist.username,

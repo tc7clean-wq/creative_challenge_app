@@ -1,6 +1,9 @@
 'use client'
 
 import { createClient } from '@/utils/supabase/client'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -76,7 +79,8 @@ export default function SimpleAuthenticatedHomePage() {
 
           if (submissionsData) {
             // Transform the data to match our interface
-            const transformedData = submissionsData.map(item => ({
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const transformedData = submissionsData.map((item: any) => ({
               ...item,
               profiles: Array.isArray(item.profiles) ? item.profiles[0] : item.profiles
             }))
@@ -108,14 +112,14 @@ export default function SimpleAuthenticatedHomePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 flex items-center justify-center">
+      <div className="min-h-screen cyber-bg flex items-center justify-center">
         <div className="text-white text-xl">Loading...</div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900">
+    <div className="min-h-screen cyber-bg">
       <NavigationHeader />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -155,7 +159,7 @@ export default function SimpleAuthenticatedHomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           <Link 
             href="/submit"
-            className="bg-gradient-to-r from-cyan-600 to-purple-700 text-white p-8 rounded-2xl hover:from-cyan-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105 border border-cyan-400/30"
+            className="cyber-card cyber-glow p-8 rounded-2xl hover:scale-105 transition-all duration-300 transform"
           >
             <div className="text-center">
               <div className="text-4xl mb-4">🎨</div>
@@ -235,7 +239,7 @@ export default function SimpleAuthenticatedHomePage() {
         <div className="text-center">
           <Link 
             href="/submit"
-            className="inline-block bg-gradient-to-r from-cyan-600 to-purple-700 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-cyan-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105 border border-cyan-400/30 shadow-lg shadow-cyan-500/25"
+            className="cyber-btn inline-block px-8 py-4 rounded-xl text-lg font-semibold hover:scale-105 transition-all duration-300 transform cyber-glow"
           >
             🎨 Showcase Your Art
           </Link>

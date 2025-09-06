@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import { CheckCircleIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { validateFile, sanitizeText } from '@/lib/validation'
+import { jackpotServiceClient } from '@/lib/services/JackpotServiceClient'
 
 interface ArtworkSubmissionFormProps {
   sessionId: string
@@ -144,6 +145,19 @@ export default function ArtworkSubmissionForm({
           console.error('Failed to cleanup uploaded file:', cleanupError)
         }
         throw new Error(`Database error: ${dbError.message}`)
+      }
+
+      // Award jackpot entry for art submission
+      try {
+        const jackpotResult = await jackpotServiceClient.awardArtSubmission(user.id, contestId)
+        if (jackpotResult.success) {
+          console.log(`Awarded ${jackpotResult.newTotalEntries} jackpot entries for art submission`)
+        } else {
+          console.error('Failed to award jackpot entry:', jackpotResult.error)
+        }
+      } catch (jackpotError) {
+        console.error('Error awarding jackpot entry:', jackpotError)
+        // Don't fail the submission if jackpot entry fails
       }
 
       setSuccess(true)

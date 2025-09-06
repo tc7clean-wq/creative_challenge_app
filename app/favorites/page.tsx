@@ -1,6 +1,9 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 import { createClient } from '@/utils/supabase/client'
 import type { SupabaseClient } from '@/types/supabase'
 import NavigationHeader from '@/components/navigation/NavigationHeader'
@@ -147,7 +150,8 @@ export default function FavoritesPage() {
     setSupabase(client)
 
     // Get current user
-    client.auth.getUser().then(({ data: { user } }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    client.auth.getUser().then(({ data: { user } }: any) => {
       if (user) {
         setUserId(user.id)
       } else {
@@ -167,7 +171,7 @@ export default function FavoritesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+      <div className="min-h-screen cyber-bg">
         <NavigationHeader />
         <div className="container mx-auto px-4 py-8">
           <div className="animate-pulse">
@@ -184,7 +188,7 @@ export default function FavoritesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+    <div className="min-h-screen cyber-bg">
       <NavigationHeader />
       
       <div className="container mx-auto px-4 py-8">

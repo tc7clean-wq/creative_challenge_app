@@ -45,7 +45,8 @@ export default function CommentSystem({ artworkId, currentUserId }: CommentSyste
       if (error) throw error
       
       // Transform the data to match our interface
-      const transformedData = (data || []).map(comment => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const transformedData = (data || []).map((comment: any) => ({
         ...comment,
         profiles: Array.isArray(comment.profiles) ? comment.profiles[0] : comment.profiles
       }))

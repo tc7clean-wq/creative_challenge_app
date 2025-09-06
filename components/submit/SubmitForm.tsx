@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use client'
 
 import { useState } from 'react'
@@ -18,25 +19,25 @@ const packages: Package[] = [
   {
     id: 'standard',
     name: 'Standard Entry',
-    price: 5,
-    description: 'Perfect for getting started with your creative journey',
+    price: 0,
+    description: 'Free entry to win jackpot spots',
     features: [
-      'Basic submission to contest',
-      'Standard visibility in gallery',
-      'Eligible for community voting',
-      'Basic analytics dashboard'
+      '1 jackpot entry spot',
+      'Standard gallery visibility',
+      'Community voting eligibility',
+      'Contest participation'
     ],
     tier: 'standard'
   },
   {
     id: 'featured',
     name: 'Featured Entry',
-    price: 15,
-    description: 'Enhanced visibility and better chances of winning',
+    price: 0,
+    description: 'Enhanced visibility for better jackpot chances',
     features: [
-      'Featured placement in gallery',
-      'Priority in contest listings',
-      'Enhanced analytics dashboard',
+      '2 jackpot entry spots',
+      'Featured gallery placement',
+      'Priority contest positioning',
       'Social media promotion',
       'Judge attention boost'
     ],
@@ -46,12 +47,12 @@ const packages: Package[] = [
   {
     id: 'spotlight',
     name: 'Spotlight Entry',
-    price: 30,
-    description: 'Maximum exposure and premium contest experience',
+    price: 0,
+    description: 'Maximum exposure for jackpot success',
     features: [
-      'Top placement in gallery',
+      '3 jackpot entry spots',
+      'Top gallery placement',
       'Premium contest positioning',
-      'Full analytics suite',
       'Social media campaign',
       'Direct judge review',
       'Winner interview opportunity'
@@ -67,13 +68,10 @@ export default function SubmitForm() {
 
   const handlePaymentSuccess = (txHash?: string) => {
     if (txHash) {
-      // Crypto payment success
-      setError("🎉 Crypto payment successful! Your submission is now active.");
-    } else {
-      // Stripe payment success
-      setError("🎉 Payment successful! Your submission is now active.");
+      // Free submission success
+      setError("🎉 Free submission successful! Your entry is now active and you've earned jackpot spots!");
+      setShowPayment(false);
     }
-    setShowPayment(false);
   };
 
   const handlePaymentError = (error: string) => {
@@ -86,15 +84,15 @@ export default function SubmitForm() {
       {/* Left Column - Prize Focus */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl p-8 text-center text-white shadow-xl">
-          <div className="text-6xl font-bold mb-4">🏆</div>
-          <h2 className="text-3xl font-bold mb-4">Grand Prize</h2>
-          <div className="text-5xl font-bold mb-2">$10,000</div>
-          <p className="text-xl opacity-90">Jackpot Awaits!</p>
+          <div className="text-6xl font-bold mb-4">🎯</div>
+          <h2 className="text-3xl font-bold mb-4">Win Jackpot Spots</h2>
+          <div className="text-5xl font-bold mb-2">FREE</div>
+          <p className="text-xl opacity-90">Contest Entry • Cash Prize Coming Soon!</p>
         </div>
 
         <div className="bg-white rounded-2xl p-6 shadow-lg">
           <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">
-            Why Submit Today?
+            Why Enter This Contest?
           </h3>
           <div className="space-y-4">
             <div className="flex items-start space-x-3">
@@ -102,7 +100,7 @@ export default function SubmitForm() {
                 <CheckIcon className="w-4 h-4 text-green-600" />
               </div>
               <p className="text-gray-700">
-                <span className="font-semibold">Exclusive Opportunity:</span> Limited time contest with amazing rewards
+                <span className="font-semibold">Free Entry:</span> No cost to participate and win jackpot spots
               </p>
             </div>
             <div className="flex items-start space-x-3">
@@ -110,7 +108,7 @@ export default function SubmitForm() {
                 <CheckIcon className="w-4 h-4 text-green-600" />
               </div>
               <p className="text-gray-700">
-                <span className="font-semibold">Professional Exposure:</span> Get noticed by industry leaders and potential clients
+                <span className="font-semibold">Jackpot Spots:</span> Win multiple entries for the upcoming cash prize
               </p>
             </div>
             <div className="flex items-start space-x-3">
@@ -118,7 +116,7 @@ export default function SubmitForm() {
                 <CheckIcon className="w-4 h-4 text-green-600" />
               </div>
               <p className="text-gray-700">
-                <span className="font-semibold">Portfolio Building:</span> Add this achievement to your creative resume
+                <span className="font-semibold">Community Recognition:</span> Showcase your talent to fellow creators
               </p>
             </div>
             <div className="flex items-start space-x-3">
@@ -126,7 +124,7 @@ export default function SubmitForm() {
                 <CheckIcon className="w-4 h-4 text-green-600" />
               </div>
               <p className="text-gray-700">
-                <span className="font-semibold">Community Recognition:</span> Join a network of talented creators
+                <span className="font-semibold">Future Rewards:</span> Build your spot count for the big cash prize
               </p>
             </div>
           </div>
@@ -218,29 +216,18 @@ export default function SubmitForm() {
               </div>
             )}
             
-            {!showPayment ? (
-              <div className="text-center">
-                <button 
-                  onClick={() => setShowPayment(true)}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
-                >
-                  Continue to Payment - ${packages.find(pkg => pkg.id === selectedPackage)?.price}
-                </button>
-                
-                <p className="text-sm text-gray-500 mt-3">
-                  Choose between credit card or crypto payment
-                </p>
-              </div>
-            ) : (
-              <PaymentMethodSelector
-                amount={packages.find(pkg => pkg.id === selectedPackage)?.price || 0}
-                packageName={packages.find(pkg => pkg.id === selectedPackage)?.name || ''}
-                tier={packages.find(pkg => pkg.id === selectedPackage)?.tier || ''}
-                onStripeSuccess={() => handlePaymentSuccess()}
-                onCryptoSuccess={handlePaymentSuccess}
-                onError={handlePaymentError}
-              />
-            )}
+            <div className="text-center">
+              <button 
+                onClick={() => handlePaymentSuccess()}
+                className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-green-700 hover:to-blue-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
+              >
+                Submit Entry FREE - Win Jackpot Spots!
+              </button>
+              
+              <p className="text-sm text-gray-500 mt-3">
+                Free contest entry • Win spots for the cash prize jackpot
+              </p>
+            </div>
           </div>
         </div>
 

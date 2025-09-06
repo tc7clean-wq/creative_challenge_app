@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import LogoutButton from '@/components/auth/LogoutButton'
+import JackpotStats from '@/components/jackpot/JackpotStats'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -33,7 +34,12 @@ export default async function DashboardPage() {
                 <LogoutButton />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Jackpot Stats Card */}
+                <div className="bg-gradient-to-br from-purple-600 to-blue-600 p-6 rounded-lg text-white">
+                  <JackpotStats userId={user.id} showHistoryLink={true} />
+                </div>
+
                 {/* User Profile Card */}
                 <div className="bg-gray-50 p-6 rounded-lg">
                   <h3 className="text-lg font-medium text-gray-900 mb-4">

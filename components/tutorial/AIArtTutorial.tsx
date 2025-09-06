@@ -236,6 +236,7 @@ export default function AIArtTutorial({ className = '' }: AIArtTutorialProps) {
       <div className="mt-6 bg-gradient-to-r from-green-500/20 to-blue-500/20 border border-green-500/30 rounded-lg p-4">
         <h4 className="text-green-300 font-semibold mb-2">🚀 Quick Start</h4>
         <p className="text-green-200 text-sm mb-3">
+
           <strong>Quick Steps to Get Started:</strong>
         </p>
         <ol className="text-green-200 text-sm space-y-1 list-decimal list-inside">

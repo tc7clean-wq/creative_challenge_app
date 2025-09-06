@@ -1,10 +1,15 @@
 'use client'
 
 import { useState, useRef } from 'react'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
+import { jackpotServiceClient } from '@/lib/services/JackpotServiceClient'
+import SocialNavbar from '@/components/layout/SocialNavbar'
 
 export default function SubmitPage() {
   const [title, setTitle] = useState('')
@@ -77,7 +82,7 @@ export default function SubmitPage() {
       const fileName = `${user.id}-${Date.now()}.${fileExt}`
       
       const { error: uploadError } = await supabase.storage
-        .from('artwork-images')
+        .from('artwork-submissions')
         .upload(fileName, imageFile)
 
       if (uploadError) {
@@ -90,7 +95,7 @@ export default function SubmitPage() {
 
       // Get public URL
       const { data: { publicUrl } } = supabase.storage
-        .from('artwork-images')
+        .from('artwork-submissions')
         .getPublicUrl(fileName)
 
       // Create submission record
@@ -101,20 +106,31 @@ export default function SubmitPage() {
           description: description.trim(),
           image_url: publicUrl,
           user_id: user.id,
-          status: 'pending',
+          status: 'approved',
           votes: 0
         })
 
       if (submitError) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Submit error:', submitError)
-        }
-        setError('Failed to submit artwork. Please try again.')
+        console.error('Submit error:', submitError)
+        setError(`Failed to submit artwork: ${submitError.message}`)
         return
       }
 
+      // Award jackpot entry for art submission
+      try {
+        const jackpotResult = await jackpotServiceClient.awardArtSubmission(user.id, undefined)
+        if (jackpotResult.success) {
+          console.log(`Awarded ${jackpotResult.newTotalEntries} jackpot entries for art submission`)
+        } else {
+          console.error('Failed to award jackpot entry:', jackpotResult.error)
+        }
+      } catch (jackpotError) {
+        console.error('Error awarding jackpot entry:', jackpotError)
+        // Don't fail the submission if jackpot entry fails
+      }
+
       // Redirect to success page
-      router.push('/submit/success')
+      router.push('/gallery')
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
         console.error('Error submitting artwork:', error)
@@ -126,20 +142,15 @@ export default function SubmitPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="min-h-screen cyber-bg">
+      <SocialNavbar />
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-white mb-4" style={{
-            fontFamily: 'var(--font-bebas-neue), "Arial Black", "Impact", sans-serif',
-            background: 'linear-gradient(45deg, #FFD700, #FFA500, #FF8C00)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
-          }}>
+          <h1 className="text-5xl font-bold cyber-text glitch mb-4" data-text="SUBMIT ARTWORK">
             SUBMIT ARTWORK
           </h1>
-          <p className="text-xl text-white/80">Present your AI-generated artwork to our professional community</p>
+          <p className="text-xl text-cyan-300">Present your AI-generated artwork to our professional community</p>
         </div>
 
         {/* Progress Steps */}
@@ -257,14 +268,14 @@ export default function SubmitPage() {
                 <div className="space-y-2 text-white/80">
                   <p><strong>Title:</strong> {title}</p>
                   <p><strong>Description:</strong> {description}</p>
-                  <p><strong>Status:</strong> Free submission (no payment required)</p>
+                  <p><strong>Status:</strong> Contest entry - Win jackpot spots!</p>
                 </div>
               </div>
               
               <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 mb-6">
                 <p className="text-green-200 text-sm">
-                  🎉 <strong>Great news!</strong> Your first submission is completely free! 
-                  Once approved, your artwork will be featured in our gallery where users can vote for it.
+                  🎯 <strong>Contest Entry!</strong> Submit your artwork to win jackpot spots! 
+                  Once approved, your artwork will be featured in our gallery and you&apos;ll earn spots for the upcoming cash prize jackpot.
                 </p>
               </div>
             </div>

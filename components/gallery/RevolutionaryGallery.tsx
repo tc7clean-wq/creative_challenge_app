@@ -54,7 +54,8 @@ export default function RevolutionaryGallery() {
       if (error) throw error
       
       // Transform the data to match our interface
-      const transformedData = (data || []).map(item => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const transformedData = (data || []).map((item: any) => ({
         ...item,
         profiles: Array.isArray(item.profiles) ? item.profiles[0] : item.profiles
       }))

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import NavigationHeader from '@/components/navigation/NavigationHeader'
+import SocialNavbar from '@/components/layout/SocialNavbar'
 import AuthForm from '@/components/auth/AuthForm'
 
 export default function AuthPage() {
@@ -9,7 +9,7 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
-      <NavigationHeader />
+      <SocialNavbar />
       
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-md mx-auto">

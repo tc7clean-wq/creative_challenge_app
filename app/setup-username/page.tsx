@@ -31,6 +31,12 @@ export default function SetupUsernamePage() {
         .single()
 
       if (error) {
+        // If profile doesn't exist (PGRST116), that's expected for new users
+        if (error.code === 'PGRST116') {
+          setNeedsUsername(true)
+          return
+        }
+        
         if (process.env.NODE_ENV === 'development') {
           console.error('Error fetching profile:', error)
         }

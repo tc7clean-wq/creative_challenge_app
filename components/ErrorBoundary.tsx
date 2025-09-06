@@ -1,81 +1,93 @@
 'use client'
 
-import { Component, ReactNode } from 'react'
-import { ExclamationTriangleIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
+import React from 'react'
 
-interface Props {
-  children: ReactNode
-  fallback?: ReactNode
-}
-
-interface State {
+interface ErrorBoundaryState {
   hasError: boolean
   error?: Error
+  errorInfo?: React.ErrorInfo
 }
 
-export default class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
+interface ErrorBoundaryProps {
+  children: React.ReactNode
+  fallback?: React.ComponentType<{ error: Error; resetError: () => void }>
+}
+
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
     super(props)
     this.state = { hasError: false }
   }
 
-  static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error }
-  }
-
-  componentDidCatch(error: Error, errorInfo: unknown) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo)
-    
-    // Log to external service in production
-    if (process.env.NODE_ENV === 'production') {
-      // You can send to Sentry, LogRocket, etc.
-      console.error('Error details:', errorInfo)
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return {
+      hasError: true,
+      error
     }
   }
 
-  handleRetry = () => {
-    this.setState({ hasError: false, error: undefined })
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('ErrorBoundary caught an error:', error, errorInfo)
+    
+    // Log error to monitoring service
+    this.logErrorToService(error, errorInfo)
+    
+    this.setState({
+      error,
+      errorInfo
+    })
+  }
+
+  logErrorToService = (error: Error, errorInfo: React.ErrorInfo) => {
+    // In a real application, you would send this to your error monitoring service
+    // For now, we'll just log it to the console
+    console.error('Error logged to service:', {
+      message: error.message,
+      stack: error.stack,
+      componentStack: errorInfo.componentStack,
+      timestamp: new Date().toISOString()
+    })
+  }
+
+  resetError = () => {
+    this.setState({ hasError: false, error: undefined, errorInfo: undefined })
   }
 
   render() {
     if (this.state.hasError) {
       if (this.props.fallback) {
-        return this.props.fallback
+        const FallbackComponent = this.props.fallback
+        return <FallbackComponent error={this.state.error!} resetError={this.resetError} />
       }
 
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-          <div className="max-w-md w-full text-center">
-            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
-              <ExclamationTriangleIcon className="h-6 w-6 text-red-600" />
-            </div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">
-              Something went wrong
-            </h2>
-            <p className="text-gray-600 mb-6">
-              We encountered an unexpected error. Please try refreshing the page or contact support if the problem persists.
+        <div className="min-h-screen bg-black flex items-center justify-center">
+          <div className="quantum-glass p-8 rounded-2xl text-center max-w-md">
+            <div className="text-6xl mb-4">⚠️</div>
+            <h1 className="text-2xl font-bold text-white mb-4">Something went wrong</h1>
+            <p className="text-gray-300 mb-6">
+              We&apos;re sorry, but something unexpected happened. Please try refreshing the page.
             </p>
-            <div className="space-y-3">
+            <div className="space-y-4">
               <button
-                onClick={this.handleRetry}
-                className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                onClick={this.resetError}
+                className="quantum-button px-6 py-3 mr-4"
               >
-                <ArrowPathIcon className="h-4 w-4 mr-2" />
                 Try Again
               </button>
               <button
                 onClick={() => window.location.reload()}
-                className="w-full px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="quantum-button-secondary px-6 py-3"
               >
                 Refresh Page
               </button>
             </div>
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="mt-6 text-left">
-                <summary className="text-sm text-gray-500 cursor-pointer">
+                <summary className="text-cyan-400 cursor-pointer mb-2">
                   Error Details (Development)
                 </summary>
-                <pre className="mt-2 text-xs text-red-600 bg-red-50 p-3 rounded overflow-auto">
+                <pre className="text-xs text-gray-400 bg-black/50 p-4 rounded overflow-auto">
                   {this.state.error.stack}
                 </pre>
               </details>
@@ -88,3 +100,5 @@ export default class ErrorBoundary extends Component<Props, State> {
     return this.props.children
   }
 }
+
+export default ErrorBoundary

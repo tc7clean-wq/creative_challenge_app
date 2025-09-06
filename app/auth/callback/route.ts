@@ -4,10 +4,16 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/auth-success'
+  const next = searchParams.get('next') ?? '/authenticated-home-simple'
 
   if (code) {
     try {
+      // Check if environment variables are available
+      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY) {
+        console.error('Missing Supabase environment variables')
+        return NextResponse.redirect(new URL('/login?error=config_error&details=Missing Supabase configuration', origin))
+      }
+      
       const supabase = await createClient()
       
       const { data, error } = await supabase.auth.exchangeCodeForSession(code)

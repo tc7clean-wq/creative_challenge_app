@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
+// import { useRouter } from 'next/navigation'
+import AdminNavbar from '@/components/layout/AdminNavbar'
+import AdminGuard from '@/components/auth/AdminGuard'
 
 interface Contest {
   id: string
@@ -16,6 +19,7 @@ interface Contest {
 }
 
 export default function ContestManagementPage() {
+  // const router = useRouter()
   const [contests, setContests] = useState<Contest[]>([])
   const [loading, setLoading] = useState(true)
   const [showCreateForm, setShowCreateForm] = useState(false)
@@ -51,8 +55,16 @@ export default function ContestManagementPage() {
         return
       }
 
-      const transformedData = data?.map(contest => ({
-        ...contest,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const transformedData: Contest[] = data?.map((contest: Record<string, any>) => ({
+        id: contest.id || '',
+        title: contest.title || '',
+        description: contest.description || '',
+        prize_amount: contest.prize_amount || 0,
+        start_date: contest.start_date || '',
+        end_date: contest.end_date || '',
+        status: contest.status || 'draft',
+        created_at: contest.created_at || '',
         submissions_count: contest.submissions?.[0]?.count || 0
       })) || []
 
@@ -197,8 +209,10 @@ export default function ContestManagementPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      <div className="container mx-auto px-4 py-8">
+    <AdminGuard>
+      <div className="min-h-screen cyber-bg">
+        <AdminNavbar />
+        <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -398,5 +412,6 @@ export default function ContestManagementPage() {
         </div>
       </div>
     </div>
+    </AdminGuard>
   )
 }

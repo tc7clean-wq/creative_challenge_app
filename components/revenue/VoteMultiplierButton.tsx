@@ -18,9 +18,9 @@ export default function VoteMultiplierButton({
   // const supabase = createClient()
 
   const multiplierOptions = [
-    { value: 2, price: 1.00, label: '2x Vote', description: 'Your vote counts as 2 votes' },
-    { value: 3, price: 2.00, label: '3x Vote', description: 'Your vote counts as 3 votes' },
-    { value: 5, price: 5.00, label: '5x Vote', description: 'Your vote counts as 5 votes' }
+    { value: 2, price: 0.00, label: '2x Vote', description: 'Your vote counts as 2 votes' },
+    { value: 3, price: 0.00, label: '3x Vote', description: 'Your vote counts as 3 votes' },
+    { value: 5, price: 0.00, label: '5x Vote', description: 'Your vote counts as 5 votes' }
   ]
 
   const handleMultiplierVote = async () => {

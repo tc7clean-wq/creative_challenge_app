@@ -83,7 +83,8 @@ export default function ProfilePage() {
       setArtworks(data || [])
       
       // Calculate stats
-      const totalVotes = data?.reduce((sum, artwork) => sum + (artwork.votes || 0), 0) || 0
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const totalVotes = data?.reduce((sum: any, artwork: any) => sum + (artwork.votes || 0), 0) || 0
       const totalArtworks = data?.length || 0
       const averageVotes = totalArtworks > 0 ? Math.round(totalVotes / totalArtworks) : 0
       

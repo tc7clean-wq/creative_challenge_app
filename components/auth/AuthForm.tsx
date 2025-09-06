@@ -28,7 +28,8 @@ export default function AuthForm({ view = 'sign_in' }: AuthFormProps) {
 
     const {
       data: { subscription },
-    } =     supabase.auth.onAuthStateChange((event, session: Session | null) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } = supabase.auth.onAuthStateChange((event: any, session: Session | null) => {
       if (process.env.NODE_ENV === 'development') {
         console.log('Auth state changed:', event, session?.user?.email)
       }
@@ -103,7 +104,7 @@ export default function AuthForm({ view = 'sign_in' }: AuthFormProps) {
         providers={['google']}
         view={view}
         showLinks={true}
-        redirectTo={`${typeof window !== 'undefined' ? window.location.origin : ''}/auth/callback`}
+        redirectTo={`${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/auth/callback`}
       />
     </div>
   )

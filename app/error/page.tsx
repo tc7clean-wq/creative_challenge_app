@@ -13,7 +13,7 @@ export default function ErrorPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+    <div className="min-h-screen cyber-bg">
       <NavigationHeader />
       
       <div className="container mx-auto px-4 py-8">
@@ -24,8 +24,38 @@ export default function ErrorPage() {
               Oops! Something went wrong
             </h1>
             <p className="text-xl text-white/80 mb-8">
-              We encountered an unexpected error. This might be due to missing environment variables or a configuration issue.
+              Missing Supabase Configuration
             </p>
+            
+            <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-6 mb-8 text-left">
+              <h2 className="text-lg font-semibold text-yellow-300 mb-4">Setup Required</h2>
+              <p className="text-yellow-100 mb-4">
+                The application needs Supabase environment variables to be configured.
+              </p>
+              <div className="space-y-3">
+                <div>
+                  <p className="text-yellow-200 font-medium mb-2">1. Create a .env.local file in the project root:</p>
+                  <div className="bg-black/50 rounded p-3 font-mono text-sm text-green-300">
+                    <div>NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url</div>
+                    <div>NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your_supabase_anon_key</div>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-yellow-200 font-medium mb-2">2. Get your Supabase credentials from:</p>
+                  <a 
+                    href="https://supabase.com/dashboard" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-300 hover:text-blue-200 underline"
+                  >
+                    https://supabase.com/dashboard
+                  </a>
+                </div>
+                <div>
+                  <p className="text-yellow-200 font-medium mb-2">3. Restart the development server after adding the variables</p>
+                </div>
+              </div>
+            </div>
             
             <div className="space-y-4">
               <Link
@@ -34,15 +64,6 @@ export default function ErrorPage() {
               >
                 Go Home
               </Link>
-              
-              <div className="text-white/60 text-sm">
-                <p>If this problem persists, please check:</p>
-                <ul className="mt-2 space-y-1">
-                  <li>• Environment variables are properly set</li>
-                  <li>• Database connection is working</li>
-                  <li>• All required services are running</li>
-                </ul>
-              </div>
             </div>
           </div>
         </div>

@@ -154,7 +154,7 @@ export default function CompetitionsPage() {
           {/* Competitions Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {competitions.map((competition) => (
-              <div key={competition.id} className="group relative bg-white/5 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 hover:border-cyan-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/10">
+              <div key={competition.id} className="group relative cyber-card rounded-3xl p-8 transition-all duration-500 hover:scale-105 cyber-glow">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 <div className="relative">
@@ -190,6 +190,29 @@ export default function CompetitionsPage() {
                   <div className="mb-6">
                     <p className="text-yellow-400 font-semibold text-sm mb-2">🏅 Prize:</p>
                     <p className="text-white/80 text-sm">{competition.prize_description}</p>
+                  </div>
+
+                  {/* Jackpot Entries */}
+                  <div className="mb-6 p-4 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-lg border border-purple-400/30">
+                    <p className="text-purple-300 font-semibold text-sm mb-2">🎰 Jackpot Entries:</p>
+                    <div className="grid grid-cols-3 gap-2 text-xs">
+                      <div className="text-center">
+                        <div className="text-yellow-400 font-bold">🥇 1st</div>
+                        <div className="text-white">100 entries</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-gray-300 font-bold">🥈 2nd</div>
+                        <div className="text-white">50 entries</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-orange-400 font-bold">🥉 3rd</div>
+                        <div className="text-white">25 entries</div>
+                      </div>
+                    </div>
+                    <div className="text-center mt-2">
+                      <div className="text-cyan-400 font-bold">📝 Submission</div>
+                      <div className="text-white">1 entry</div>
+                    </div>
                   </div>
                   
                   {/* Action Button */}
@@ -256,7 +279,7 @@ export default function CompetitionsPage() {
                 <h3 className="text-lg font-bold text-white mb-2">Profile Features</h3>
                 <p className="text-white/70 text-sm">Special borders and profile enhancements</p>
               </div>
-              <div className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-xl rounded-2xl p-6 border border-cyan-400/30">
+              <div className="cyber-card rounded-2xl p-6 cyber-glow">
                 <div className="text-4xl mb-3">🌟</div>
                 <h3 className="text-lg font-bold text-white mb-2">Featured Spotlights</h3>
                 <p className="text-white/70 text-sm">Get featured on the homepage and gallery</p>

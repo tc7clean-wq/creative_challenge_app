@@ -91,7 +91,8 @@ export default function Gallery() {
           if (votesError) {
             console.error('Votes fetch error:', votesError)
           } else if (votes) {
-            const votedSubmissionIds = new Set(votes.map(vote => vote.submission_id))
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const votedSubmissionIds = new Set<string>(votes.map((vote: any) => vote.submission_id as string))
             setVotedItems(votedSubmissionIds)
           }
         }

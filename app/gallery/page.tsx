@@ -1,10 +1,17 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 import { createClient } from '@/utils/supabase/client'
 import Image from 'next/image'
 import Link from 'next/link'
 import TipButton from '@/components/tips/TipButton'
+import ArtworkComments from '@/components/gallery/ArtworkComments'
+import ArtworkLikes from '@/components/gallery/ArtworkLikes'
+import ArtworkSharing from '@/components/gallery/ArtworkSharing'
+import SocialNavbar from '@/components/layout/SocialNavbar'
 
 interface Artwork {
   id: string
@@ -40,7 +47,7 @@ export default function GalleryPage() {
           created_at,
           profiles!inner(username, full_name, avatar_url)
         `)
-        .eq('status', 'approved')
+        .in('status', ['approved', 'pending'])
 
       if (sortBy === 'popular') {
         query = query.order('votes', { ascending: false })
@@ -58,7 +65,8 @@ export default function GalleryPage() {
       }
 
       // Transform the data to ensure profiles is a single object
-      const transformedData = data?.map(artwork => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const transformedData = data?.map((artwork: any) => ({
         ...artwork,
         profiles: Array.isArray(artwork.profiles) ? artwork.profiles[0] : artwork.profiles
       })) || []
@@ -159,42 +167,37 @@ export default function GalleryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="min-h-screen cyber-bg">
+      <SocialNavbar />
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-white mb-4" style={{
-            fontFamily: 'var(--font-bebas-neue), "Arial Black", "Impact", sans-serif',
-            background: 'linear-gradient(45deg, #FFD700, #FFA500, #FF8C00)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
-          }}>
-            PROFESSIONAL GALLERY
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold cyber-text glitch mb-2" data-text="[CREATIVE FEED]">
+            [CREATIVE FEED]
           </h1>
-          <p className="text-xl text-white/80 mb-8">Explore exceptional AI-generated artwork from our community of professional artists</p>
+          <p className="text-lg text-cyan-300 mb-6">// Discover amazing artwork and connect with artists</p>
           
           {/* Sort Options */}
-          <div className="flex justify-center gap-4 mb-8">
+          <div className="flex justify-center gap-2 mb-6">
             <button
               onClick={() => setSortBy('popular')}
-              className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+              className={`px-4 py-2 rounded-lg font-medium transition-all cyber-focus ${
                 sortBy === 'popular'
-                  ? 'bg-yellow-500 text-black'
-                  : 'bg-white/10 text-white hover:bg-white/20'
+                  ? 'cyber-btn cyber-glow'
+                  : 'cyber-card text-cyan-300 hover:text-cyan-100'
               }`}
             >
-              🔥 Most Popular
+              🔥 TRENDING
             </button>
             <button
               onClick={() => setSortBy('newest')}
-              className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+              className={`px-4 py-2 rounded-lg font-medium transition-all cyber-focus ${
                 sortBy === 'newest'
-                  ? 'bg-yellow-500 text-black'
-                  : 'bg-white/10 text-white hover:bg-white/20'
+                  ? 'cyber-btn cyber-glow'
+                  : 'cyber-card text-cyan-300 hover:text-cyan-100'
               }`}
             >
-              ⭐ Newest
+              ⚡ LATEST
             </button>
           </div>
         </div>
@@ -207,7 +210,7 @@ export default function GalleryPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {artworks.map((artwork) => (
-              <div key={artwork.id} className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 hover:border-white/40 transition-all duration-300 transform hover:scale-105">
+              <div key={artwork.id} className="cyber-card rounded-xl overflow-hidden cyber-pulse">
                 {/* Artwork Image */}
                 <div className="relative aspect-square">
                   <Image
@@ -237,8 +240,28 @@ export default function GalleryPage() {
                     </div>
                   </div>
 
-                  {/* Actions */}
-                  <div className="space-y-2">
+                  {/* Social Actions */}
+                  <div className="space-y-3">
+                    {/* Like and Share */}
+                    <div className="flex items-center justify-between">
+                      <ArtworkLikes 
+                        submissionId={artwork.id}
+                        initialLikes={artwork.votes}
+                        onLikeUpdate={(newCount) => {
+                          setArtworks(prev => prev.map(a => 
+                            a.id === artwork.id ? { ...a, votes: newCount } : a
+                          ))
+                        }}
+                      />
+                      <ArtworkSharing
+                        submissionId={artwork.id}
+                        title={artwork.title}
+                        imageUrl={artwork.image_url}
+                        artistName={artwork.profiles?.full_name || 'Anonymous'}
+                      />
+                    </div>
+
+                    {/* Vote and Profile */}
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleVote(artwork.id)}
@@ -253,6 +276,11 @@ export default function GalleryPage() {
                         👤 Profile
                       </Link>
                     </div>
+
+                    {/* Comments Section */}
+                    <ArtworkComments submissionId={artwork.id} />
+
+                    {/* Tip Button */}
                     <TipButton
                       artworkId={artwork.id}
                       artistId={artwork.profiles?.username || 'artist'}
@@ -269,17 +297,24 @@ export default function GalleryPage() {
 
         {/* Call to Action */}
         <div className="text-center mt-16">
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold text-white mb-4">Ready to Showcase Your Art?</h2>
+          <div className="cyber-card p-8 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold cyber-text mb-4">Ready to Showcase Your Art?</h2>
             <p className="text-white/80 mb-6">Join the community and start competing for prizes!</p>
             <Link
               href="/submit"
-              className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold py-4 px-8 rounded-xl text-lg transform hover:scale-105 transition-all duration-300 shadow-2xl inline-block"
+              className="cyber-btn text-lg transform hover:scale-105 transition-all duration-300 shadow-2xl inline-block"
             >
               🎨 Submit Your Artwork
             </Link>
           </div>
         </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="content-section">
+        <h2>// DATA STREAM //</h2>
+        <p>The system is a reflection of the user. In the digital rain, all data flows towards a singular consciousness. We are the architects of this new reality, forging connections in a web of pure light and logic. Every query is a pulse, every answer a new pathway in the infinite machine.</p>
+        <p>Beware the ghosts in the machine. Not all data is benign. Firewalls protect the core, but the periphery is a wild frontier. <a href="/submit">Navigate wisely</a>.</p>
       </div>
     </div>
   )

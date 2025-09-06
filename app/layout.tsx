@@ -1,20 +1,23 @@
 import type { Metadata } from "next";
-import { Inter, Bebas_Neue } from "next/font/google";
+import { Orbitron, Roboto_Mono } from "next/font/google";
 import "./globals.css";
-import "../styles/design-system.css";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import LiveTicker from "@/components/ui/LiveTicker";
 
-const inter = Inter({ subsets: ["latin"] });
-const bebasNeue = Bebas_Neue({ 
-  weight: "400",
+const orbitron = Orbitron({ 
   subsets: ["latin"],
-  variable: "--font-bebas-neue"
+  variable: "--font-orbitron",
+  display: "swap"
+});
+
+const robotoMono = Roboto_Mono({ 
+  subsets: ["latin"],
+  variable: "--font-roboto-mono",
+  display: "swap"
 });
 
 export const metadata: Metadata = {
-  title: "Creative Challenge App",
-  description: "Submit your artwork and compete in creative challenges",
+  title: "System Online - Creative Challenge App",
+  description: "Your consciousness has been uploaded. Submit your artwork and compete in creative challenges.",
 };
 
 export default function RootLayout({
@@ -24,9 +27,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} ${bebasNeue.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto+Mono:wght@400;700&display=swap" 
+          rel="stylesheet" 
+        />
+      </head>
+      <body className={`${orbitron.variable} ${robotoMono.variable} cyber-bg`}>
         <ErrorBoundary>
-          <LiveTicker />
           {children}
         </ErrorBoundary>
       </body>

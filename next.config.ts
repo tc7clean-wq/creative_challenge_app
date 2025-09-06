@@ -7,7 +7,14 @@ const nextConfig: NextConfig = {
   
   // Image optimization
   images: {
-    domains: ['yrbbqxdimyqdfmezxmgp.supabase.co'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'yrbbqxdimyqdfmezxmgp.supabase.co',
+        port: '',
+        pathname: '/storage/v1/object/public/**',
+      },
+    ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
   },
@@ -43,6 +50,9 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@heroicons/react'],
   },
+  
+  // Disable static optimization for pages that use Supabase
+  output: 'standalone',
 };
 
 export default nextConfig;

@@ -1,12 +1,16 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 import { createClient } from '@/utils/supabase/client'
 import type { SupabaseClient } from '@/types/supabase'
-import NavigationHeader from '@/components/navigation/NavigationHeader'
+import SocialNavbar from '@/components/layout/SocialNavbar'
 import Image from 'next/image'
 import ArtistProfileForm from '@/components/artist/ArtistProfileForm'
 import ArtistPortfolioManager from '@/components/artist/ArtistPortfolioManager'
+import JackpotStats from '@/components/jackpot/JackpotStats'
 
 interface UserProfile {
   id: string
@@ -58,7 +62,8 @@ export default function ProfilePage() {
     setSupabase(client)
 
     // Get current user
-    client.auth.getUser().then(({ data: { user } }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    client.auth.getUser().then(({ data: { user } }: any) => {
       if (user) {
         setUserId(user.id)
       } else {
@@ -76,8 +81,8 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
-        <NavigationHeader />
+      <div className="min-h-screen cyber-bg">
+        <SocialNavbar />
         <div className="container mx-auto px-4 py-8">
           <div className="animate-pulse">
             <div className="h-12 bg-white/20 rounded mb-8"></div>
@@ -90,8 +95,8 @@ export default function ProfilePage() {
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
-        <NavigationHeader />
+      <div className="min-h-screen cyber-bg">
+        <SocialNavbar />
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-white mb-4">Profile Not Found</h1>
@@ -104,7 +109,7 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
-      <NavigationHeader />
+      <SocialNavbar />
       
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
@@ -204,6 +209,13 @@ export default function ProfilePage() {
             )}
           </div>
         </div>
+
+        {/* Jackpot Stats */}
+        {userId && (
+          <div className="mb-8">
+            <JackpotStats userId={userId} showHistoryLink={true} />
+          </div>
+        )}
 
         {/* Tabs */}
         <div className="flex justify-center mb-8">
