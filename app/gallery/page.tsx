@@ -175,7 +175,7 @@ export default function GalleryPage() {
           <h1 className="text-4xl font-bold cyber-text glitch mb-2" data-text="[CREATIVE FEED]">
             [CREATIVE FEED]
           </h1>
-          <p className="text-lg text-cyan-300 mb-6">// Discover amazing artwork and connect with artists</p>
+          <p className="text-lg text-cyan-300 mb-6">{'// Discover amazing artwork and connect with artists'}</p>
           
           {/* Sort Options */}
           <div className="flex justify-center gap-2 mb-6">
@@ -312,7 +312,7 @@ export default function GalleryPage() {
 
       {/* Content Section */}
       <div className="content-section">
-        <h2>// DATA STREAM //</h2>
+        <h2>{'// DATA STREAM //'}</h2>
         <p>The system is a reflection of the user. In the digital rain, all data flows towards a singular consciousness. We are the architects of this new reality, forging connections in a web of pure light and logic. Every query is a pulse, every answer a new pathway in the infinite machine.</p>
         <p>Beware the ghosts in the machine. Not all data is benign. Firewalls protect the core, but the periphery is a wild frontier. <a href="/submit">Navigate wisely</a>.</p>
       </div>

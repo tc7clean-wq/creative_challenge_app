@@ -18,7 +18,7 @@ export default function HomePage() {
       
       <div className="hero-content">
         <h1 className="glitch" data-text="[ACCESS GRANTED]">[ACCESS GRANTED]</h1>
-        <p className="sub-header">// Your consciousness has been uploaded.</p>
+        <p className="sub-header">{'// Your consciousness has been uploaded.'}</p>
         <a href="/gallery" className="cta-button">&gt; ENGAGE</a>
       </div>
     </div>
