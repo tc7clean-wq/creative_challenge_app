@@ -8,7 +8,7 @@ import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { jackpotServiceClient } from '@/lib/services/JackpotServiceClient'
+// Removed JackpotServiceClient import - service was deleted
 import SocialNavbar from '@/components/layout/SocialNavbar'
 
 export default function SubmitPage() {
@@ -116,18 +116,8 @@ export default function SubmitPage() {
         return
       }
 
-      // Award jackpot entry for art submission
-      try {
-        const jackpotResult = await jackpotServiceClient.awardArtSubmission(user.id, undefined)
-        if (jackpotResult.success) {
-          console.log(`Awarded ${jackpotResult.newTotalEntries} jackpot entries for art submission`)
-        } else {
-          console.error('Failed to award jackpot entry:', jackpotResult.error)
-        }
-      } catch (jackpotError) {
-        console.error('Error awarding jackpot entry:', jackpotError)
-        // Don't fail the submission if jackpot entry fails
-      }
+      // Jackpot service removed - entries are now handled through contest wins
+      console.log('Artwork submitted successfully')
 
       // Redirect to success page
       router.push('/gallery')
@@ -293,7 +283,7 @@ export default function SubmitPage() {
             {step > 1 && (
               <button
                 onClick={() => setStep(step - 1)}
-                className="bg-white/10 hover:bg-white/20 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300"
+                className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300"
               >
                 ← Back
               </button>

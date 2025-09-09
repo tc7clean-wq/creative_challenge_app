@@ -1,181 +1,250 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/utils/supabase/client'
+import { useState, useEffect } from 'react'
+// import { createClient } from '@/utils/supabase/client' // Not used in mock data
 import SocialNavbar from '@/components/layout/SocialNavbar'
+import Link from 'next/link'
+import Image from 'next/image'
 
 interface LeaderboardEntry {
+  id: string
   username: string
   full_name: string
-  avatar_url: string
-  total_votes: number
-  submissions_count: number
+  avatar_url?: string
+  total_wins: number
+  total_submissions: number
+  total_likes: number
   rank: number
 }
 
 export default function LeaderboardPage() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([])
   const [loading, setLoading] = useState(true)
-  const [timeframe, setTimeframe] = useState<'all' | 'week' | 'month'>('all')
-
-  const fetchLeaderboard = useCallback(async () => {
-    try {
-      setLoading(true)
-      const supabase = createClient()
-      
-      // Get users with their total votes and submission counts
-      const { data, error } = await supabase
-        .from('profiles')
-        .select(`
-          username,
-          full_name,
-          avatar_url,
-          submissions!inner(
-            votes
-          )
-        `)
-
-      if (error) {
-        console.error('Error fetching leaderboard:', error)
-        return
-      }
-
-      // Process the data to calculate totals
-      const userStats = new Map<string, { username: string, full_name: string, avatar_url: string, total_votes: number, submissions_count: number }>()
-      
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      data?.forEach((profile: Record<string, any>) => {
-        const username = profile.username || 'anonymous'
-        const existing = userStats.get(username) || {
-          username,
-          full_name: profile.full_name || 'Anonymous',
-          avatar_url: profile.avatar_url || '',
-          total_votes: 0,
-          submissions_count: 0
-        }
-        
-        existing.total_votes += profile.submissions?.votes || 0
-        existing.submissions_count += 1
-        userStats.set(username, existing)
-      })
-
-      // Convert to array and sort by total votes
-      const sortedLeaderboard = Array.from(userStats.values())
-        .sort((a, b) => b.total_votes - a.total_votes)
-        .map((entry, index) => ({
-          ...entry,
-          rank: index + 1
-        }))
-        .slice(0, 50) // Top 50
-
-      setLeaderboard(sortedLeaderboard)
-    } catch (err) {
-      console.error('Error:', err)
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+  const [sortBy, setSortBy] = useState<'wins' | 'submissions' | 'likes'>('wins')
 
   useEffect(() => {
     fetchLeaderboard()
-  }, [fetchLeaderboard])
+  }, [sortBy])
 
-  const getRankEmoji = (rank: number) => {
-    if (rank === 1) return '🥇'
-    if (rank === 2) return '🥈'
-    if (rank === 3) return '🥉'
-    if (rank <= 10) return '🏆'
-    return '⭐'
+  const fetchLeaderboard = async () => {
+    try {
+      // const supabase = createClient() // Not used in mock data
+      
+      // Mock data for now - replace with actual query
+      const mockData: LeaderboardEntry[] = [
+        {
+          id: '1',
+          username: 'cyber_artist_1',
+          full_name: 'Alex Chen',
+          avatar_url: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
+          total_wins: 12,
+          total_submissions: 45,
+          total_likes: 2340,
+          rank: 1
+        },
+        {
+          id: '2',
+          username: 'neon_creator',
+          full_name: 'Maya Rodriguez',
+          avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face',
+          total_wins: 8,
+          total_submissions: 32,
+          total_likes: 1890,
+          rank: 2
+        },
+        {
+          id: '3',
+          username: 'digital_dreamer',
+          full_name: 'Jordan Kim',
+          avatar_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
+          total_wins: 6,
+          total_submissions: 28,
+          total_likes: 1650,
+          rank: 3
+        },
+        {
+          id: '4',
+          username: 'pixel_master',
+          full_name: 'Sam Taylor',
+          avatar_url: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
+          total_wins: 5,
+          total_submissions: 22,
+          total_likes: 1420,
+          rank: 4
+        },
+        {
+          id: '5',
+          username: 'art_engineer',
+          full_name: 'Casey Lee',
+          avatar_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face',
+          total_wins: 4,
+          total_submissions: 18,
+          total_likes: 1200,
+          rank: 5
+        }
+      ]
+
+      setLeaderboard(mockData)
+    } catch (error) {
+      console.error('Error fetching leaderboard:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const getSortLabel = (type: string) => {
+    switch (type) {
+      case 'wins': return 'Contest Wins'
+      case 'submissions': return 'Total Submissions'
+      case 'likes': return 'Total Likes'
+      default: return 'Contest Wins'
+    }
+  }
+
+  const getRankIcon = (rank: number) => {
+    switch (rank) {
+      case 1: return '🥇'
+      case 2: return '🥈'
+      case 3: return '🥉'
+      default: return `#${rank}`
+    }
   }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-white text-2xl">Loading leaderboard...</div>
+      <div className="cyber-bg min-h-screen">
+        <SocialNavbar />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <div className="text-2xl text-cyan-300">Loading leaderboard...</div>
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="cyber-bg min-h-screen">
       <SocialNavbar />
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2" style={{
-            fontFamily: 'var(--font-bebas-neue), "Arial Black", "Impact", sans-serif',
-            background: 'linear-gradient(45deg, #FFD700, #FFA500, #FF8C00)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
-          }}>
-            Leaderboard
+          <h1 className="text-4xl font-bold cyber-text glitch mb-2" data-text="[LEADERBOARD]" style={{ fontFamily: 'var(--font-header)' }}>
+            [LEADERBOARD]
           </h1>
-          <p className="text-lg text-white/80 mb-6">Top artists by community votes</p>
+          <p className="text-lg text-cyan-300 mb-6">{'// Top performers in the creative arena'}</p>
+          
+          {/* Sort Options */}
+          <div className="flex justify-center gap-2 mb-6">
+            <button
+              onClick={() => setSortBy('wins')}
+              className={`px-4 py-2 rounded-lg transition-all ${
+                sortBy === 'wins' 
+                  ? 'bg-cyan-500 text-black font-bold' 
+                  : 'bg-white/10 text-cyan-300 hover:bg-white/20'
+              }`}
+            >
+              🏆 Wins
+            </button>
+            <button
+              onClick={() => setSortBy('submissions')}
+              className={`px-4 py-2 rounded-lg transition-all ${
+                sortBy === 'submissions' 
+                  ? 'bg-cyan-500 text-black font-bold' 
+                  : 'bg-white/10 text-cyan-300 hover:bg-white/20'
+              }`}
+            >
+              📝 Submissions
+            </button>
+            <button
+              onClick={() => setSortBy('likes')}
+              className={`px-4 py-2 rounded-lg transition-all ${
+                sortBy === 'likes' 
+                  ? 'bg-cyan-500 text-black font-bold' 
+                  : 'bg-white/10 text-cyan-300 hover:bg-white/20'
+              }`}
+            >
+              ❤️ Likes
+            </button>
+          </div>
         </div>
 
         {/* Leaderboard */}
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
-            <div className="p-6 border-b border-white/20">
-              <h2 className="text-2xl font-bold text-white mb-4">Top Artists</h2>
-              <div className="flex gap-2">
-                {(['all', 'week', 'month'] as const).map((period) => (
-                  <button
-                    key={period}
-                    onClick={() => setTimeframe(period)}
-                    className={`px-4 py-2 rounded-full font-medium transition-all ${
-                      timeframe === period
-                        ? 'bg-white text-purple-900'
-                        : 'bg-white/10 text-white hover:bg-white/20'
-                    }`}
-                  >
-                    {period === 'all' ? 'All Time' : period === 'week' ? 'This Week' : 'This Month'}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="divide-y divide-white/10">
+          <div className="cyber-card p-6">
+            <h2 className="text-2xl font-bold cyber-text mb-6 text-center" style={{ fontFamily: 'var(--font-header)' }}>
+              Top Artists - {getSortLabel(sortBy)}
+            </h2>
+            
+            <div className="space-y-4">
               {leaderboard.map((entry) => (
-                <div key={entry.username} className="p-6 hover:bg-white/5 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div className="text-2xl">{getRankEmoji(entry.rank)}</div>
-                      <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                        <span className="text-white font-bold text-lg">
-                          {entry.username.charAt(0).toUpperCase()}
-                        </span>
-                      </div>
-                      <div>
-                        <div className="text-white font-semibold text-lg">
-                          {entry.full_name}
-                        </div>
-                        <div className="text-gray-300 text-sm">
-                          @{entry.username}
-                        </div>
-                      </div>
+                <div key={entry.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10 hover:border-cyan-500/50 transition-all">
+                  <div className="flex items-center space-x-4">
+                    <div className="text-2xl font-bold text-cyan-400">
+                      {getRankIcon(entry.rank)}
                     </div>
-                    
-                    <div className="text-right">
-                      <div className="text-white font-bold text-xl">
-                        {entry.total_votes.toLocaleString()}
-                      </div>
-                      <div className="text-gray-300 text-sm">
-                        {entry.submissions_count} submission{entry.submissions_count !== 1 ? 's' : ''}
-                      </div>
+                    <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                      {entry.avatar_url ? (
+                        <Image
+                          src={entry.avatar_url}
+                          alt={entry.full_name}
+                          width={48}
+                          height={48}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-white font-bold text-lg">
+                          {entry.full_name.charAt(0).toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white">{entry.full_name}</h3>
+                      <p className="text-cyan-300 text-sm">@{entry.username}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-6 text-right">
+                    <div>
+                      <div className="text-2xl font-bold text-cyan-400">{entry.total_wins}</div>
+                      <div className="text-xs text-white/60">Wins</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-purple-400">{entry.total_submissions}</div>
+                      <div className="text-xs text-white/60">Submissions</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-pink-400">{entry.total_likes}</div>
+                      <div className="text-xs text-white/60">Likes</div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+          </div>
 
-            {leaderboard.length === 0 && (
-              <div className="p-12 text-center">
-                <div className="text-gray-400 text-lg">No artists found</div>
-                <div className="text-gray-500 text-sm mt-2">Submit your first artwork to get on the leaderboard!</div>
+          {/* Call to Action */}
+          <div className="text-center mt-8">
+            <div className="cyber-card p-6 max-w-2xl mx-auto">
+              <h2 className="text-2xl font-bold cyber-text mb-4" style={{ fontFamily: 'var(--font-header)' }}>
+                Want to Climb the Ranks?
+              </h2>
+              <p className="text-white/80 mb-6">Submit your best artwork and compete for the top spot!</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  href="/submit"
+                  className="cyber-btn text-lg transform hover:scale-105 transition-all duration-300"
+                >
+                  🎨 Submit Artwork
+                </Link>
+                <Link
+                  href="/contests"
+                  className="cyber-card text-lg hover:bg-white/20 transition-all"
+                >
+                  🏆 View Contests
+                </Link>
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>

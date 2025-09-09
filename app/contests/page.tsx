@@ -108,7 +108,7 @@ export default function ContestsPage() {
           }}>
             Active Contests
           </h1>
-          <p className="text-lg text-white/80 mb-6">Compete for prizes and jackpot spots</p>
+          <p className="text-lg text-white/80 mb-6">Win contests to earn entries for our future money draw!</p>
         </div>
 
         {/* Contests Grid */}
@@ -146,9 +146,14 @@ export default function ContestsPage() {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-white/60 text-sm">Prize</span>
-                      <span className="text-yellow-400 font-bold text-lg">
-                        ${contest.prize_amount.toLocaleString()}
-                      </span>
+                      <div className="text-right">
+                        <div className="text-yellow-400 font-bold text-lg">
+                          5 Entries
+                        </div>
+                        <div className="text-cyan-300 text-xs">
+                          Future Money Draw
+                        </div>
+                      </div>
                     </div>
 
                     <div className="flex justify-between items-center">
@@ -167,15 +172,23 @@ export default function ContestsPage() {
                   </div>
 
                   <div className="mt-6 space-y-2">
-                    <Link
-                      href={`/contest/${contest.id}`}
-                      className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 px-4 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all text-center block"
-                    >
-                      View Contest
-                    </Link>
+                    <div className="space-y-2">
+                      <Link
+                        href={`/contest/${contest.id}/vote`}
+                        className="w-full bg-gradient-to-r from-green-500 to-teal-500 text-white py-2 px-4 rounded-lg font-medium hover:from-green-600 hover:to-teal-600 transition-all text-center block"
+                      >
+                        🗳️ Vote Now
+                      </Link>
+                      <Link
+                        href={`/contest/${contest.id}`}
+                        className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 px-4 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all text-center block"
+                      >
+                        View Details
+                      </Link>
+                    </div>
                     <Link
                       href="/submit"
-                      className="w-full bg-white/10 text-white py-2 px-4 rounded-lg font-medium hover:bg-white/20 transition-all text-center block"
+                      className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white py-2 px-4 rounded-lg font-medium transition-all text-center block"
                     >
                       Submit Entry
                     </Link>

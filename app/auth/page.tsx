@@ -8,17 +8,17 @@ export default function AuthPage() {
   const [view, setView] = useState<'sign_in' | 'sign_up'>('sign_in')
 
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden">
+    <div className="min-h-screen cyber-bg">
       <SocialNavbar />
       
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-md mx-auto">
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+          <div className="cyber-card p-8">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-white mb-2">
+              <h1 className="text-4xl font-bold cyber-text mb-4" style={{ fontFamily: 'var(--font-header)' }}>
                 {view === 'sign_in' ? 'Welcome Back' : 'Join Creative Challenge'}
               </h1>
-              <p className="text-white/70">
+              <p className="text-cyan-300 text-lg">
                 {view === 'sign_in' 
                   ? 'Sign in to your account' 
                   : 'Create your account to start creating and voting'
@@ -33,7 +33,7 @@ export default function AuthPage() {
                 onClick={() => {
                   setView(view === 'sign_in' ? 'sign_up' : 'sign_in')
                 }}
-                className="text-blue-400 hover:text-blue-300 transition-colors text-sm"
+                className="text-cyan-400 hover:text-cyan-300 transition-colors text-lg font-bold"
               >
                 {view === 'sign_in' 
                   ? "Don't have an account? Sign up" 

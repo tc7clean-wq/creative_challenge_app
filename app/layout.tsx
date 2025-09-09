@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
-import { Orbitron, Roboto_Mono } from "next/font/google";
+import { Cinzel_Decorative, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import ParticleBackground from "@/components/ParticleBackground";
+import ClockworkGears from "@/components/ClockworkGears";
 
-const orbitron = Orbitron({ 
+const cinzelDecorative = Cinzel_Decorative({ 
   subsets: ["latin"],
-  variable: "--font-orbitron",
+  weight: "700",
+  variable: "--font-cinzel-decorative",
   display: "swap"
 });
 
@@ -17,8 +19,8 @@ const robotoMono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "System Online - Creative Challenge App",
-  description: "Your consciousness has been uploaded. Submit your artwork and compete in creative challenges.",
+  title: "System Chronos - Creative Challenge App",
+  description: "The Digital Engine Comes to Life. Submit your artwork and compete in creative challenges.",
 };
 
 export default function RootLayout({
@@ -31,12 +33,9 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link 
-          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto+Mono:wght@400;700&display=swap" 
-          rel="stylesheet" 
-        />
       </head>
-      <body className={`${orbitron.variable} ${robotoMono.variable} cyber-bg`}>
+      <body className={`${cinzelDecorative.variable} ${robotoMono.variable} clockwork-neon-bg`}>
+        <ClockworkGears />
         <ParticleBackground />
         <ErrorBoundary>
           {children}

@@ -3,8 +3,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import AdminNavbar from '@/components/layout/AdminNavbar'
-import AdminGuard from '@/components/auth/AdminGuard'
+// AdminGuard removed - using inline admin check
 
 interface Submission {
   id: string
@@ -126,7 +127,7 @@ export default function AdminSubmissionsPage() {
   }
 
   return (
-    <AdminGuard>
+    <div>
       <div className="min-h-screen cyber-bg p-6">
         <AdminNavbar />
         <div className="max-w-7xl mx-auto">
@@ -174,9 +175,11 @@ export default function AdminSubmissionsPage() {
             <div key={submission.id} className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
               {/* Image */}
               <div className="aspect-square mb-4 rounded-lg overflow-hidden">
-                <img
+                <Image
                   src={submission.image_url}
                   alt={submission.title}
+                  width={400}
+                  height={400}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -255,6 +258,6 @@ export default function AdminSubmissionsPage() {
         )}
         </div>
       </div>
-    </AdminGuard>
+    </div>
   )
 }

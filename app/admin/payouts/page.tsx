@@ -2,115 +2,43 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/utils/supabase/client'
-import NavigationHeader from '@/components/navigation/NavigationHeader'
-import type { SupabaseClient } from '@/types/supabase'
+import SocialNavbar from '@/components/layout/SocialNavbar'
+import Link from 'next/link'
 
-interface ContestPayout {
+interface Payout {
   id: string
   contest_id: string
-  user_id: string
-  submission_id: string
-  position: number
-  prize_amount: number
-  platform_fee: number
-  net_amount: number
-  payout_status: 'pending' | 'processing' | 'paid' | 'failed' | 'cancelled'
-  payout_method: 'chime' | 'paypal' | 'stripe' | 'manual'
-  payout_date?: string
-  failure_reason?: string
+  contest_name: string
+  winner_id: string
+  winner_name: string
+  winner_username: string
+  amount: number
+  status: 'pending' | 'processing' | 'completed' | 'failed'
   created_at: string
-  contest_title?: string
-  user_email?: string
-  chime_username?: string
-  paypal_email?: string
-  stripe_account_id?: string
+  processed_at?: string
+  payment_method: string
+  transaction_id?: string
 }
 
-interface PayoutBatch {
-  id: string
-  contest_id: string
-  batch_name: string
-  total_amount: number
-  total_payouts: number
-  status: 'pending' | 'processing' | 'completed' | 'failed' | 'partial'
-  processed_at?: string
-  created_at: string
+interface AdminPermissions {
+  canCreateContests: boolean
+  canManagePayouts: boolean
+  canManagePlatform: boolean
 }
 
 export default function AdminPayoutsPage() {
-  const [payouts, setPayouts] = useState<ContestPayout[]>([])
-  const [batches, setBatches] = useState<PayoutBatch[]>([])
-  const [loading, setLoading] = useState(true)
-  const [selectedPayouts, setSelectedPayouts] = useState<string[]>([])
-  const [processing, setProcessing] = useState(false)
-  const [filter, setFilter] = useState<'all' | 'pending' | 'processing' | 'paid' | 'failed'>('all')
-  const [user, setUser] = useState<{ id: string; email?: string } | null>(null)
-  const [isAdmin, setIsAdmin] = useState<{
-    canCreateContests: boolean;
-    canManagePayouts: boolean;
-    canManagePlatform: boolean;
-  }>({
+  const [user, setUser] = useState<unknown>(null)
+  const [isAdmin, setIsAdmin] = useState<AdminPermissions>({
     canCreateContests: false,
     canManagePayouts: false,
     canManagePlatform: false
   })
-  const [supabase, setSupabase] = useState<SupabaseClient | null>(null)
+  const [payouts, setPayouts] = useState<Payout[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const fetchPayouts = useCallback(async () => {
-    if (!supabase) return
+  const checkAdminAndFetchPayouts = useCallback(async () => {
     try {
-      const { data, error } = await supabase
-        .from('contest_payouts')
-        .select(`
-          *,
-          contests(title),
-          profiles(email),
-          artist_accounts(chime_username, paypal_email, stripe_account_id)
-        `)
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-
-      const formattedPayouts = data?.map(payout => ({
-        ...payout,
-        contest_title: payout.contests?.title,
-        user_email: payout.profiles?.email,
-        chime_username: payout.artist_accounts?.chime_username,
-        paypal_email: payout.artist_accounts?.paypal_email,
-        stripe_account_id: payout.artist_accounts?.stripe_account_id
-      })) || []
-
-      setPayouts(formattedPayouts)
-    } catch (err) {
-      console.error('Error fetching payouts:', err)
-    }
-  }, [supabase])
-
-  const fetchBatches = useCallback(async () => {
-    if (!supabase) return
-    try {
-      const { data, error } = await supabase
-        .from('payout_batches')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      setBatches(data || [])
-    } catch (err) {
-      console.error('Error fetching batches:', err)
-    }
-  }, [supabase])
-
-  useEffect(() => {
-    // Initialize Supabase client
-    const client = createClient()
-    setSupabase(client)
-  }, [])
-
-  useEffect(() => {
-    if (!supabase) return
-
-    const fetchData = async () => {
+      const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
 
@@ -120,12 +48,11 @@ export default function AdminPayoutsPage() {
           .select('is_admin')
           .eq('id', user.id)
           .single()
-        
-        // Controlled admin access - only authorized users can manage payouts
-        const canCreateContests = true
-        const canManagePayouts = profile?.is_admin || (user.email && user.email.endsWith('@creativechallenge.app'))
-        const canManagePlatform = profile?.is_admin || (user.email && user.email.endsWith('@creativechallenge.app'))
-        
+
+        const canCreateContests = profile?.is_admin || false
+        const canManagePayouts = profile?.is_admin || false
+        const canManagePlatform = profile?.is_admin || false
+
         setIsAdmin({
           canCreateContests,
           canManagePayouts,
@@ -133,336 +60,310 @@ export default function AdminPayoutsPage() {
         })
 
         if (canManagePayouts) {
-          await fetchPayouts()
-          await fetchBatches()
+          fetchPayouts()
         }
       }
+    } catch (error) {
+      console.error('Error checking admin status:', error)
+    } finally {
       setLoading(false)
     }
-    
-    fetchData()
-  }, [supabase, fetchPayouts, fetchBatches])
+  }, [])
 
-  const handlePayoutStatusUpdate = async (payoutId: string, newStatus: string, failureReason?: string) => {
-    if (!supabase) return
+  useEffect(() => {
+    checkAdminAndFetchPayouts()
+  }, [checkAdminAndFetchPayouts])
+
+  const fetchPayouts = async () => {
     try {
-      const { error } = await supabase
-        .from('contest_payouts')
-        .update({
-          payout_status: newStatus,
-          payout_date: newStatus === 'paid' ? new Date().toISOString() : null,
-          failure_reason: failureReason || null
-        })
-        .eq('id', payoutId)
-
-      if (error) throw error
-      fetchPayouts()
-    } catch (err) {
-      console.error('Error updating payout status:', err)
-    }
-  }
-
-  const createPayoutBatch = async () => {
-    if (selectedPayouts.length === 0 || !supabase) return
-
-    setProcessing(true)
-    try {
-      const selectedPayoutData = payouts.filter(p => selectedPayouts.includes(p.id))
-      const totalAmount = selectedPayoutData.reduce((sum, p) => sum + p.net_amount, 0)
-      
-      const { error: batchError } = await supabase
-        .from('payout_batches')
-        .insert([{
-          contest_id: selectedPayoutData[0]?.contest_id,
-          batch_name: `Batch ${new Date().toISOString().split('T')[0]}`,
-          total_amount: totalAmount,
-          total_payouts: selectedPayouts.length,
+      // Mock data - replace with actual query
+      const mockPayouts: Payout[] = [
+        {
+          id: '1',
+          contest_id: 'contest_1',
+          contest_name: 'Cyberpunk Art Challenge',
+          winner_id: 'user_1',
+          winner_name: 'Alex Chen',
+          winner_username: 'cyber_artist_1',
+          amount: 5, // 5 entries for future money draw
+          status: 'completed',
+          created_at: '2024-01-15T10:30:00Z',
+          processed_at: '2024-01-15T11:00:00Z',
+          payment_method: 'entries',
+          transaction_id: 'entry_001'
+        },
+        {
+          id: '2',
+          contest_id: 'contest_2',
+          contest_name: 'Digital Dreams Contest',
+          winner_id: 'user_2',
+          winner_name: 'Maya Rodriguez',
+          winner_username: 'neon_creator',
+          amount: 5,
           status: 'pending',
-          created_by: user?.id
-        }])
-        .select()
-        .single()
+          created_at: '2024-01-16T14:20:00Z',
+          payment_method: 'entries'
+        },
+        {
+          id: '3',
+          contest_id: 'contest_3',
+          contest_name: 'AI Art Showcase',
+          winner_id: 'user_3',
+          winner_name: 'Jordan Kim',
+          winner_username: 'digital_dreamer',
+          amount: 5,
+          status: 'processing',
+          created_at: '2024-01-17T09:15:00Z',
+          payment_method: 'entries',
+          transaction_id: 'entry_003'
+        }
+      ]
 
-      if (batchError) throw batchError
-
-      // Update selected payouts to processing
-      const { error: updateError } = await supabase
-        .from('contest_payouts')
-        .update({ payout_status: 'processing' })
-        .in('id', selectedPayouts)
-
-      if (updateError) throw updateError
-
-      setSelectedPayouts([])
-      fetchPayouts()
-      fetchBatches()
-    } catch (err) {
-      console.error('Error creating batch:', err)
-    } finally {
-      setProcessing(false)
+      setPayouts(mockPayouts)
+    } catch (error) {
+      console.error('Error fetching payouts:', error)
     }
   }
 
-  const filteredPayouts = payouts.filter(payout => {
-    if (filter === 'all') return true
-    return payout.payout_status === filter
-  })
+  const processPayout = async (payoutId: string) => {
+    try {
+      // Mock processing - replace with actual API call
+      setPayouts(prev => prev.map(payout => 
+        payout.id === payoutId 
+          ? { ...payout, status: 'processing' as const }
+          : payout
+      ))
+      
+      // Simulate processing delay
+      setTimeout(() => {
+        setPayouts(prev => prev.map(payout => 
+          payout.id === payoutId 
+            ? { 
+                ...payout, 
+                status: 'completed' as const,
+                processed_at: new Date().toISOString(),
+                transaction_id: `entry_${payoutId}`
+              }
+            : payout
+        ))
+      }, 2000)
+    } catch (error) {
+      console.error('Error processing payout:', error)
+    }
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'completed': return 'text-green-400 bg-green-500/20'
+      case 'processing': return 'text-yellow-400 bg-yellow-500/20'
+      case 'pending': return 'text-blue-400 bg-blue-500/20'
+      case 'failed': return 'text-red-400 bg-red-500/20'
+      default: return 'text-gray-400 bg-gray-500/20'
+    }
+  }
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'completed': return '✅'
+      case 'processing': return '⏳'
+      case 'pending': return '⏸️'
+      case 'failed': return '❌'
+      default: return '❓'
+    }
+  }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
+      <div className="cyber-bg min-h-screen">
+        <SocialNavbar />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <div className="text-2xl text-cyan-300">Loading payouts...</div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className="cyber-bg min-h-screen">
+        <SocialNavbar />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold cyber-text mb-4" style={{ fontFamily: 'var(--font-header)' }}>
+              Access Denied
+            </h1>
+            <p className="text-lg text-cyan-300 mb-6">Please log in to access the admin panel</p>
+            <Link href="/auth" className="cyber-btn">Go to Login</Link>
+          </div>
+        </div>
       </div>
     )
   }
 
   if (!isAdmin.canManagePayouts) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">Access Denied</h1>
-          <p className="text-white/70">You need admin privileges to access this page.</p>
+      <div className="cyber-bg min-h-screen">
+        <SocialNavbar />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold cyber-text mb-4" style={{ fontFamily: 'var(--font-header)' }}>
+              Access Denied
+            </h1>
+            <p className="text-lg text-cyan-300 mb-6">You don&apos;t have permission to manage payouts</p>
+            <Link href="tc7clean@gmail.com" className="cyber-btn">Back to Admin Panel</Link>
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      <NavigationHeader />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-4">
-            💰 Payout Management
+    <div className="cyber-bg min-h-screen">
+      <SocialNavbar />
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold cyber-text glitch mb-2" data-text="[PAYOUT MANAGEMENT]" style={{ fontFamily: 'var(--font-header)' }}>
+            [PAYOUT MANAGEMENT]
           </h1>
-          <p className="text-white/70">
-            Manage contest payouts and track payment status
-          </p>
+          <p className="text-lg text-cyan-300 mb-6">{'// Manage contest winnings and entries'}</p>
         </div>
 
-        {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-            <div className="text-2xl font-bold text-yellow-400 mb-1">
-              ${payouts.filter(p => p.payout_status === 'pending').reduce((sum, p) => sum + p.net_amount, 0).toLocaleString()}
+        <div className="max-w-6xl mx-auto">
+          {/* Payout Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div className="cyber-card p-6 text-center">
+              <div className="text-3xl font-bold text-cyan-400 mb-2">
+                {payouts.filter(p => p.status === 'completed').length}
+              </div>
+              <div className="text-white/60">Completed</div>
             </div>
-            <div className="text-white/60 text-sm">Pending Payouts</div>
-          </div>
-          
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-            <div className="text-2xl font-bold text-blue-400 mb-1">
-              ${payouts.filter(p => p.payout_status === 'paid').reduce((sum, p) => sum + p.net_amount, 0).toLocaleString()}
+            <div className="cyber-card p-6 text-center">
+              <div className="text-3xl font-bold text-yellow-400 mb-2">
+                {payouts.filter(p => p.status === 'processing').length}
+              </div>
+              <div className="text-white/60">Processing</div>
             </div>
-            <div className="text-white/60 text-sm">Paid Out</div>
-          </div>
-          
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-            <div className="text-2xl font-bold text-green-400 mb-1">
-              {payouts.filter(p => p.payout_status === 'pending').length}
+            <div className="cyber-card p-6 text-center">
+              <div className="text-3xl font-bold text-blue-400 mb-2">
+                {payouts.filter(p => p.status === 'pending').length}
+              </div>
+              <div className="text-white/60">Pending</div>
             </div>
-            <div className="text-white/60 text-sm">Pending Count</div>
-          </div>
-          
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-            <div className="text-2xl font-bold text-purple-400 mb-1">
-              {batches.length}
+            <div className="cyber-card p-6 text-center">
+              <div className="text-3xl font-bold text-purple-400 mb-2">
+                {payouts.length * 5}
+              </div>
+              <div className="text-white/60">Total Entries</div>
             </div>
-            <div className="text-white/60 text-sm">Total Batches</div>
           </div>
-        </div>
 
-        {/* Filters and Actions */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 mb-8">
-          <div className="flex flex-wrap gap-4 items-center justify-between">
-            <div className="flex gap-2">
-              {(['all', 'pending', 'processing', 'paid', 'failed'] as const).map((status) => (
-                <button
-                  key={status}
-                  onClick={() => setFilter(status)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                    filter === status
-                      ? 'bg-white/20 text-white'
-                      : 'bg-white/5 text-white/70 hover:bg-white/10'
-                  }`}
-                >
-                  {status.charAt(0).toUpperCase() + status.slice(1)}
-                </button>
-              ))}
-            </div>
+          {/* Payouts Table */}
+          <div className="cyber-card p-6">
+            <h2 className="text-2xl font-bold cyber-text mb-6" style={{ fontFamily: 'var(--font-header)' }}>
+              Contest Winnings
+            </h2>
             
-            {selectedPayouts.length > 0 && (
-              <button
-                onClick={createPayoutBatch}
-                disabled={processing}
-                className="bg-gradient-to-r from-green-500 to-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:from-green-600 hover:to-blue-700 transition-all duration-300 disabled:opacity-50"
-              >
-                {processing ? 'Creating...' : `Create Batch (${selectedPayouts.length})`}
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Payouts Table */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-          <h2 className="text-2xl font-bold text-white mb-6">Contest Payouts</h2>
-          
-          <div className="overflow-x-auto">
-            <table className="w-full text-white">
-              <thead>
-                <tr className="border-b border-white/20">
-                  <th className="text-left py-3">
-                    <input
-                      type="checkbox"
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedPayouts(filteredPayouts.filter(p => p.payout_status === 'pending').map(p => p.id))
-                        } else {
-                          setSelectedPayouts([])
-                        }
-                      }}
-                      className="rounded"
-                    />
-                  </th>
-                  <th className="text-left py-3">Contest</th>
-                  <th className="text-left py-3">Winner</th>
-                  <th className="text-left py-3">Position</th>
-                  <th className="text-left py-3">Amount</th>
-                  <th className="text-left py-3">Method</th>
-                  <th className="text-left py-3">Status</th>
-                  <th className="text-left py-3">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredPayouts.map((payout) => (
-                  <tr key={payout.id} className="border-b border-white/10">
-                    <td className="py-3">
-                      {payout.payout_status === 'pending' && (
-                        <input
-                          type="checkbox"
-                          checked={selectedPayouts.includes(payout.id)}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setSelectedPayouts([...selectedPayouts, payout.id])
-                            } else {
-                              setSelectedPayouts(selectedPayouts.filter(id => id !== payout.id))
-                            }
-                          }}
-                          className="rounded"
-                        />
-                      )}
-                    </td>
-                    <td className="py-3">{payout.contest_title}</td>
-                    <td className="py-3">{payout.user_email}</td>
-                    <td className="py-3">
-                      <span className="text-lg">
-                        {payout.position === 1 ? '🥇' : payout.position === 2 ? '🥈' : '🥉'}
-                      </span>
-                      {payout.position}
-                    </td>
-                    <td className="py-3 font-bold text-green-400">
-                      ${payout.net_amount.toLocaleString()}
-                    </td>
-                    <td className="py-3">
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg">
-                          {payout.payout_method === 'chime' ? '🏦' : 
-                           payout.payout_method === 'paypal' ? '💙' : '💳'}
-                        </span>
-                        <span className="capitalize">{payout.payout_method}</span>
-                      </div>
-                      <div className="text-xs text-white/60">
-                        {payout.payout_method === 'chime' && payout.chime_username && `@${payout.chime_username}`}
-                        {payout.payout_method === 'paypal' && payout.paypal_email}
-                        {payout.payout_method === 'stripe' && payout.stripe_account_id}
-                      </div>
-                    </td>
-                    <td className="py-3">
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        payout.payout_status === 'pending' ? 'bg-yellow-500/20 text-yellow-300' :
-                        payout.payout_status === 'processing' ? 'bg-blue-500/20 text-blue-300' :
-                        payout.payout_status === 'paid' ? 'bg-green-500/20 text-green-300' :
-                        'bg-red-500/20 text-red-300'
-                      }`}>
-                        {payout.payout_status}
-                      </span>
-                    </td>
-                    <td className="py-3">
-                      <div className="flex gap-2">
-                        {payout.payout_status === 'pending' && (
-                          <>
+            {payouts.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="text-6xl mb-4">💰</div>
+                <h3 className="text-xl font-bold cyber-text mb-4" style={{ fontFamily: 'var(--font-header)' }}>
+                  No Payouts Yet
+                </h3>
+                <p className="text-white/80 mb-6">Contest winners will appear here once contests are completed</p>
+                <a href="mailto:tc7clean@gmail.com" className="cyber-btn">
+                  Contact Admin
+                </a>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-white/20">
+                      <th className="text-left py-3 px-4 text-cyan-300 font-medium">Contest</th>
+                      <th className="text-left py-3 px-4 text-cyan-300 font-medium">Winner</th>
+                      <th className="text-left py-3 px-4 text-cyan-300 font-medium">Prize</th>
+                      <th className="text-left py-3 px-4 text-cyan-300 font-medium">Status</th>
+                      <th className="text-left py-3 px-4 text-cyan-300 font-medium">Date</th>
+                      <th className="text-left py-3 px-4 text-cyan-300 font-medium">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {payouts.map((payout) => (
+                      <tr key={payout.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                        <td className="py-4 px-4">
+                          <div className="font-medium text-white">{payout.contest_name}</div>
+                          <div className="text-sm text-white/60">ID: {payout.contest_id}</div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="font-medium text-white">{payout.winner_name}</div>
+                          <div className="text-sm text-white/60">@{payout.winner_username}</div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="font-bold text-cyan-400">{payout.amount} Entries</div>
+                          <div className="text-sm text-white/60">Future Money Draw</div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(payout.status)}`}>
+                            {getStatusIcon(payout.status)} {payout.status.toUpperCase()}
+                          </span>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="text-white">{new Date(payout.created_at).toLocaleDateString()}</div>
+                          {payout.processed_at && (
+                            <div className="text-sm text-white/60">
+                              Processed: {new Date(payout.processed_at).toLocaleDateString()}
+                            </div>
+                          )}
+                        </td>
+                        <td className="py-4 px-4">
+                          {payout.status === 'pending' && (
                             <button
-                              onClick={() => handlePayoutStatusUpdate(payout.id, 'processing')}
-                              className="text-blue-400 hover:text-blue-300 text-sm"
+                              onClick={() => processPayout(payout.id)}
+                              className="cyber-btn text-sm px-4 py-2"
                             >
                               Process
                             </button>
-                            <button
-                              onClick={() => handlePayoutStatusUpdate(payout.id, 'paid')}
-                              className="text-green-400 hover:text-green-300 text-sm"
-                            >
-                              Mark Paid
-                            </button>
-                          </>
-                        )}
-                        {payout.payout_status === 'processing' && (
-                          <button
-                            onClick={() => handlePayoutStatusUpdate(payout.id, 'paid')}
-                            className="text-green-400 hover:text-green-300 text-sm"
-                          >
-                            Mark Paid
-                          </button>
-                        )}
-                        {payout.payout_status === 'failed' && (
-                          <button
-                            onClick={() => handlePayoutStatusUpdate(payout.id, 'pending')}
-                            className="text-yellow-400 hover:text-yellow-300 text-sm"
-                          >
-                            Retry
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                          )}
+                          {payout.status === 'completed' && (
+                            <div className="text-green-400 text-sm">
+                              ✅ Processed
+                            </div>
+                          )}
+                          {payout.status === 'processing' && (
+                            <div className="text-yellow-400 text-sm">
+                              ⏳ Processing...
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
-        </div>
 
-        {/* Recent Batches */}
-        {batches.length > 0 && (
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 mt-8">
-            <h2 className="text-2xl font-bold text-white mb-6">Recent Payout Batches</h2>
-            
-            <div className="space-y-4">
-              {batches.slice(0, 5).map((batch) => (
-                <div key={batch.id} className="bg-white/5 rounded-lg p-4 border border-white/10">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h3 className="font-semibold text-white">{batch.batch_name}</h3>
-                      <p className="text-white/60 text-sm">
-                        {batch.total_payouts} payouts • ${batch.total_amount.toLocaleString()}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        batch.status === 'pending' ? 'bg-yellow-500/20 text-yellow-300' :
-                        batch.status === 'processing' ? 'bg-blue-500/20 text-blue-300' :
-                        batch.status === 'completed' ? 'bg-green-500/20 text-green-300' :
-                        'bg-red-500/20 text-red-300'
-                      }`}>
-                        {batch.status}
-                      </span>
-                      <div className="text-white/60 text-xs mt-1">
-                        {new Date(batch.created_at).toLocaleDateString()}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+          {/* Prize System Info */}
+          <div className="mt-8 cyber-card p-6">
+            <h3 className="text-xl font-bold cyber-text mb-4" style={{ fontFamily: 'var(--font-header)' }}>
+              Prize System Information
+            </h3>
+            <div className="bg-blue-900/30 border border-blue-500/30 rounded-lg p-4">
+              <p className="text-blue-200 text-sm mb-2">
+                <strong>Current System:</strong> Each contest win awards 5 entries into our future money draw.
+              </p>
+              <p className="text-blue-200 text-sm mb-2">
+                <strong>Entry Tracking:</strong> All entries are automatically tracked and stored in the system.
+              </p>
+              <p className="text-blue-200 text-sm">
+                <strong>Future Draw:</strong> We will announce the money draw date and process all accumulated entries.
+              </p>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   )

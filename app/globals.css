@@ -2,231 +2,164 @@
 @tailwind components;
 @tailwind utilities;
 
-/* === DYNAMIC CYBERPUNK THEME V2 === */
+/* === CLOCKWORK NEON THEME (CYBERPUNK + STEAMPUNK) === */
 
+/* 1. ROOT VARIABLES & GLOBAL STYLES */
 :root {
-    --cyber-black: #0d0d0d;
-    --cyber-glow: #00f7ff;
-    --cyber-secondary: #f700ff;
-    --cyber-text: #cdd0d4;
-    --font-primary: 'Orbitron', sans-serif;
-    --font-secondary: 'Roboto Mono', monospace;
+    --steampunk-brass: #c59d5f;
+    --steampunk-bronze: #8c5e2a;
+    --cyber-glow: #00f7ff; /* The neon heart */
+    --dark-carbon: #121212;
+    --dark-iron: #222;
+    --text-color: #d4c9b8;
+    --font-header: 'Cinzel Decorative', serif; /* Steampunk elegance */
+    --font-body: 'Roboto Mono', monospace; /* Cyberpunk data */
 }
 
 body {
-    background-color: var(--cyber-black);
-    color: var(--cyber-text);
-    font-family: var(--font-secondary);
+    background-color: var(--dark-carbon);
+    background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); /* Subtle carbon fiber texture */
+    color: var(--text-color);
+    font-family: var(--font-body);
     margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
-/* 1. NEW ANIMATED PARTICLE BACKGROUND */
-.particles-background {
+/* 2. ANIMATED GEAR BACKGROUND */
+.gear-bg {
     position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: -1; /* Place it behind all content */
+    font-size: 20vw;
+    color: var(--dark-iron);
+    z-index: -2;
+    opacity: 0.5;
+    animation: rotate-gear 60s linear infinite;
+}
+.gear-1 { top: -5vw; left: -5vw; }
+.gear-2 { bottom: -10vw; right: -8vw; font-size: 30vw; animation-duration: 90s; animation-direction: reverse; }
+.gear-3 { top: 40%; left: 25%; font-size: 10vw; animation-duration: 45s; }
+
+@keyframes rotate-gear {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
-/* 2. GENERAL LAYOUT & ANIMATIONS */
-.container { /* A generic container for your sections */
+/* 3. LAYOUT & CONTAINERS */
+.main-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
     position: relative;
     z-index: 2;
-    padding: 40px 20px;
-    max-width: 1100px;
-    margin: 40px auto;
-    background: rgba(18, 18, 22, 0.8);
-    border: 1px solid rgba(0, 247, 255, 0.3);
-    backdrop-filter: blur(10px); /* Frosted glass effect */
-    border-radius: 8px;
-    animation: fadeIn 1s ease-in-out;
+}
+
+.main-header { 
+    text-align: center; 
+    margin-bottom: 60px; 
+}
+
+.content-box {
+    background: linear-gradient(145deg, rgba(12, 12, 12, 0.7), rgba(24, 24, 24, 0.7));
+    border: 2px solid var(--steampunk-bronze);
+    border-radius: 4px;
+    padding: 30px;
+    margin-bottom: 40px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    animation: fadeIn 1s ease-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
 }
 
-/* 3. DYNAMIC UI ELEMENTS */
-.cta-button, .tab-button {
-    font-family: var(--font-primary);
-    padding: 12px 28px;
-    border: 2px solid var(--cyber-glow);
-    color: var(--cyber-glow);
-    background: transparent;
-    text-decoration: none;
-    font-size: 1rem;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.cta-button:hover, .tab-button.active {
-    background: var(--cyber-glow);
-    color: var(--cyber-black);
-    box-shadow: 0 0 25px var(--cyber-glow);
-}
-
-/* Add a subtle shine effect on hover */
-.cta-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(0, 247, 255, 0.4), transparent);
-    transition: left 0.4s ease-in-out;
-}
-
-.cta-button:hover::before {
-    left: 100%;
-}
-
-/* 4. SCANNER LINE EFFECT FOR HEADERS */
+/* 4. TYPOGRAPHY & "VACUUM TUBE" GLOW */
 h1, h2 {
-    font-family: var(--font-primary);
-    color: var(--cyber-glow);
-    position: relative;
-    display: inline-block;
-    margin-bottom: 30px;
-}
-
-h1::after, h2::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -10px;
-    width: 100%;
-    height: 3px;
-    background: var(--cyber-glow);
-    box-shadow: 0 0 10px var(--cyber-glow);
-    animation: scan-line 4s linear infinite;
-}
-
-@keyframes scan-line {
-    0% { width: 0%; left: 0; }
-    50% { width: 100%; left: 0; }
-    100% { width: 0%; left: 100%; }
-}
-
-a {
-    color: var(--cyber-secondary);
-    text-decoration: none;
-    transition: text-shadow 0.3s;
-}
-
-a:hover {
-    text-decoration: underline;
-    text-shadow: 0 0 8px var(--cyber-secondary);
-}
-
-/* 5. HERO SECTION & ANIMATED BACKGROUND */
-.hero-section {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    padding: 20px;
-    background: rgba(13, 13, 13, 0.7);
-    border: 1px solid var(--cyber-glow);
-    box-shadow: 0 0 20px var(--cyber-glow);
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
-    animation: fadeIn 1s ease-in-out;
-}
-
-/* 6. TYPOGRAPHY & GLITCH EFFECT */
-.hero-content h1 {
-    font-family: var(--font-primary);
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    color: var(--cyber-glow);
-    text-transform: uppercase;
-    margin: 0;
-    position: relative;
+    font-family: var(--font-header);
+    color: var(--steampunk-brass);
+    text-shadow: 0 0 2px var(--steampunk-bronze), 0 0 10px var(--cyber-glow); /* Brass text with a neon hum */
+    margin: 0 0 15px;
 }
 
 .glitch {
-    position: relative;
-    text-shadow: 0.05em 0 0 rgba(247,0,255,0.75), -0.05em 0 0 rgba(0,247,255,0.75);
-    animation: glitch-fx 5s infinite;
+    animation: glitch-fx 8s infinite steps(2, end);
 }
 
-@keyframes glitch-fx {
-    0% { text-shadow: 0.05em 0 0 rgba(247,0,255,0.75), -0.05em 0 0 rgba(0,247,255,0.75); }
-    14% { text-shadow: 0.05em 0 0 rgba(247,0,255,0.75), -0.05em 0 0 rgba(0,247,255,0.75); }
-    15% { text-shadow: -0.05em -0.025em 0 rgba(247,0,255,0.75), 0.025em 0.025em 0 rgba(0,247,255,0.75); }
-    49% { text-shadow: -0.05em -0.025em 0 rgba(247,0,255,0.75), 0.025em 0.025em 0 rgba(0,247,255,0.75); }
-    50% { text-shadow: 0.025em 0.05em 0 rgba(247,0,255,0.75), 0.05em 0 0 rgba(0,247,255,0.75); }
-    99% { text-shadow: 0.025em 0.05em 0 rgba(247,0,255,0.75), 0.05em 0 0 rgba(0,247,255,0.75); }
-    100% { text-shadow: -0.025em 0 0 rgba(247,0,255,0.75), -0.025em -0.05em 0 rgba(0,247,255,0.75); }
+@keyframes glitch-fx { /* A slower, more mechanical glitch */
+    0%, 10%, 100% { text-shadow: 0 0 2px var(--steampunk-bronze), 0 0 10px var(--cyber-glow); }
+    10.5%, 11.5% { text-shadow: 0 0 2px var(--steampunk-bronze), 0 0 15px var(--cyber-glow), 2px 2px 0 var(--cyber-glow), -2px -2px 0 var(--steampunk-bronze); }
+    11%, 12% { text-shadow: 0 0 2px var(--steampunk-bronze), 0 0 5px var(--cyber-glow); }
 }
 
-.sub-header {
-    font-size: 1.2rem;
-    color: var(--cyber-text);
-    margin: 15px 0 30px;
-    text-transform: uppercase;
+.sub-header { 
+    font-style: italic; 
+    color: var(--steampunk-brass); 
 }
 
-/* 7. CONTENT SECTION */
-.content-section {
-    padding: 60px 20px;
-    max-width: 800px;
-    margin: 0 auto;
-    border-top: 1px solid var(--cyber-glow);
-    position: relative;
-    z-index: 2;
-}
-
-.content-section h2 {
-    font-family: var(--font-primary);
+/* 5. BUTTONS & INTERACTIVE ELEMENTS */
+.cta-button {
+    display: inline-block;
+    font-family: var(--font-header);
+    font-weight: 700;
+    padding: 12px 25px;
     color: var(--cyber-glow);
-    text-align: center;
-    margin-bottom: 40px;
+    background: transparent;
+    border: 2px solid var(--steampunk-brass);
+    border-image: linear-gradient(45deg, var(--steampunk-bronze), var(--steampunk-brass)) 1;
+    text-decoration: none;
+    transition: all 0.4s ease;
 }
 
-.content-section a {
-    color: var(--cyber-secondary);
+.cta-button:hover {
+    background: var(--steampunk-brass);
+    color: var(--dark-carbon);
+    box-shadow: 0 0 20px var(--cyber-glow);
+}
+
+a {
+    color: var(--cyber-glow);
     text-decoration: none;
     font-weight: bold;
 }
 
-.content-section a:hover {
+a:hover {
     text-decoration: underline;
-    text-shadow: 0 0 5px var(--cyber-secondary);
+    text-shadow: 0 0 5px var(--cyber-glow);
 }
 
-/* 8. ENHANCED CYBERPUNK COMPONENTS */
-.cyber-bg {
-    background: var(--cyber-black);
-    position: relative;
+/* 6. CLOCKWORK NEON BACKGROUND */
+.clockwork-neon-bg {
+    background: var(--dark-carbon);
+    background-image: 
+        url('https://www.transparenttextures.com/patterns/carbon-fibre.png'),
+        radial-gradient(circle at 20% 50%, rgba(197, 157, 95, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 247, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(140, 94, 42, 0.1) 0%, transparent 50%);
+    background-size: 200px 200px, 400% 400%, 400% 400%, 400% 400%;
+    animation: clockworkShift 20s ease infinite;
 }
 
+@keyframes clockworkShift {
+    0%, 100% { background-position: 0% 50%, 0% 50%, 0% 50%, 0% 50%; }
+    50% { background-position: 200px 200px, 100% 50%, 100% 50%, 100% 50%; }
+}
+
+/* 7. ENHANCED CYBERPUNK COMPONENTS WITH STEAMPUNK ELEMENTS */
 .cyber-card {
-    background: rgba(0, 247, 255, 0.05);
-    border: 1px solid rgba(0, 247, 255, 0.3);
+    background: linear-gradient(145deg, rgba(12, 12, 12, 0.8), rgba(24, 24, 24, 0.8));
+    border: 2px solid var(--steampunk-bronze);
     backdrop-filter: blur(10px);
-    border-radius: 12px;
+    border-radius: 8px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .cyber-card:hover {
-    border-color: var(--cyber-glow);
-    box-shadow: 0 0 20px rgba(0, 247, 255, 0.4);
+    border-color: var(--steampunk-brass);
+    box-shadow: 0 0 30px rgba(0, 247, 255, 0.4), 0 0 15px rgba(197, 157, 95, 0.2);
     transform: translateY(-4px);
 }
 
@@ -236,34 +169,35 @@ a:hover {
     top: 0;
     left: 0;
     right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--cyber-glow), transparent);
-    animation: scanLine 2s linear infinite;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--steampunk-brass), var(--cyber-glow), var(--steampunk-brass), transparent);
+    animation: vacuumTube 3s linear infinite;
 }
 
-@keyframes scanLine {
+@keyframes vacuumTube {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
 }
 
 .cyber-btn {
-    background: linear-gradient(45deg, var(--cyber-glow), var(--cyber-secondary));
-    color: var(--cyber-black);
-    font-family: var(--font-primary);
+    background: linear-gradient(45deg, var(--steampunk-brass), var(--cyber-glow));
+    color: var(--dark-carbon);
+    font-family: var(--font-header);
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border: 2px solid var(--cyber-glow);
+    border: 2px solid var(--steampunk-bronze);
     border-radius: 8px;
     padding: 12px 24px;
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(197, 157, 95, 0.3);
 }
 
 .cyber-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 247, 255, 0.4);
+    box-shadow: 0 10px 25px rgba(0, 247, 255, 0.4), 0 0 20px rgba(197, 157, 95, 0.3);
 }
 
 .cyber-btn::before {
@@ -282,7 +216,7 @@ a:hover {
 }
 
 .cyber-text {
-    background: linear-gradient(45deg, var(--cyber-glow), var(--cyber-secondary), #ffff00);
+    background: linear-gradient(45deg, var(--steampunk-brass), var(--cyber-glow), var(--steampunk-bronze));
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -299,23 +233,23 @@ a:hover {
     box-shadow: 0 0 10px rgba(0, 247, 255, 0.5), 0 0 20px rgba(0, 247, 255, 0.3);
 }
 
-.cyber-glow-pink {
-    box-shadow: 0 0 10px rgba(247, 0, 255, 0.5), 0 0 20px rgba(247, 0, 255, 0.3);
+.cyber-glow-brass {
+    box-shadow: 0 0 10px rgba(197, 157, 95, 0.5), 0 0 20px rgba(197, 157, 95, 0.3);
 }
 
-.cyber-glow-yellow {
-    box-shadow: 0 0 10px rgba(255, 255, 0, 0.5), 0 0 20px rgba(255, 255, 0, 0.3);
+.cyber-glow-bronze {
+    box-shadow: 0 0 10px rgba(140, 94, 42, 0.5), 0 0 20px rgba(140, 94, 42, 0.3);
 }
 
 .cyber-focus:focus {
     outline: none;
-    box-shadow: 0 0 0 2px var(--cyber-glow);
+    box-shadow: 0 0 0 2px var(--steampunk-brass);
 }
 
 .cyber-spinner {
     border: 2px solid transparent;
-    border-top: 2px solid var(--cyber-glow);
-    border-right: 2px solid var(--cyber-secondary);
+    border-top: 2px solid var(--steampunk-brass);
+    border-right: 2px solid var(--cyber-glow);
     border-radius: 50%;
     animation: cyberSpin 1s linear infinite;
 }
@@ -340,66 +274,110 @@ a:hover {
     }
 }
 
-/* Custom scrollbar */
+/* 8. HERO SECTION & ANIMATED BACKGROUND */
+.hero-section {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    background: linear-gradient(145deg, rgba(12, 12, 12, 0.8), rgba(24, 24, 24, 0.8));
+    border: 2px solid var(--steampunk-bronze);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* 9. CONTENT SECTION */
+.content-section {
+    padding: 60px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    border-top: 2px solid var(--steampunk-bronze);
+    position: relative;
+    z-index: 2;
+}
+
+.content-section h2 {
+    font-family: var(--font-header);
+    color: var(--steampunk-brass);
+    text-align: center;
+    margin-bottom: 40px;
+    text-shadow: 0 0 2px var(--steampunk-bronze), 0 0 10px var(--cyber-glow);
+}
+
+.content-section a {
+    color: var(--cyber-glow);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.content-section a:hover {
+    text-decoration: underline;
+    text-shadow: 0 0 5px var(--cyber-glow);
+}
+
+/* 10. FORM ELEMENTS */
+input, textarea, select {
+    background: linear-gradient(145deg, rgba(12, 12, 12, 0.8), rgba(24, 24, 24, 0.8));
+    border: 2px solid var(--steampunk-bronze);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--steampunk-brass);
+    box-shadow: 0 0 10px rgba(197, 157, 95, 0.3);
+}
+
+/* 11. CUSTOM SCROLLBAR */
 ::-webkit-scrollbar {
     width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--cyber-black);
+    background: var(--dark-carbon);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, var(--cyber-glow), var(--cyber-secondary));
+    background: linear-gradient(45deg, var(--steampunk-brass), var(--cyber-glow));
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(45deg, var(--cyber-secondary), var(--cyber-glow));
+    background: linear-gradient(45deg, var(--cyber-glow), var(--steampunk-brass));
 }
 
-/* Selection */
+/* 12. SELECTION */
 ::selection {
-    background: var(--cyber-glow);
-    color: var(--cyber-black);
+    background: var(--steampunk-brass);
+    color: var(--dark-carbon);
 }
 
-/* Typography overrides */
+/* 13. TYPOGRAPHY OVERRIDES */
 h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-primary);
-    color: var(--cyber-glow);
+    font-family: var(--font-header);
+    color: var(--steampunk-brass);
+    text-shadow: 0 0 2px var(--steampunk-bronze), 0 0 10px var(--cyber-glow);
 }
 
-/* Form elements */
-input, textarea, select {
-    background: rgba(0, 247, 255, 0.05);
-    border: 1px solid rgba(0, 247, 255, 0.3);
-    color: var(--cyber-text);
-    font-family: var(--font-secondary);
-    padding: 8px 12px;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-input:focus, textarea:focus, select:focus {
-    outline: none;
-    border-color: var(--cyber-glow);
-    box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
-}
-
-/* Links */
-a {
-    color: var(--cyber-glow);
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-a:hover {
-    color: var(--cyber-secondary);
-    text-shadow: 0 0 5px var(--cyber-secondary);
-}
-
-/* Additional dynamic effects */
+/* 14. ADDITIONAL DYNAMIC EFFECTS */
 .fade-in {
     animation: fadeIn 0.6s ease-in-out;
 }
@@ -441,7 +419,7 @@ a:hover {
     }
 }
 
-/* Loading states */
+/* 15. LOADING STATES */
 .loading {
     position: relative;
     overflow: hidden;
@@ -454,11 +432,38 @@ a:hover {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(197, 157, 95, 0.4), transparent);
     animation: loading 1.5s infinite;
 }
 
 @keyframes loading {
     0% { left: -100%; }
     100% { left: 100%; }
+}
+/* 16. NAVIGATION STYLES */
+nav {
+    background: linear-gradient(145deg, rgba(12, 12, 12, 0.9), rgba(24, 24, 24, 0.9));
+    border: 2px solid var(--steampunk-bronze);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* 17. RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .gear-bg {
+        font-size: 15vw;
+    }
+    
+    .gear-1 { top: -3vw; left: -3vw; }
+    .gear-2 { bottom: -5vw; right: -5vw; font-size: 20vw; }
+    .gear-3 { top: 30%; left: 20%; font-size: 8vw; }
+    
+    .content-box {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .main-container {
+        padding: 20px 10px;
+    }
 }

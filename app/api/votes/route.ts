@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
-import { jackpotService } from '@/lib/services/JackpotService'
+// JackpotService removed - entries handled through contest wins
 
 export async function POST(request: NextRequest) {
   try {
@@ -78,23 +78,8 @@ export async function POST(request: NextRequest) {
       // Don't fail the vote if count update fails
     }
 
-    // Award jackpot entry for community vote
-    try {
-      const jackpotResult = await jackpotService.awardCommunityVote(
-        submission.user_id, // The artist who received the vote
-        submission.contest_id,
-        1 // 1 entry per vote
-      )
-      
-      if (jackpotResult.success) {
-        console.log(`Awarded jackpot entry to artist ${submission.user_id} for community vote`)
-      } else {
-        console.error('Failed to award jackpot entry for vote:', jackpotResult.error)
-      }
-    } catch (jackpotError) {
-      console.error('Error awarding jackpot entry for vote:', jackpotError)
-      // Don't fail the vote if jackpot entry fails
-    }
+    // Jackpot service removed - entries are now handled through contest wins
+    console.log(`Vote recorded for submission ${submissionId}`)
 
     return NextResponse.json({
       success: true,

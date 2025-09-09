@@ -58,9 +58,7 @@ export default function GalleryPage() {
       const { data, error } = await query.limit(20)
 
       if (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error fetching artworks:', error)
-        }
+        console.error('Error fetching artworks:', error)
         return
       }
 
@@ -73,9 +71,7 @@ export default function GalleryPage() {
 
       setArtworks(transformedData)
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error fetching artworks:', error)
-      }
+      console.error('Error fetching artworks:', error)
     } finally {
       setLoading(false)
     }
@@ -167,15 +163,15 @@ export default function GalleryPage() {
   }
 
   return (
-    <div className="min-h-screen cyber-bg">
+    <div className="cyber-bg">
       <SocialNavbar />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold cyber-text glitch mb-2" data-text="[CREATIVE FEED]">
+          <h1 className="text-4xl font-bold cyber-text glitch mb-2" data-text="[CREATIVE FEED]" style={{ fontFamily: 'var(--font-header)' }}>
             [CREATIVE FEED]
           </h1>
-          <p className="text-lg text-cyan-300 mb-6">{'// Discover amazing artwork and connect with artists'}</p>
+          <p className="text-lg text-cyan-300 mb-6">{'// Browse the digital gallery of creative masterpieces'}</p>
           
           {/* Sort Options */}
           <div className="flex justify-center gap-2 mb-6">
@@ -271,7 +267,7 @@ export default function GalleryPage() {
                       </button>
                       <Link
                         href={`/profile/${artwork.profiles?.username || 'artist'}`}
-                        className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 text-center"
+                        className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 text-center shadow-lg"
                       >
                         👤 Profile
                       </Link>
@@ -298,7 +294,7 @@ export default function GalleryPage() {
         {/* Call to Action */}
         <div className="text-center mt-16">
           <div className="cyber-card p-8 max-w-2xl mx-auto fade-in">
-            <h2 className="text-3xl font-bold cyber-text mb-4">Ready to Showcase Your Art?</h2>
+            <h2 className="text-3xl font-bold cyber-text mb-4" style={{ fontFamily: 'var(--font-header)' }}>Ready to Showcase Your Art?</h2>
             <p className="text-white/80 mb-6">Join the community and start competing for prizes!</p>
             <Link
               href="/submit"
@@ -310,12 +306,6 @@ export default function GalleryPage() {
         </div>
       </div>
 
-      {/* Content Section */}
-      <div className="content-section">
-        <h2>{'// DATA STREAM //'}</h2>
-        <p>The system is a reflection of the user. In the digital rain, all data flows towards a singular consciousness. We are the architects of this new reality, forging connections in a web of pure light and logic. Every query is a pulse, every answer a new pathway in the infinite machine.</p>
-        <p>Beware the ghosts in the machine. Not all data is benign. Firewalls protect the core, but the periphery is a wild frontier. <a href="/submit">Navigate wisely</a>.</p>
-      </div>
     </div>
   )
 }

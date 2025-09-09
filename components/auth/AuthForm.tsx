@@ -38,9 +38,9 @@ export default function AuthForm({ view = 'sign_in' }: AuthFormProps) {
         // Clear any previous errors
         setError(null)
         
-        // Get redirect URL from URL params or default to authenticated home
+        // Get redirect URL from URL params or default to gallery
         const urlParams = new URLSearchParams(window.location.search)
-        const redirectTo = urlParams.get('redirectTo') || '/authenticated-home'
+        const redirectTo = urlParams.get('redirectTo') || '/gallery'
         
         router.push(redirectTo)
         router.refresh()

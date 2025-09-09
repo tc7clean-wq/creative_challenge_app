@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
 
-export async function middleware(req: NextRequest) {
+export async function middleware() {
   // Skip middleware for all routes to test
   return NextResponse.next()
 }

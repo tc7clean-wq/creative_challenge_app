@@ -3,8 +3,7 @@
 import { createClient } from '@/utils/supabase/client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import NavigationHeader from '@/components/navigation/NavigationHeader'
-import LogoutButton from '@/components/auth/LogoutButton'
+import SocialNavbar from '@/components/layout/SocialNavbar'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 interface Contest {
@@ -252,7 +251,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      <NavigationHeader />
+      <SocialNavbar />
       {/* Header */}
       <header className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-blue-500/20 animate-pulse"></div>
@@ -274,7 +273,16 @@ export default function AdminDashboard() {
               >
                 View Site
               </Link>
-              <LogoutButton />
+              <button 
+                onClick={() => {
+                  const supabase = createClient()
+                  supabase.auth.signOut()
+                  window.location.href = '/auth'
+                }}
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
+              >
+                Sign Out
+              </button>
             </div>
           </div>
         </div>

@@ -63,10 +63,10 @@ export default function CreateContestPage() {
           .eq('id', user.id)
           .single()
         
-        // Controlled admin access - anyone can create contests
-        const canCreateContests = true
-        const canManagePayouts = profile?.is_admin || (user.email && user.email.endsWith('@creativechallenge.app'))
-        const canManagePlatform = profile?.is_admin || (user.email && user.email.endsWith('@creativechallenge.app'))
+                  // Admin-only access for contest creation
+                  const canCreateContests = profile?.is_admin || false
+                  const canManagePayouts = profile?.is_admin || false
+                  const canManagePlatform = profile?.is_admin || false
         
         setIsAdmin({
           canCreateContests,
@@ -97,7 +97,7 @@ export default function CreateContestPage() {
       if (error) throw error
 
       alert('Contest created successfully!')
-      router.push('/admin/dashboard')
+      router.push('/admin')
     } catch (error) {
       console.error('Error creating contest:', error)
       alert('Failed to create contest. Please try again.')
@@ -123,7 +123,7 @@ export default function CreateContestPage() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-4">Access Denied</h1>
           <p className="text-white/60 mb-4">You don&apos;t have permission to access this page.</p>
-          <Link href="/authenticated-home" className="text-blue-400 hover:text-blue-300">Return to Home</Link>
+          <Link href="/gallery" className="text-blue-400 hover:text-blue-300">Return to Gallery</Link>
         </div>
       </div>
     )
@@ -142,27 +142,47 @@ export default function CreateContestPage() {
 
         <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
           <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="mb-6">
+              <label className="block text-white font-medium mb-2">Contest Name *</label>
+              <div className="bg-green-900/30 border border-green-500/30 rounded-lg p-4 mb-4">
+                <p className="text-green-200 text-sm mb-2">
+                  <strong>Simple Contest System:</strong> Just give your contest a name! Users will submit images and vote for the winner.
+                </p>
+                <p className="text-green-300 text-xs">
+                  The winner will be automatically saved to the Hall of Fame.
+                </p>
+              </div>
+              <input
+                type="text"
+                value={form.title}
+                onChange={(e) => setForm({...form, title: e.target.value})}
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+                placeholder="e.g., Digital Art Showdown"
+                required
+              />
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-white font-medium mb-2">Contest Title</label>
-                <input
-                  type="text"
-                  value={form.title}
-                  onChange={(e) => setForm({...form, title: e.target.value})}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="e.g., Digital Art Showdown"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-white font-medium mb-2">Theme</label>
+                <label className="block text-white font-medium mb-2">Theme (Optional)</label>
                 <input
                   type="text"
                   value={form.theme}
                   onChange={(e) => setForm({...form, theme: e.target.value})}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="e.g., Fantasy & Magic"
+                />
+              </div>
+
+              <div>
+                <label className="block text-white font-medium mb-2">Max Submissions</label>
+                <input
+                  type="number"
+                  value={form.max_submissions}
+                  onChange={(e) => setForm({...form, max_submissions: Number(e.target.value)})}
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  min="10"
+                  max="1000"
                   required
                 />
               </div>
@@ -206,16 +226,25 @@ export default function CreateContestPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-white font-medium mb-2">Prize Pool ($)</label>
+                <label className="block text-white font-medium mb-2">Prize System</label>
+                <div className="bg-blue-900/30 border border-blue-500/30 rounded-lg p-4 mb-4">
+                  <p className="text-blue-200 text-sm mb-2">
+                    <strong>New Prize System:</strong> Each contest win is worth <span className="text-yellow-400 font-bold">5 entries</span> into our future money draw!
+                  </p>
+                  <p className="text-blue-300 text-xs">
+                    Winners accumulate entries for a major cash prize announcement coming soon.
+                  </p>
+                </div>
                 <input
                   type="number"
                   value={form.prize_pool}
                   onChange={(e) => setForm({...form, prize_pool: Number(e.target.value)})}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  min="100"
-                  step="100"
-                  required
+                  min="0"
+                  step="1"
+                  placeholder="Legacy prize pool (optional)"
                 />
+                <p className="text-white/60 text-xs mt-1">Legacy field - new system uses entry accumulation</p>
               </div>
 
               <div>

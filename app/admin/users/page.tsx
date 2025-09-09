@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import AdminNavbar from '@/components/layout/AdminNavbar'
-import AdminGuard from '@/components/auth/AdminGuard'
+// AdminGuard removed - using inline admin check
 
 interface User {
   id: string
@@ -101,7 +101,7 @@ export default function UserManagementPage() {
   }
 
   return (
-    <AdminGuard>
+    <div>
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
         <AdminNavbar />
         <div className="container mx-auto px-4 py-8">
@@ -233,6 +233,6 @@ export default function UserManagementPage() {
         </div>
       </div>
     </div>
-    </AdminGuard>
+    </div>
   )
 }

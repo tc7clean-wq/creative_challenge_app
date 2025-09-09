@@ -2,42 +2,53 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
-// import { useRouter } from 'next/navigation'
-import AdminNavbar from '@/components/layout/AdminNavbar'
-import AdminGuard from '@/components/auth/AdminGuard'
+import SocialNavbar from '@/components/layout/SocialNavbar'
+import Link from 'next/link'
 
 interface Contest {
   id: string
   title: string
   description: string
-  prize_amount: number
+  prize_pool: number
   start_date: string
   end_date: string
-  status: 'draft' | 'active' | 'finished' | 'archived'
+  status: string
   created_at: string
   submissions_count: number
 }
 
 export default function ContestManagementPage() {
-  // const router = useRouter()
   const [contests, setContests] = useState<Contest[]>([])
   const [loading, setLoading] = useState(true)
-  const [showCreateForm, setShowCreateForm] = useState(false)
-  const [editingContest, setEditingContest] = useState<Contest | null>(null)
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    prize_amount: 1000,
-    start_date: '',
-    end_date: ''
-  })
+  const [user, setUser] = useState<unknown>(null)
+  const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
+    const supabase = createClient()
+    if (!supabase) return
+
+    const checkAdmin = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', user.id)
+          .single()
+
+        setIsAdmin(profile?.is_admin || false)
+      }
+    }
+
+    checkAdmin()
     fetchContests()
   }, [])
 
   const fetchContests = async () => {
     try {
+      setLoading(true)
       const supabase = createClient()
       
       const { data, error } = await supabase
@@ -49,369 +60,230 @@ export default function ContestManagementPage() {
         .order('created_at', { ascending: false })
 
       if (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error fetching contests:', error)
-        }
+        console.error('Error fetching contests:', error)
         return
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const transformedData: Contest[] = data?.map((contest: Record<string, any>) => ({
-        id: contest.id || '',
-        title: contest.title || '',
-        description: contest.description || '',
-        prize_amount: contest.prize_amount || 0,
-        start_date: contest.start_date || '',
-        end_date: contest.end_date || '',
-        status: contest.status || 'draft',
-        created_at: contest.created_at || '',
-        submissions_count: contest.submissions?.[0]?.count || 0
+      const transformedData: Contest[] = data?.map((contest: any) => ({ // eslint-disable-line @typescript-eslint/no-explicit-any
+        id: contest.id as string,
+        title: contest.title as string,
+        description: contest.description as string,
+        prize_pool: contest.prize_pool as number,
+        start_date: contest.start_date as string,
+        end_date: contest.end_date as string,
+        status: contest.status as string,
+        created_at: contest.created_at as string,
+        submissions_count: (contest.submissions as any)?.[0]?.count || 0 // eslint-disable-line @typescript-eslint/no-explicit-any
       })) || []
 
       setContests(transformedData)
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error fetching contests:', error)
-      }
+      console.error('Error fetching contests:', error)
     } finally {
       setLoading(false)
     }
   }
 
-  const handleCreateContest = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
+  const updateContestStatus = async (contestId: string, newStatus: string) => {
     try {
       const supabase = createClient()
-      
-      const { error } = await supabase
-        .from('contests')
-        .insert({
-          title: formData.title,
-          description: formData.description,
-          prize_amount: formData.prize_amount,
-          start_date: formData.start_date,
-          end_date: formData.end_date,
-          status: 'draft'
-        })
-
-      if (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error creating contest:', error)
-        }
-        alert('Failed to create contest')
-        return
-      }
-
-      setFormData({ title: '', description: '', prize_amount: 1000, start_date: '', end_date: '' })
-      setShowCreateForm(false)
-      fetchContests()
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error creating contest:', error)
-      }
-      alert('Failed to create contest')
-    }
-  }
-
-  const handleUpdateContest = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!editingContest) return
-
-    try {
-      const supabase = createClient()
-      
-      const { error } = await supabase
-        .from('contests')
-        .update({
-          title: formData.title,
-          description: formData.description,
-          prize_amount: formData.prize_amount,
-          start_date: formData.start_date,
-          end_date: formData.end_date
-        })
-        .eq('id', editingContest.id)
-
-      if (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error updating contest:', error)
-        }
-        alert('Failed to update contest')
-        return
-      }
-
-      setEditingContest(null)
-      setFormData({ title: '', description: '', prize_amount: 1000, start_date: '', end_date: '' })
-      fetchContests()
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error updating contest:', error)
-      }
-      alert('Failed to update contest')
-    }
-  }
-
-  const handleStatusChange = async (contestId: string, newStatus: string) => {
-    try {
-      const supabase = createClient()
-      
       const { error } = await supabase
         .from('contests')
         .update({ status: newStatus })
         .eq('id', contestId)
 
-      if (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error updating contest status:', error)
-        }
-        alert('Failed to update contest status')
-        return
-      }
+      if (error) throw error
 
+      // Refresh the contests list
       fetchContests()
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error updating contest status:', error)
-      }
+      console.error('Error updating contest status:', error)
       alert('Failed to update contest status')
     }
   }
 
-  const startEdit = (contest: Contest) => {
-    setEditingContest(contest)
-    setFormData({
-      title: contest.title,
-      description: contest.description,
-      prize_amount: contest.prize_amount,
-      start_date: contest.start_date,
-      end_date: contest.end_date
+  const deleteContest = async (contestId: string) => {
+    if (!confirm('Are you sure you want to delete this contest? This action cannot be undone.')) {
+      return
+    }
+
+    try {
+      const supabase = createClient()
+      const { error } = await supabase
+        .from('contests')
+        .delete()
+        .eq('id', contestId)
+
+      if (error) throw error
+
+      // Refresh the contests list
+      fetchContests()
+    } catch (error) {
+      console.error('Error deleting contest:', error)
+      alert('Failed to delete contest')
+    }
+  }
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
     })
-    setShowCreateForm(true)
   }
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'draft': return 'bg-gray-500'
-      case 'active': return 'bg-green-500'
-      case 'finished': return 'bg-blue-500'
-      case 'archived': return 'bg-gray-700'
-      default: return 'bg-gray-500'
+      case 'active':
+        return 'bg-green-500/20 text-green-300'
+      case 'draft':
+        return 'bg-yellow-500/20 text-yellow-300'
+      case 'finished':
+        return 'bg-blue-500/20 text-blue-300'
+      case 'archived':
+        return 'bg-gray-500/20 text-gray-300'
+      default:
+        return 'bg-gray-500/20 text-gray-300'
     }
   }
 
-  if (loading) {
+  if (!user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-white text-2xl">Loading contests...</div>
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-white mb-4">Please sign in to access this page</h1>
+          <Link href="/auth" className="text-blue-400 hover:text-blue-300">Sign In</Link>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-white mb-4">Access Denied</h1>
+          <p className="text-white/60 mb-4">You don&apos;t have admin permissions.</p>
+          <Link href="/gallery" className="text-blue-400 hover:text-blue-300">Return to Gallery</Link>
+        </div>
       </div>
     )
   }
 
   return (
-    <AdminGuard>
-      <div className="min-h-screen cyber-bg">
-        <AdminNavbar />
-        <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-5xl font-bold text-white mb-4" style={{
-              fontFamily: 'var(--font-bebas-neue), "Arial Black", "Impact", sans-serif',
-              background: 'linear-gradient(45deg, #FFD700, #FFA500, #FF8C00)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>
-              CONTEST MANAGEMENT
-            </h1>
-            <p className="text-xl text-white/80">Create, manage, and archive contests</p>
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+      <SocialNavbar />
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h1 className="text-4xl font-bold text-white mb-2">Contest Management</h1>
+              <p className="text-lg text-white/80">Manage all creative contests</p>
+            </div>
+            <Link
+              href="/admin/create-contest"
+              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all"
+            >
+              Create New Contest
+            </Link>
           </div>
-          <button
-            onClick={() => {
-              setShowCreateForm(true)
-              setEditingContest(null)
-              setFormData({ title: '', description: '', prize_amount: 1000, start_date: '', end_date: '' })
-            }}
-            className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
-          >
-            ➕ New Contest
-          </button>
-        </div>
 
-        {/* Create/Edit Form */}
-        {showCreateForm && (
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 mb-8">
-            <h2 className="text-2xl font-bold text-white mb-6">
-              {editingContest ? 'Edit Contest' : 'Create New Contest'}
-            </h2>
-            
-            <form onSubmit={editingContest ? handleUpdateContest : handleCreateContest} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-white font-semibold mb-2">Title *</label>
-                  <input
-                    type="text"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:border-yellow-500"
-                    placeholder="Contest title"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-white font-semibold mb-2">Prize Amount ($) *</label>
-                  <input
-                    type="number"
-                    value={formData.prize_amount}
-                    onChange={(e) => setFormData({ ...formData, prize_amount: parseInt(e.target.value) })}
-                    className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:border-yellow-500"
-                    min="100"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-white font-semibold mb-2">Description *</label>
-                <textarea
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:border-yellow-500 h-32 resize-none"
-                  placeholder="Contest description and rules"
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-white font-semibold mb-2">Start Date *</label>
-                  <input
-                    type="datetime-local"
-                    value={formData.start_date}
-                    onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:border-yellow-500"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-white font-semibold mb-2">End Date *</label>
-                  <input
-                    type="datetime-local"
-                    value={formData.end_date}
-                    onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:border-yellow-500"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <button
-                  type="submit"
-                  className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold py-3 px-6 rounded-lg transition-all duration-300"
+          {/* Contests List */}
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="text-white text-2xl">Loading contests...</div>
+            </div>
+          ) : contests.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 max-w-2xl mx-auto">
+                <h2 className="text-2xl font-bold text-white mb-4">No Contests Found</h2>
+                <p className="text-white/80 mb-6">Create your first contest to get started!</p>
+                <Link
+                  href="/admin/create-contest"
+                  className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-purple-600 transition-all inline-block"
                 >
-                  {editingContest ? 'Update Contest' : 'Create Contest'}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowCreateForm(false)
-                    setEditingContest(null)
-                  }}
-                  className="bg-white/10 hover:bg-white/20 text-white py-3 px-6 rounded-lg transition-all duration-300"
-                >
-                  Cancel
-                </button>
+                  Create Contest
+                </Link>
               </div>
-            </form>
-          </div>
-        )}
-
-        {/* Contests List */}
-        <div className="space-y-4">
-          {contests.length === 0 ? (
-            <div className="text-center text-white/60 text-xl py-12">
-              No contests yet. Create your first contest!
             </div>
           ) : (
-            contests.map((contest) => (
-              <div key={contest.id} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-4 mb-4">
-                      <h3 className="text-2xl font-bold text-white">{contest.title}</h3>
-                      <span className={`px-3 py-1 rounded-full text-white text-sm font-semibold ${getStatusColor(contest.status)}`}>
+            <div className="space-y-6">
+              {contests.map((contest) => (
+                <div key={contest.id} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:border-white/40 transition-all">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-white mb-2">{contest.title}</h3>
+                      <p className="text-white/70 text-sm mb-3 line-clamp-2">{contest.description}</p>
+                    </div>
+                    <div className="flex items-center space-x-2 ml-4">
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(contest.status)}`}>
                         {contest.status.toUpperCase()}
                       </span>
                     </div>
-                    
-                    <p className="text-white/80 mb-4">{contest.description}</p>
-                    
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                      <div>
-                        <span className="text-white/60">Prize:</span>
-                        <span className="text-yellow-400 font-bold ml-2">${contest.prize_amount.toLocaleString()}</span>
-                      </div>
-                      <div>
-                        <span className="text-white/60">Submissions:</span>
-                        <span className="text-white font-bold ml-2">{contest.submissions_count}</span>
-                      </div>
-                      <div>
-                        <span className="text-white/60">Start:</span>
-                        <span className="text-white ml-2">{new Date(contest.start_date).toLocaleDateString()}</span>
-                      </div>
-                      <div>
-                        <span className="text-white/60">End:</span>
-                        <span className="text-white ml-2">{new Date(contest.end_date).toLocaleDateString()}</span>
-                      </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                    <div>
+                      <span className="text-white/60 text-sm">Start Date</span>
+                      <p className="text-white font-medium">{formatDate(contest.start_date)}</p>
+                    </div>
+                    <div>
+                      <span className="text-white/60 text-sm">End Date</span>
+                      <p className="text-white font-medium">{formatDate(contest.end_date)}</p>
+                    </div>
+                    <div>
+                      <span className="text-white/60 text-sm">Submissions</span>
+                      <p className="text-white font-medium">{contest.submissions_count}</p>
+                    </div>
+                    <div>
+                      <span className="text-white/60 text-sm">Prize System</span>
+                      <p className="text-yellow-400 font-medium">5 Entries per Win</p>
                     </div>
                   </div>
-                  
-                  <div className="flex flex-col gap-2 ml-6">
-                    <button
-                      onClick={() => startEdit(contest)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm transition-colors"
-                    >
-                      ✏️ Edit
-                    </button>
-                    
-                    {contest.status === 'draft' && (
+
+                  <div className="flex justify-between items-center">
+                    <div className="flex space-x-2">
                       <button
-                        onClick={() => handleStatusChange(contest.id, 'active')}
-                        className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-sm transition-colors"
+                        onClick={() => updateContestStatus(contest.id, contest.status === 'active' ? 'finished' : 'active')}
+                        className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                          contest.status === 'active'
+                            ? 'bg-orange-500/20 text-orange-300 hover:bg-orange-500/30'
+                            : 'bg-green-500/20 text-green-300 hover:bg-green-500/30'
+                        }`}
                       >
-                        ▶️ Start
+                        {contest.status === 'active' ? 'Finish Contest' : 'Activate Contest'}
                       </button>
-                    )}
-                    
-                    {contest.status === 'active' && (
                       <button
-                        onClick={() => handleStatusChange(contest.id, 'finished')}
-                        className="bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg text-sm transition-colors"
+                        onClick={() => updateContestStatus(contest.id, 'archived')}
+                        className="px-4 py-2 bg-gray-500/20 text-gray-300 hover:bg-gray-500/30 rounded-lg font-medium transition-all"
                       >
-                        ⏹️ Finish
+                        Archive
                       </button>
-                    )}
-                    
-                    {contest.status === 'finished' && (
+                    </div>
+                    <div className="flex space-x-2">
+                      <Link
+                        href={`/contest/${contest.id}`}
+                        className="px-4 py-2 bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 rounded-lg font-medium transition-all"
+                      >
+                        View
+                      </Link>
                       <button
-                        onClick={() => handleStatusChange(contest.id, 'archived')}
-                        className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm transition-colors"
+                        onClick={() => deleteContest(contest.id)}
+                        className="px-4 py-2 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded-lg font-medium transition-all"
                       >
-                        📦 Archive
+                        Delete
                       </button>
-                    )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
       </div>
     </div>
-    </AdminGuard>
   )
 }

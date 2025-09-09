@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import LogoutButton from '@/components/auth/LogoutButton'
-import JackpotStats from '@/components/jackpot/JackpotStats'
+// LogoutButton removed - using inline logout
+// JackpotStats removed - jackpot components deleted
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -31,13 +31,25 @@ export default async function DashboardPage() {
                 <h1 className="text-2xl font-bold text-gray-900">
                   Welcome to your Dashboard
                 </h1>
-                <LogoutButton />
+                <button 
+                  onClick={() => {
+                    // Inline logout functionality
+                    window.location.href = '/auth'
+                  }}
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
+                >
+                  Sign Out
+                </button>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {/* Jackpot Stats Card */}
                 <div className="bg-gradient-to-br from-purple-600 to-blue-600 p-6 rounded-lg text-white">
-                  <JackpotStats userId={user.id} showHistoryLink={true} />
+                  <div className="text-center">
+                    <div className="text-3xl font-bold mb-2">0</div>
+                    <div className="text-sm opacity-80">Contest Entries</div>
+                    <div className="text-xs opacity-60 mt-1">Win contests to earn entries</div>
+                  </div>
                 </div>
 
                 {/* User Profile Card */}

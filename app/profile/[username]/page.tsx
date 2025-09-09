@@ -1,360 +1,335 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
-import Image from 'next/image'
+import SocialNavbar from '@/components/layout/SocialNavbar'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
-import TipButton from '@/components/tips/TipButton'
+import Image from 'next/image'
+
+interface ProfileData {
+  id: string
+  username: string
+  full_name: string
+  bio: string
+  avatar_url?: string
+  created_at: string
+  total_submissions: number
+  total_wins: number
+  total_likes: number
+  is_public: boolean
+}
 
 interface Artwork {
   id: string
   title: string
   description: string
   image_url: string
-  votes: number
   created_at: string
-  status: string
+  likes_count: number
+  comments_count: number
+  status: 'pending' | 'approved' | 'rejected'
 }
 
-interface Profile {
-  username: string
-  full_name: string
-  avatar_url: string
-  bio: string
-  created_at: string
-}
-
-export default function ProfilePage() {
-  const params = useParams()
-  const username = params.username as string
-  
-  const [profile, setProfile] = useState<Profile | null>(null)
+export default function ProfilePage({ params }: { params: Promise<{ username: string }> }) {
+  const [profile, setProfile] = useState<ProfileData | null>(null)
   const [artworks, setArtworks] = useState<Artwork[]>([])
   const [loading, setLoading] = useState(true)
-  const [stats, setStats] = useState({
-    totalArtworks: 0,
-    totalVotes: 0,
-    averageVotes: 0
-  })
-
-  const fetchProfile = useCallback(async () => {
-    try {
-      const supabase = createClient()
-      
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('username', username)
-        .single()
-
-      if (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error fetching profile:', error)
-        }
-        return
-      }
-
-      setProfile(data)
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error fetching profile:', error)
-      }
-    }
-  }, [username])
-
-  const fetchArtworks = useCallback(async () => {
-    try {
-      const supabase = createClient()
-      
-      const { data, error } = await supabase
-        .from('submissions')
-        .select('*')
-        .eq('profiles.username', username)
-        .order('created_at', { ascending: false })
-
-      if (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error fetching artworks:', error)
-        }
-        return
-      }
-
-      setArtworks(data || [])
-      
-      // Calculate stats
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const totalVotes = data?.reduce((sum: any, artwork: any) => sum + (artwork.votes || 0), 0) || 0
-      const totalArtworks = data?.length || 0
-      const averageVotes = totalArtworks > 0 ? Math.round(totalVotes / totalArtworks) : 0
-      
-      setStats({
-        totalArtworks,
-        totalVotes,
-        averageVotes
-      })
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error fetching artworks:', error)
-      }
-    } finally {
-      setLoading(false)
-    }
-  }, [username])
+  const [, setCurrentUser] = useState<unknown>(null)
+  const [isOwnProfile, setIsOwnProfile] = useState(false)
 
   useEffect(() => {
-    if (username) {
-      fetchProfile()
-      fetchArtworks()
+    const loadProfile = async () => {
+      const resolvedParams = await params
+      fetchProfile(resolvedParams.username)
     }
-  }, [username, fetchProfile, fetchArtworks])
+    loadProfile()
+  }, [params])
 
-  const handleVote = async (artworkId: string) => {
+  const fetchProfile = async (username: string) => {
     try {
       const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
       
-      if (!user) {
-        window.location.href = '/auth'
-        return
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser()
+      setCurrentUser(user)
+
+      // Mock profile data - replace with actual query
+      const mockProfile: ProfileData = {
+        id: '1',
+        username: username,
+        full_name: 'Alex Chen',
+        bio: 'Digital artist exploring the intersection of technology and creativity. Passionate about AI-generated art and cyberpunk aesthetics.',
+        avatar_url: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
+        created_at: '2024-01-01T00:00:00Z',
+        total_submissions: 45,
+        total_wins: 12,
+        total_likes: 2340,
+        is_public: true
       }
 
-      // Check if user already voted
-      const { data: existingVote } = await supabase
-        .from('votes')
-        .select('id')
-        .eq('submission_id', artworkId)
-        .eq('user_id', user.id)
-        .single()
-
-      if (existingVote) {
-        alert('You have already voted for this artwork!')
-        return
-      }
-
-      // Add vote
-      const { error: voteError } = await supabase
-        .from('votes')
-        .insert({
-          submission_id: artworkId,
-          user_id: user.id
-        })
-
-      if (voteError) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error voting:', voteError)
+      // Mock artworks - replace with actual query
+      const mockArtworks: Artwork[] = [
+        {
+          id: '1',
+          title: 'Neon Dreams',
+          description: 'A cyberpunk cityscape with glowing neon lights',
+          image_url: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=400&fit=crop',
+          created_at: '2024-01-15T10:30:00Z',
+          likes_count: 234,
+          comments_count: 18,
+          status: 'approved'
+        },
+        {
+          id: '2',
+          title: 'Digital Forest',
+          description: 'An AI-generated forest with holographic trees',
+          image_url: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=400&fit=crop',
+          created_at: '2024-01-14T15:45:00Z',
+          likes_count: 189,
+          comments_count: 12,
+          status: 'approved'
+        },
+        {
+          id: '3',
+          title: 'Quantum Waves',
+          description: 'Abstract representation of quantum mechanics',
+          image_url: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400&h=400&fit=crop',
+          created_at: '2024-01-13T09:20:00Z',
+          likes_count: 156,
+          comments_count: 8,
+          status: 'approved'
+        },
+        {
+          id: '4',
+          title: 'Cyber City',
+          description: 'Futuristic cityscape with flying cars',
+          image_url: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=400&fit=crop',
+          created_at: '2024-01-12T14:15:00Z',
+          likes_count: 98,
+          comments_count: 5,
+          status: 'pending'
         }
-        return
-      }
+      ]
 
-      // Get current vote count and increment it
-      const { data: currentSubmission, error: fetchError } = await supabase
-        .from('submissions')
-        .select('votes')
-        .eq('id', artworkId)
-        .single()
-
-      if (fetchError) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error fetching current votes:', fetchError)
-        }
-        return
-      }
-
-      const { error: updateError } = await supabase
-        .from('submissions')
-        .update({ votes: (currentSubmission.votes || 0) + 1 })
-        .eq('id', artworkId)
-
-      if (updateError) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error updating votes:', updateError)
-        }
-        return
-      }
-
-      // Refresh artworks
-      fetchArtworks()
+      setProfile(mockProfile)
+      setArtworks(mockArtworks)
+      setIsOwnProfile(user?.user_metadata?.username === username)
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error voting:', error)
-      }
-    }
-  }
-
-  const shareProfile = () => {
-    const url = window.location.href
-    const text = `Check out ${profile?.full_name}'s amazing AI art on Creative Challenge!`
-    
-    if (navigator.share) {
-      navigator.share({
-        title: `${profile?.full_name} - Creative Challenge`,
-        text: text,
-        url: url
-      })
-    } else {
-      navigator.clipboard.writeText(url)
-      alert('Profile link copied to clipboard!')
+      console.error('Error fetching profile:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-white text-2xl">Loading profile...</div>
+      <div className="cyber-bg min-h-screen">
+        <SocialNavbar />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <div className="text-2xl text-cyan-300">Loading profile...</div>
+          </div>
+        </div>
       </div>
     )
   }
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-center text-white">
-          <h1 className="text-4xl font-bold mb-4">Profile Not Found</h1>
-          <p className="text-xl mb-8">The artist you&apos;re looking for doesn&apos;t exist.</p>
-          <Link
-            href="/gallery"
-            className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold py-3 px-6 rounded-lg transition-all duration-300"
-          >
-            Back to Gallery
-          </Link>
+      <div className="cyber-bg min-h-screen">
+        <SocialNavbar />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold cyber-text mb-4" style={{ fontFamily: 'var(--font-header)' }}>
+              Profile Not Found
+            </h1>
+            <p className="text-lg text-cyan-300 mb-6">This user doesn&apos;t exist or their profile is private</p>
+            <Link href="/gallery" className="cyber-btn">
+              Back to Gallery
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (!profile.is_public && !isOwnProfile) {
+    return (
+      <div className="cyber-bg min-h-screen">
+        <SocialNavbar />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold cyber-text mb-4" style={{ fontFamily: 'var(--font-header)' }}>
+              Private Profile
+            </h1>
+            <p className="text-lg text-cyan-300 mb-6">This profile is private</p>
+            <Link href="/gallery" className="cyber-btn">
+              Back to Gallery
+            </Link>
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="cyber-bg min-h-screen">
+      <SocialNavbar />
       <div className="container mx-auto px-4 py-8">
         {/* Profile Header */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 mb-8">
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-            {/* Avatar */}
-            <div className="w-32 h-32 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-4xl font-bold">
-              {profile.username.charAt(0).toUpperCase()}
-            </div>
-            
-            {/* Profile Info */}
-            <div className="flex-1 text-center md:text-left">
-              <h1 className="text-4xl font-bold text-white mb-2" style={{
-                fontFamily: 'var(--font-bebas-neue), "Arial Black", "Impact", sans-serif'
-              }}>
-                {profile.full_name}
-              </h1>
-              <p className="text-xl text-white/80 mb-4">@{profile.username}</p>
-              {profile.bio && (
-                <p className="text-white/70 mb-6 max-w-2xl">{profile.bio}</p>
-              )}
-              
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-400">{stats.totalArtworks}</div>
-                  <div className="text-white/60 text-sm">Artworks</div>
+        <div className="max-w-4xl mx-auto">
+          <div className="cyber-card p-8 mb-8">
+            <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+              {/* Avatar */}
+              <div className="w-32 h-32 rounded-full overflow-hidden bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                {profile.avatar_url ? (
+                  <Image
+                    src={profile.avatar_url}
+                    alt={profile.full_name}
+                    width={128}
+                    height={128}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-white font-bold text-4xl">
+                    {profile.full_name.charAt(0).toUpperCase()}
+                  </span>
+                )}
+              </div>
+
+              {/* Profile Info */}
+              <div className="flex-1 text-center md:text-left">
+                <h1 className="text-3xl font-bold cyber-text mb-2" style={{ fontFamily: 'var(--font-header)' }}>
+                  {profile.full_name}
+                </h1>
+                <p className="text-cyan-300 text-lg mb-2">@{profile.username}</p>
+                <p className="text-white/80 mb-4 max-w-2xl">{profile.bio}</p>
+                
+                <div className="flex flex-wrap justify-center md:justify-start gap-6 text-sm text-white/60 mb-4">
+                  <span>Joined {new Date(profile.created_at).toLocaleDateString()}</span>
+                  <span>•</span>
+                  <span>{profile.total_submissions} submissions</span>
+                  <span>•</span>
+                  <span>{profile.total_wins} wins</span>
+                  <span>•</span>
+                  <span>{profile.total_likes} likes</span>
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-400">{stats.totalVotes}</div>
-                  <div className="text-white/60 text-sm">Total Votes</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-400">{stats.averageVotes}</div>
-                  <div className="text-white/60 text-sm">Avg Votes</div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+                  {isOwnProfile ? (
+                    <>
+                      <Link href="/settings" className="cyber-btn">
+                        ⚙️ Edit Profile
+                      </Link>
+                      <Link href="/submit" className="cyber-card hover:bg-white/20 transition-all">
+                        ✨ Submit Art
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <button className="cyber-btn">
+                        👤 Follow
+                      </button>
+                      <button className="cyber-card hover:bg-white/20 transition-all">
+                        💬 Message
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
-              
-              {/* Share Button */}
-              <button
-                onClick={shareProfile}
-                className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
-              >
-                📤 Share Profile
-              </button>
             </div>
           </div>
-        </div>
 
-        {/* Artworks Section */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-white mb-6" style={{
-            fontFamily: 'var(--font-bebas-neue), "Arial Black", "Impact", sans-serif'
-          }}>
-            ARTWORKS
-          </h2>
-          
-          {artworks.length === 0 ? (
-            <div className="text-center text-white/60 text-xl py-12">
-              No artworks yet. This artist hasn&apos;t submitted any pieces.
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="cyber-card p-6 text-center">
+              <div className="text-3xl font-bold text-cyan-400 mb-2">{profile.total_submissions}</div>
+              <div className="text-white/60">Total Submissions</div>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {artworks.map((artwork) => (
-                <div key={artwork.id} className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 hover:border-white/40 transition-all duration-300 transform hover:scale-105">
-                  {/* Artwork Image */}
-                  <div className="relative aspect-square">
-                    <Image
-                      src={artwork.image_url}
-                      alt={artwork.title}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1 text-white text-sm font-semibold">
-                      🔥 {artwork.votes}
-                    </div>
-                    {artwork.status === 'pending' && (
-                      <div className="absolute top-4 left-4 bg-yellow-500/80 backdrop-blur-sm rounded-full px-3 py-1 text-black text-sm font-semibold">
-                        ⏳ Pending
-                      </div>
-                    )}
-                  </div>
+            <div className="cyber-card p-6 text-center">
+              <div className="text-3xl font-bold text-purple-400 mb-2">{profile.total_wins}</div>
+              <div className="text-white/60">Contest Wins</div>
+            </div>
+            <div className="cyber-card p-6 text-center">
+              <div className="text-3xl font-bold text-pink-400 mb-2">{profile.total_likes}</div>
+              <div className="text-white/60">Total Likes</div>
+            </div>
+          </div>
 
-                  {/* Artwork Info */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-2 line-clamp-2">{artwork.title}</h3>
-                    <p className="text-white/70 text-sm mb-4 line-clamp-3">{artwork.description}</p>
-                    
-                    {/* Actions */}
-                    <div className="space-y-2">
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => handleVote(artwork.id)}
-                          className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
-                        >
-                          🔥 Vote
-                        </button>
-                        <button
-                          onClick={() => {
-                            const url = `${window.location.origin}/gallery#${artwork.id}`
-                            navigator.clipboard.writeText(url)
-                            alert('Artwork link copied to clipboard!')
-                          }}
-                          className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300"
-                        >
-                          📤 Share
-                        </button>
-                      </div>
-                      <TipButton
-                        artworkId={artwork.id}
-                        artistId={profile?.username || 'artist'}
-                        artistName={profile?.full_name || 'Anonymous'}
-                        artworkTitle={artwork.title}
-                        currentTips={0}
-                      />
-                    </div>
-                  </div>
+          {/* Artworks Grid */}
+          <div>
+            <h2 className="text-2xl font-bold cyber-text mb-6" style={{ fontFamily: 'var(--font-header)' }}>
+              {isOwnProfile ? 'My Artworks' : 'Artworks'}
+            </h2>
+            
+            {artworks.length === 0 ? (
+              <div className="text-center py-16">
+                <div className="cyber-card p-8 max-w-md mx-auto">
+                  <div className="text-6xl mb-4">🎨</div>
+                  <h3 className="text-xl font-bold cyber-text mb-4" style={{ fontFamily: 'var(--font-header)' }}>
+                    No Artworks Yet
+                  </h3>
+                  <p className="text-white/80 mb-6">
+                    {isOwnProfile 
+                      ? "You haven&apos;t submitted any artworks yet. Start creating!" 
+                      : "This user hasn&apos;t submitted any artworks yet."
+                    }
+                  </p>
+                  {isOwnProfile && (
+                    <Link href="/submit" className="cyber-btn">
+                      ✨ Submit Your First Artwork
+                    </Link>
+                  )}
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Back to Gallery */}
-        <div className="text-center">
-          <Link
-            href="/gallery"
-            className="bg-white/10 hover:bg-white/20 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 border border-white/30"
-          >
-            ← Back to Gallery
-          </Link>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {artworks.map((artwork) => (
+                  <div key={artwork.id} className="cyber-card group hover:border-cyan-500/50 transition-all duration-300">
+                    <div className="relative overflow-hidden rounded-t-lg">
+                      <Image
+                        src={artwork.image_url}
+                        alt={artwork.title}
+                        width={400}
+                        height={400}
+                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      {artwork.status === 'pending' && (
+                        <div className="absolute top-2 left-2 bg-yellow-500/80 text-black px-2 py-1 rounded text-xs font-bold">
+                          PENDING
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="p-4">
+                      <h3 className="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
+                        {artwork.title}
+                      </h3>
+                      <p className="text-white/70 text-sm mb-3 line-clamp-2">
+                        {artwork.description}
+                      </p>
+                      
+                      <div className="flex items-center justify-between text-sm text-white/60 mb-3">
+                        <span>{new Date(artwork.created_at).toLocaleDateString()}</span>
+                        <div className="flex items-center space-x-3">
+                          <span>❤️ {artwork.likes_count}</span>
+                          <span>💬 {artwork.comments_count}</span>
+                        </div>
+                      </div>
+                      
+                      <Link
+                        href={`/gallery/${artwork.id}`}
+                        className="text-cyan-300 hover:text-cyan-100 text-sm font-medium"
+                      >
+                        View Details →
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

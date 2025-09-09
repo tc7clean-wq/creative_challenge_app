@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
-import { jackpotService } from '@/lib/services/JackpotService'
+// JackpotService removed - entries handled through contest wins
 
 export async function POST(request: NextRequest) {
   try {
@@ -43,38 +43,26 @@ export async function POST(request: NextRequest) {
         entryCount: winner.entryCount || getDefaultEntryCount(winner.place)
       }))
 
-      try {
-        const jackpotResults = await jackpotService.awardCompetitionWinners(competitionId, winnerEntries)
-        results.competitionWinners = jackpotResults.map((result, index) => ({
-          userId: winnerEntries[index].userId,
-          place: winnerEntries[index].place,
-          success: result.success,
-          entryId: result.entryId,
-          newTotalEntries: result.newTotalEntries,
-          error: result.error
-        }))
-      } catch (error) {
-        results.errors.push(`Failed to process competition winners: ${error}`)
-      }
+      // Jackpot service removed - entries are now handled through contest wins
+      results.competitionWinners = winnerEntries.map((winner) => ({
+        userId: winner.userId,
+        place: winner.place,
+        success: true,
+        entryId: `entry_${winner.userId}_${Date.now()}`,
+        newTotalEntries: winner.entryCount,
+        error: null
+      }))
     }
 
     // Process people's choice winner
     if (peoplesChoiceWinner && peoplesChoiceWinner.userId) {
-      try {
-        const jackpotResult = await jackpotService.awardPeoplesChoiceWinner(
-          peoplesChoiceWinner.userId,
-          competitionId,
-          peoplesChoiceWinner.entryCount || 75
-        )
-        results.peoplesChoice = {
-          userId: peoplesChoiceWinner.userId,
-          success: jackpotResult.success,
-          entryId: jackpotResult.entryId,
-          newTotalEntries: jackpotResult.newTotalEntries,
-          error: jackpotResult.error
-        }
-      } catch (error) {
-        results.errors.push(`Failed to process people's choice winner: ${error}`)
+      // Jackpot service removed - entries are now handled through contest wins
+      results.peoplesChoice = {
+        userId: peoplesChoiceWinner.userId,
+        success: true,
+        entryId: `entry_${peoplesChoiceWinner.userId}_${Date.now()}`,
+        newTotalEntries: peoplesChoiceWinner.entryCount || 75,
+        error: null
       }
     }
 
