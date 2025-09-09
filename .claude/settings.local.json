@@ -6,7 +6,13 @@
       "Bash(git remote set-url:*)",
       "Bash(git restore:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(npx vercel:*)",
+      "Bash(gh auth:*)",
+      "Bash(git config:*)",
+      "Bash(winget:*)",
+      "Bash(git rm:*)",
+      "Bash(git filter-branch:*)"
     ],
     "deny": [],
     "ask": []
