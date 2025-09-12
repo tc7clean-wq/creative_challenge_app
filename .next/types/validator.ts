@@ -71,6 +71,12 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies AppPageConfig<"/admin/jackpot">
 }
 
+// Validate ../../app/admin/page.tsx
+{
+  const handler = {} as typeof import("../../app/admin/page.js")
+  handler satisfies AppPageConfig<"/admin">
+}
+
 // Validate ../../app/admin/payouts/page.tsx
 {
   const handler = {} as typeof import("../../app/admin/payouts/page.js")
@@ -89,46 +95,22 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies AppPageConfig<"/admin/users">
 }
 
-// Validate ../../app/artists/page.tsx
-{
-  const handler = {} as typeof import("../../app/artists/page.js")
-  handler satisfies AppPageConfig<"/artists">
-}
-
-// Validate ../../app/auth-simple/page.tsx
-{
-  const handler = {} as typeof import("../../app/auth-simple/page.js")
-  handler satisfies AppPageConfig<"/auth-simple">
-}
-
-// Validate ../../app/auth-success/page.tsx
-{
-  const handler = {} as typeof import("../../app/auth-success/page.js")
-  handler satisfies AppPageConfig<"/auth-success">
-}
-
 // Validate ../../app/auth/page.tsx
 {
   const handler = {} as typeof import("../../app/auth/page.js")
   handler satisfies AppPageConfig<"/auth">
 }
 
-// Validate ../../app/authenticated-home-simple/page.tsx
+// Validate ../../app/contest/[id]/page.tsx
 {
-  const handler = {} as typeof import("../../app/authenticated-home-simple/page.js")
-  handler satisfies AppPageConfig<"/authenticated-home-simple">
+  const handler = {} as typeof import("../../app/contest/[id]/page.js")
+  handler satisfies AppPageConfig<"/contest/[id]">
 }
 
-// Validate ../../app/authenticated-home/page.tsx
+// Validate ../../app/contest/[id]/vote/page.tsx
 {
-  const handler = {} as typeof import("../../app/authenticated-home/page.js")
-  handler satisfies AppPageConfig<"/authenticated-home">
-}
-
-// Validate ../../app/competitions/page.tsx
-{
-  const handler = {} as typeof import("../../app/competitions/page.js")
-  handler satisfies AppPageConfig<"/competitions">
+  const handler = {} as typeof import("../../app/contest/[id]/vote/page.js")
+  handler satisfies AppPageConfig<"/contest/[id]/vote">
 }
 
 // Validate ../../app/contests/page.tsx
@@ -143,18 +125,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies AppPageConfig<"/dashboard">
 }
 
-// Validate ../../app/debug-auth/page.tsx
-{
-  const handler = {} as typeof import("../../app/debug-auth/page.js")
-  handler satisfies AppPageConfig<"/debug-auth">
-}
-
-// Validate ../../app/error/page.tsx
-{
-  const handler = {} as typeof import("../../app/error/page.js")
-  handler satisfies AppPageConfig<"/error">
-}
-
 // Validate ../../app/favorites/page.tsx
 {
   const handler = {} as typeof import("../../app/favorites/page.js")
@@ -167,16 +137,10 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies AppPageConfig<"/gallery">
 }
 
-// Validate ../../app/jackpot/history/page.tsx
+// Validate ../../app/hall-of-fame/page.tsx
 {
-  const handler = {} as typeof import("../../app/jackpot/history/page.js")
-  handler satisfies AppPageConfig<"/jackpot/history">
-}
-
-// Validate ../../app/jackpot/page.tsx
-{
-  const handler = {} as typeof import("../../app/jackpot/page.js")
-  handler satisfies AppPageConfig<"/jackpot">
+  const handler = {} as typeof import("../../app/hall-of-fame/page.js")
+  handler satisfies AppPageConfig<"/hall-of-fame">
 }
 
 // Validate ../../app/leaderboard/page.tsx
@@ -185,10 +149,10 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies AppPageConfig<"/leaderboard">
 }
 
-// Validate ../../app/login/page.tsx
+// Validate ../../app/my-submissions/page.tsx
 {
-  const handler = {} as typeof import("../../app/login/page.js")
-  handler satisfies AppPageConfig<"/login">
+  const handler = {} as typeof import("../../app/my-submissions/page.js")
+  handler satisfies AppPageConfig<"/my-submissions">
 }
 
 // Validate ../../app/page.tsx
@@ -197,76 +161,22 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies AppPageConfig<"/">
 }
 
-// Validate ../../app/payouts/page.tsx
-{
-  const handler = {} as typeof import("../../app/payouts/page.js")
-  handler satisfies AppPageConfig<"/payouts">
-}
-
 // Validate ../../app/profile/[username]/page.tsx
 {
   const handler = {} as typeof import("../../app/profile/[username]/page.js")
   handler satisfies AppPageConfig<"/profile/[username]">
 }
 
-// Validate ../../app/profile/page.tsx
+// Validate ../../app/settings/page.tsx
 {
-  const handler = {} as typeof import("../../app/profile/page.js")
-  handler satisfies AppPageConfig<"/profile">
-}
-
-// Validate ../../app/revenue-dashboard/page.tsx
-{
-  const handler = {} as typeof import("../../app/revenue-dashboard/page.js")
-  handler satisfies AppPageConfig<"/revenue-dashboard">
-}
-
-// Validate ../../app/revenue-success/page.tsx
-{
-  const handler = {} as typeof import("../../app/revenue-success/page.js")
-  handler satisfies AppPageConfig<"/revenue-success">
-}
-
-// Validate ../../app/revolutionary-gallery/page.tsx
-{
-  const handler = {} as typeof import("../../app/revolutionary-gallery/page.js")
-  handler satisfies AppPageConfig<"/revolutionary-gallery">
-}
-
-// Validate ../../app/revolutionary/page.tsx
-{
-  const handler = {} as typeof import("../../app/revolutionary/page.js")
-  handler satisfies AppPageConfig<"/revolutionary">
-}
-
-// Validate ../../app/rules/page.tsx
-{
-  const handler = {} as typeof import("../../app/rules/page.js")
-  handler satisfies AppPageConfig<"/rules">
-}
-
-// Validate ../../app/setup-username/page.tsx
-{
-  const handler = {} as typeof import("../../app/setup-username/page.js")
-  handler satisfies AppPageConfig<"/setup-username">
-}
-
-// Validate ../../app/signup/page.tsx
-{
-  const handler = {} as typeof import("../../app/signup/page.js")
-  handler satisfies AppPageConfig<"/signup">
+  const handler = {} as typeof import("../../app/settings/page.js")
+  handler satisfies AppPageConfig<"/settings">
 }
 
 // Validate ../../app/submit/page.tsx
 {
   const handler = {} as typeof import("../../app/submit/page.js")
   handler satisfies AppPageConfig<"/submit">
-}
-
-// Validate ../../app/submit/success/page.tsx
-{
-  const handler = {} as typeof import("../../app/submit/success/page.js")
-  handler satisfies AppPageConfig<"/submit/success">
 }
 
 // Validate ../../app/api/admin/jackpot/draw-winner/route.ts
@@ -299,46 +209,16 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies RouteHandlerConfig<"/api/health">
 }
 
-// Validate ../../app/api/jackpot/active/route.ts
-{
-  const handler = {} as typeof import("../../app/api/jackpot/active/route.js")
-  handler satisfies RouteHandlerConfig<"/api/jackpot/active">
-}
-
-// Validate ../../app/api/jackpot/draws/route.ts
-{
-  const handler = {} as typeof import("../../app/api/jackpot/draws/route.js")
-  handler satisfies RouteHandlerConfig<"/api/jackpot/draws">
-}
-
-// Validate ../../app/api/jackpot/entries/route.ts
-{
-  const handler = {} as typeof import("../../app/api/jackpot/entries/route.js")
-  handler satisfies RouteHandlerConfig<"/api/jackpot/entries">
-}
-
 // Validate ../../app/api/likes/route.ts
 {
   const handler = {} as typeof import("../../app/api/likes/route.js")
   handler satisfies RouteHandlerConfig<"/api/likes">
 }
 
-// Validate ../../app/api/payouts/process/route.ts
-{
-  const handler = {} as typeof import("../../app/api/payouts/process/route.js")
-  handler satisfies RouteHandlerConfig<"/api/payouts/process">
-}
-
 // Validate ../../app/api/votes/route.ts
 {
   const handler = {} as typeof import("../../app/api/votes/route.js")
   handler satisfies RouteHandlerConfig<"/api/votes">
-}
-
-// Validate ../../app/api/webhooks/stripe/route.ts
-{
-  const handler = {} as typeof import("../../app/api/webhooks/stripe/route.js")
-  handler satisfies RouteHandlerConfig<"/api/webhooks/stripe">
 }
 
 // Validate ../../app/auth/callback/route.ts

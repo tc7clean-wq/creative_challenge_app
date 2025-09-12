@@ -12,7 +12,17 @@
       "Bash(git config:*)",
       "Bash(winget:*)",
       "Bash(git rm:*)",
-      "Bash(git filter-branch:*)"
+      "Bash(git filter-branch:*)",
+      "Bash(npm audit:*)",
+      "Bash(npm outdated)",
+      "Bash(npx next:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run lint)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(vercel:*)",
+      "Bash(cat:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []

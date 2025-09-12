@@ -82,7 +82,7 @@ export default function AdminPage() {
           <div className="cyber-card p-4 mb-6 bg-gradient-to-r from-red-900/20 to-orange-900/20 border-red-500/30">
             <p className="text-red-300 text-sm mb-2">⚡ SYSTEM OVERRIDE PROTOCOL:</p>
             <code className="text-xs text-green-400 font-mono block">
-              UPDATE profiles SET is_admin = true WHERE id = 'your-neural-id';
+              UPDATE profiles SET is_admin = true WHERE id = &apos;your-neural-id&apos;;
             </code>
           </div>
           <Link href="/gallery" className="ai-btn-secondary">
@@ -217,7 +217,7 @@ export default function AdminPage() {
                 <div className="bg-black/50 p-4 rounded-lg font-mono text-sm border border-cyan-500/30">
                   <span className="text-green-400">UPDATE</span> <span className="text-blue-400">profiles</span> <br/>
                   <span className="text-green-400">SET</span> <span className="text-yellow-400">is_admin</span> = <span className="text-purple-400">true</span> <br/>
-                  <span className="text-green-400">WHERE</span> <span className="text-yellow-400">email</span> = <span className="text-orange-400">'user@domain.ai'</span>;
+                  <span className="text-green-400">WHERE</span> <span className="text-yellow-400">email</span> = <span className="text-orange-400">&apos;user@domain.ai&apos;</span>;
                 </div>
               </div>
               <div>
@@ -225,7 +225,7 @@ export default function AdminPage() {
                 <div className="bg-black/50 p-4 rounded-lg font-mono text-sm border border-cyan-500/30">
                   <span className="text-green-400">UPDATE</span> <span className="text-blue-400">profiles</span> <br/>
                   <span className="text-green-400">SET</span> <span className="text-yellow-400">is_admin</span> = <span className="text-purple-400">true</span> <br/>
-                  <span className="text-green-400">WHERE</span> <span className="text-yellow-400">id</span> = <span className="text-orange-400">'your-neural-id'</span>;
+                  <span className="text-green-400">WHERE</span> <span className="text-yellow-400">id</span> = <span className="text-orange-400">&apos;your-neural-id&apos;</span>;
                 </div>
               </div>
             </div>
