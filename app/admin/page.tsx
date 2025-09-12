@@ -53,19 +53,21 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-white text-2xl">Loading...</div>
+      <div className="min-h-screen ai-art-bg flex items-center justify-center">
+        <div className="ai-spinner"></div>
       </div>
     )
   }
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">Access Denied</h1>
-          <p className="text-white/60 mb-4">Please log in to access the admin panel.</p>
-          <Link href="/auth" className="text-blue-400 hover:text-blue-300">Go to Login</Link>
+      <div className="min-h-screen ai-art-bg flex items-center justify-center">
+        <div className="cyber-card p-8 text-center max-w-md mx-4">
+          <h1 className="text-3xl font-bold cyber-text mb-4 glitch">⚠️ ACCESS DENIED</h1>
+          <p className="text-white/70 mb-6">Neural authentication required for admin matrix access.</p>
+          <Link href="/auth" className="ai-btn">
+            🔐 Initialize Login Sequence
+          </Link>
         </div>
       </div>
     )
@@ -73,100 +75,158 @@ export default function AdminPage() {
 
   if (!isAdmin.canCreateContests && !isAdmin.canManagePayouts && !isAdmin.canManagePlatform) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">Access Denied</h1>
-          <p className="text-white/60 mb-4">You don&apos;t have admin permissions.</p>
-          <p className="text-white/40 text-sm mb-4">
-            To get admin access, you need to set is_admin = true in your profile in the Supabase database.
-          </p>
-          <Link href="/gallery" className="text-blue-400 hover:text-blue-300">Return to Gallery</Link>
+      <div className="min-h-screen ai-art-bg flex items-center justify-center">
+        <div className="cyber-card p-8 text-center max-w-md mx-4">
+          <h1 className="text-3xl font-bold cyber-text mb-4 glitch">🚫 INSUFFICIENT PRIVILEGES</h1>
+          <p className="text-white/70 mb-4">Your neural profile lacks administrative clearance.</p>
+          <div className="cyber-card p-4 mb-6 bg-gradient-to-r from-red-900/20 to-orange-900/20 border-red-500/30">
+            <p className="text-red-300 text-sm mb-2">⚡ SYSTEM OVERRIDE PROTOCOL:</p>
+            <code className="text-xs text-green-400 font-mono block">
+              UPDATE profiles SET is_admin = true WHERE id = 'your-neural-id';
+            </code>
+          </div>
+          <Link href="/gallery" className="ai-btn-secondary">
+            Return to Gallery Matrix
+          </Link>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="min-h-screen ai-art-bg">
+      {/* Animated gears background */}
+      <div className="gear-bg gear-1">⚙</div>
+      <div className="gear-bg gear-2">⚙</div>
+      <div className="gear-bg gear-3">⚙</div>
+      
       <SocialNavbar />
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-white mb-4">Admin Panel</h1>
-            <p className="text-lg text-white/80">Manage contests, submissions, and platform settings</p>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-5xl font-bold cyber-text mb-4 glitch">🎛️ ADMIN MATRIX</h1>
+            <p className="text-lg text-white/80">Neural control interface for contest management & AI oversight</p>
+            <div className="w-32 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto mt-4"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {isAdmin.canCreateContests && (
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:border-white/40 transition-all">
-                <h3 className="text-xl font-bold text-white mb-3">Contest Management</h3>
-                <p className="text-white/70 text-sm mb-4">Create and manage creative contests</p>
-                <div className="space-y-2">
+              <div className="cyber-card p-6 ai-pulse">
+                <div className="flex items-center mb-4">
+                  <span className="text-3xl mr-3">🏆</span>
+                  <h3 className="text-xl font-bold cyber-text">Contest Engine</h3>
+                </div>
+                <p className="text-white/70 text-sm mb-6">Initialize creative battle protocols</p>
+                <div className="space-y-3">
                   <Link
                     href="/admin/create-contest"
-                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 px-4 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all text-center block"
+                    className="ai-btn w-full justify-center"
                   >
-                    Create Contest
+                    ⚡ Create Contest
                   </Link>
                   <Link
                     href="/admin/contests"
-                    className="w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white py-2 px-4 rounded-lg font-medium hover:from-purple-600 hover:to-pink-700 transition-all text-center block"
+                    className="ai-btn-secondary w-full text-center block py-3"
                   >
-                    Manage Contests
+                    🔧 Manage Contests
                   </Link>
                 </div>
               </div>
             )}
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:border-white/40 transition-all">
-              <h3 className="text-xl font-bold text-white mb-3">Submission Review</h3>
-              <p className="text-white/70 text-sm mb-4">Review and approve artwork submissions</p>
+            <div className="cyber-card p-6">
+              <div className="flex items-center mb-4">
+                <span className="text-3xl mr-3">🎨</span>
+                <h3 className="text-xl font-bold cyber-text">Art Analyzer</h3>
+              </div>
+              <p className="text-white/70 text-sm mb-6">Neural network submission evaluation</p>
               <Link
                 href="/admin/submissions"
-                className="w-full bg-gradient-to-r from-green-500 to-teal-600 text-white py-2 px-4 rounded-lg font-medium hover:from-green-600 hover:to-teal-700 transition-all text-center block"
+                className="ai-btn w-full justify-center"
               >
-                Review Submissions
+                🔍 Scan Submissions
+              </Link>
+            </div>
+
+            <div className="cyber-card p-6">
+              <div className="flex items-center mb-4">
+                <span className="text-3xl mr-3">👥</span>
+                <h3 className="text-xl font-bold cyber-text">User Matrix</h3>
+              </div>
+              <p className="text-white/70 text-sm mb-6">Neural profile management system</p>
+              <Link
+                href="/admin/users"
+                className="ai-btn w-full justify-center"
+              >
+                🤖 Manage Users
               </Link>
             </div>
 
             {isAdmin.canManagePayouts && (
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:border-white/40 transition-all">
-                <h3 className="text-xl font-bold text-white mb-3">Payout Management</h3>
-                <p className="text-white/70 text-sm mb-4">Manage contest payouts and winners</p>
+              <div className="cyber-card p-6">
+                <div className="flex items-center mb-4">
+                  <span className="text-3xl mr-3">💰</span>
+                  <h3 className="text-xl font-bold cyber-text">Payout Core</h3>
+                </div>
+                <p className="text-white/70 text-sm mb-6">Credits & reward distribution hub</p>
                 <Link
                   href="/admin/payouts"
-                  className="w-full bg-gradient-to-r from-yellow-500 to-orange-600 text-white py-2 px-4 rounded-lg font-medium hover:from-yellow-600 hover:to-orange-700 transition-all text-center block"
+                  className="ai-btn w-full justify-center"
                 >
-                  Manage Payouts
+                  💎 Process Payouts
                 </Link>
               </div>
             )}
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:border-white/40 transition-all">
-              <h3 className="text-xl font-bold text-white mb-3">Prize System</h3>
-              <p className="text-white/70 text-sm mb-4">New: 5 entries per win for future money draw</p>
-              <div className="bg-blue-900/30 border border-blue-500/30 rounded-lg p-3">
-                <p className="text-blue-200 text-xs">
-                  Each contest win = 5 entries into our future money draw!
+            <div className="cyber-card p-6">
+              <div className="flex items-center mb-4">
+                <span className="text-3xl mr-3">📊</span>
+                <h3 className="text-xl font-bold cyber-text">Analytics Hub</h3>
+              </div>
+              <p className="text-white/70 text-sm mb-6">Platform performance metrics</p>
+              <Link
+                href="/admin/dashboard"
+                className="ai-btn w-full justify-center"
+              >
+                📈 View Dashboard
+              </Link>
+            </div>
+
+            <div className="cyber-card p-6 border-purple-500/30">
+              <div className="flex items-center mb-4">
+                <span className="text-3xl mr-3">🎰</span>
+                <h3 className="text-xl font-bold text-purple-300">Prize Matrix</h3>
+              </div>
+              <p className="text-purple-200 text-sm mb-4">Neural lottery enhancement protocol</p>
+              <div className="bg-gradient-to-r from-purple-900/30 to-pink-900/30 border border-purple-500/30 rounded-lg p-4">
+                <p className="text-purple-300 text-xs leading-relaxed">
+                  ⚡ SYSTEM ENHANCEMENT: Each contest victory = 5 neural entries into future credit distribution algorithm!
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="mt-8 bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-            <h3 className="text-lg font-bold text-white mb-3">How to Get Admin Access</h3>
-            <div className="text-white/70 text-sm space-y-2">
-              <p>To grant admin access to a user, run this SQL in your Supabase SQL editor:</p>
-              <div className="bg-black/50 p-3 rounded-lg font-mono text-xs">
-                <code>
-                  UPDATE profiles SET is_admin = true WHERE email = &apos;user@example.com&apos;;
-                </code>
+          <div className="mt-12 cyber-card p-8">
+            <div className="flex items-center mb-6">
+              <span className="text-3xl mr-3">🔓</span>
+              <h3 className="text-2xl font-bold cyber-text">Admin Access Protocol</h3>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="text-white font-semibold mb-3">🧬 Grant Neural Access:</h4>
+                <div className="bg-black/50 p-4 rounded-lg font-mono text-sm border border-cyan-500/30">
+                  <span className="text-green-400">UPDATE</span> <span className="text-blue-400">profiles</span> <br/>
+                  <span className="text-green-400">SET</span> <span className="text-yellow-400">is_admin</span> = <span className="text-purple-400">true</span> <br/>
+                  <span className="text-green-400">WHERE</span> <span className="text-yellow-400">email</span> = <span className="text-orange-400">'user@domain.ai'</span>;
+                </div>
               </div>
-              <p>Or to make yourself admin:</p>
-              <div className="bg-black/50 p-3 rounded-lg font-mono text-xs">
-                <code>
-                  UPDATE profiles SET is_admin = true WHERE id = &apos;your-user-id&apos;;
-                </code>
+              <div>
+                <h4 className="text-white font-semibold mb-3">🤖 Self-Elevation Protocol:</h4>
+                <div className="bg-black/50 p-4 rounded-lg font-mono text-sm border border-cyan-500/30">
+                  <span className="text-green-400">UPDATE</span> <span className="text-blue-400">profiles</span> <br/>
+                  <span className="text-green-400">SET</span> <span className="text-yellow-400">is_admin</span> = <span className="text-purple-400">true</span> <br/>
+                  <span className="text-green-400">WHERE</span> <span className="text-yellow-400">id</span> = <span className="text-orange-400">'your-neural-id'</span>;
+                </div>
               </div>
             </div>
           </div>

@@ -2,28 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* === CLOCKWORK NEON THEME (CYBERPUNK + STEAMPUNK) === */
+/* === AI ARTVERSE THEME (AI + CYBERPUNK + MODERN) === */
 
 /* 1. ROOT VARIABLES & GLOBAL STYLES */
 :root {
-    --steampunk-brass: #c59d5f;
-    --steampunk-bronze: #8c5e2a;
-    --cyber-glow: #00f7ff; /* The neon heart */
-    --dark-carbon: #121212;
-    --dark-iron: #222;
-    --text-color: #d4c9b8;
-    --font-header: 'Cinzel Decorative', serif; /* Steampunk elegance */
-    --font-body: 'Roboto Mono', monospace; /* Cyberpunk data */
+    --ai-primary: #00f7ff; /* Cyan glow for AI elements */
+    --ai-secondary: #ff6b6b; /* Coral accent for highlights */
+    --ai-accent: #4ecdc4; /* Teal for interactive elements */
+    --ai-purple: #9b59b6; /* Purple for premium features */
+    --ai-gold: #f39c12; /* Gold for achievements */
+    --dark-bg: #0a0a0a; /* Deep black background */
+    --dark-surface: #1a1a1a; /* Card backgrounds */
+    --dark-border: #333; /* Border color */
+    --dark-carbon: #0f0f0f; /* Deep carbon black */
+    --dark-iron: #2a2a2a; /* Iron gray */
+    --text-primary: #ffffff; /* Primary text */
+    --text-secondary: #b0b0b0; /* Secondary text */
+    --text-muted: #666; /* Muted text */
+    --text-color: #ffffff; /* Alias for compatibility */
+    --steampunk-brass: #c59d5f; /* Rich brass */
+    --steampunk-bronze: #8c5e2a; /* Warm bronze */
+    --cyber-glow: #00f7ff; /* Electric cyan */
+    --font-header: 'Orbitron', monospace; /* Futuristic headers */
+    --font-body: 'Inter', sans-serif; /* Clean body text */
+    --gradient-ai: linear-gradient(135deg, var(--ai-primary), var(--ai-accent));
+    --gradient-dark: linear-gradient(135deg, var(--dark-surface), var(--dark-bg));
 }
 
 body {
-    background-color: var(--dark-carbon);
-    background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); /* Subtle carbon fiber texture */
-    color: var(--text-color);
+    background-color: var(--dark-bg);
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(0, 247, 255, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(78, 205, 196, 0.03) 0%, transparent 50%);
+    color: var(--text-primary);
     font-family: var(--font-body);
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    line-height: 1.6;
 }
 
 /* 2. ANIMATED GEAR BACKGROUND */
@@ -128,21 +145,38 @@ a:hover {
     text-shadow: 0 0 5px var(--cyber-glow);
 }
 
-/* 6. CLOCKWORK NEON BACKGROUND */
-.clockwork-neon-bg {
-    background: var(--dark-carbon);
+/* 6. AI ARTVERSE BACKGROUNDS */
+.ai-art-bg {
+    background: var(--dark-bg);
     background-image: 
-        url('https://www.transparenttextures.com/patterns/carbon-fibre.png'),
-        radial-gradient(circle at 20% 50%, rgba(197, 157, 95, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(0, 247, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, rgba(140, 94, 42, 0.1) 0%, transparent 50%);
-    background-size: 200px 200px, 400% 400%, 400% 400%, 400% 400%;
-    animation: clockworkShift 20s ease infinite;
+        radial-gradient(circle at 25% 25%, rgba(0, 247, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(255, 107, 107, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(78, 205, 196, 0.03) 0%, transparent 50%);
+    background-size: 300px 300px, 400px 400px, 600px 600px;
+    animation: aiShift 25s ease infinite;
 }
 
-@keyframes clockworkShift {
-    0%, 100% { background-position: 0% 50%, 0% 50%, 0% 50%, 0% 50%; }
-    50% { background-position: 200px 200px, 100% 50%, 100% 50%, 100% 50%; }
+@keyframes aiShift {
+    0%, 100% { 
+        background-position: 0% 0%, 100% 100%, 50% 50%; 
+    }
+    33% { 
+        background-position: 100% 0%, 0% 100%, 25% 75%; 
+    }
+    66% { 
+        background-position: 50% 100%, 100% 0%, 75% 25%; 
+    }
+}
+
+/* Particle background container */
+.particles-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
 }
 
 /* 7. ENHANCED CYBERPUNK COMPONENTS WITH STEAMPUNK ELEMENTS */
@@ -446,6 +480,188 @@ nav {
     border: 2px solid var(--steampunk-bronze);
     backdrop-filter: blur(10px);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* 17. AI ARTVERSE COMPONENTS */
+.ai-card {
+    background: var(--gradient-dark);
+    border: 1px solid var(--dark-border);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-card:hover {
+    border-color: var(--ai-primary);
+    box-shadow: 0 20px 40px rgba(0, 247, 255, 0.1), 0 0 20px rgba(0, 247, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.ai-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--gradient-ai);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ai-card:hover::before {
+    opacity: 1;
+}
+
+.ai-btn {
+    background: var(--gradient-ai);
+    color: var(--dark-bg);
+    font-family: var(--font-header);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.ai-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 247, 255, 0.3);
+}
+
+.ai-btn-secondary {
+    background: transparent;
+    color: var(--ai-primary);
+    border: 1px solid var(--ai-primary);
+}
+
+.ai-btn-secondary:hover {
+    background: var(--ai-primary);
+    color: var(--dark-bg);
+}
+
+.ai-input {
+    background: var(--dark-surface);
+    border: 1px solid var(--dark-border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.ai-input:focus {
+    outline: none;
+    border-color: var(--ai-primary);
+    box-shadow: 0 0 0 3px rgba(0, 247, 255, 0.1);
+}
+
+.ai-text {
+    background: var(--gradient-ai);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: var(--font-header);
+    font-weight: 700;
+}
+
+.ai-glow {
+    box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+}
+
+.ai-pulse {
+    animation: aiPulse 2s ease-in-out infinite;
+}
+
+@keyframes aiPulse {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(0, 247, 255, 0.6);
+        transform: scale(1.02);
+    }
+}
+
+.ai-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--dark-border);
+    border-top: 3px solid var(--ai-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Missing classes for ErrorBoundary */
+.quantum-glass {
+    background: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 247, 255, 0.2);
+    border-radius: 16px;
+}
+
+.quantum-button {
+    background: var(--gradient-ai);
+    color: var(--dark-bg);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-family: var(--font-header);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quantum-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 247, 255, 0.3);
+}
+
+.quantum-button-secondary {
+    background: transparent;
+    color: var(--ai-primary);
+    border: 1px solid var(--ai-primary);
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-family: var(--font-header);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quantum-button-secondary:hover {
+    background: var(--ai-primary);
+    color: var(--dark-bg);
+}
+
+.ai-toast {
+    background: rgba(26, 26, 26, 0.95) !important;
+    border: 1px solid var(--ai-primary) !important;
+    color: var(--text-primary) !important;
 }
 
 /* 17. RESPONSIVE DESIGN */

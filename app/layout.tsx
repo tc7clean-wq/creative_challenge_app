@@ -1,26 +1,44 @@
 import type { Metadata } from "next";
-import { Cinzel_Decorative, Roboto_Mono } from "next/font/google";
+import { Orbitron, Inter } from "next/font/google";
 import "./globals.css";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import ParticleBackground from "@/components/ParticleBackground";
 import ClockworkGears from "@/components/ClockworkGears";
+import { Toaster } from 'react-hot-toast';
 
-const cinzelDecorative = Cinzel_Decorative({ 
+const orbitron = Orbitron({ 
   subsets: ["latin"],
-  weight: "700",
-  variable: "--font-cinzel-decorative",
-  display: "swap"
+  weight: ["400", "700", "900"],
+  variable: "--font-orbitron",
+  display: "swap",
+  fallback: ["system-ui", "arial"]
 });
 
-const robotoMono = Roboto_Mono({ 
+const inter = Inter({ 
   subsets: ["latin"],
-  variable: "--font-roboto-mono",
-  display: "swap"
+  variable: "--font-inter",
+  display: "swap",
+  fallback: ["system-ui", "arial"]
 });
 
 export const metadata: Metadata = {
-  title: "System Chronos - Creative Challenge App",
-  description: "The Digital Engine Comes to Life. Submit your artwork and compete in creative challenges.",
+  title: "AI ArtVerse - AI Art Competition Platform",
+  description: "Join the future of digital art. Submit AI-generated artwork, compete in challenges, and connect with artists worldwide.",
+  keywords: "AI art, digital art, art competition, artificial intelligence, creative platform",
+  authors: [{ name: "AI ArtVerse Team" }],
+  viewport: "width=device-width, initial-scale=1",
+  robots: "index, follow",
+  openGraph: {
+    title: "AI ArtVerse - AI Art Competition Platform",
+    description: "Join the future of digital art. Submit AI-generated artwork, compete in challenges, and connect with artists worldwide.",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AI ArtVerse - AI Art Competition Platform",
+    description: "Join the future of digital art. Submit AI-generated artwork, compete in challenges, and connect with artists worldwide.",
+  }
 };
 
 export default function RootLayout({
@@ -30,15 +48,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className={`${cinzelDecorative.variable} ${robotoMono.variable} clockwork-neon-bg`}>
+      <body className={`${orbitron.variable} ${inter.variable} ai-art-bg antialiased`}>
         <ClockworkGears />
         <ParticleBackground />
         <ErrorBoundary>
           {children}
+          <Toaster 
+            position="top-right"
+            toastOptions={{
+              duration: 4000,
+              className: 'ai-toast',
+              style: {
+                background: 'rgba(0, 0, 0, 0.8)',
+                color: '#00f7ff',
+                border: '1px solid #c59d5f',
+                borderRadius: '8px',
+                backdropFilter: 'blur(10px)',
+              }
+            }}
+          />
         </ErrorBoundary>
       </body>
     </html>
