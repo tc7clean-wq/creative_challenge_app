@@ -7,10 +7,6 @@ export const dynamic = 'force-dynamic'
 import { createClient } from '@/utils/supabase/client'
 import Image from 'next/image'
 import Link from 'next/link'
-import TipButton from '@/components/tips/TipButton'
-import ArtworkComments from '@/components/gallery/ArtworkComments'
-import ArtworkLikes from '@/components/gallery/ArtworkLikes'
-import ArtworkSharing from '@/components/gallery/ArtworkSharing'
 import SocialNavbar from '@/components/layout/SocialNavbar'
 
 interface Artwork {
