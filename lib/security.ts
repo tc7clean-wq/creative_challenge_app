@@ -128,7 +128,7 @@ export function generateSecureToken(length: number = 32): string {
 /**
  * Validate user session
  */
-export function validateSession(sessionData: Record<string, any>): boolean {
+export function validateSession(sessionData: Record<string, unknown>): boolean {
   if (!sessionData || typeof sessionData !== 'object') return false
 
   const required = ['userId', 'timestamp', 'token']
