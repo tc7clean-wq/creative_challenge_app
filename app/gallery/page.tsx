@@ -156,134 +156,171 @@ export default function GalleryPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-white text-2xl">Loading amazing artworks...</div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-950 relative overflow-hidden">
+        {/* Neural loading background */}
+        <svg className="neural-network">
+          <defs>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge> 
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <line className="neural-line" x1="0" y1="50%" x2="100%" y2="50%" filter="url(#glow)" style={{animationDelay: '0s'}}/>
+          <line className="neural-line" x1="50%" y1="0" x2="50%" y2="100%" filter="url(#glow)" style={{animationDelay: '1s'}}/>
+        </svg>
+        
+        {/* Quantum grid background */}
+        <div className="fixed inset-0 quantum-grid opacity-20"></div>
+        
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="flex flex-col items-center gap-6 p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl future-card holographic-bg">
+            {/* Enhanced loading spinner */}
+            <div className="relative">
+              <div className="w-20 h-20 border-4 border-transparent border-t-cyan-400 border-r-purple-500 border-b-pink-500 border-l-cyan-400 rounded-full animate-spin neon-glow"></div>
+              <div className="absolute inset-2 w-16 h-16 border-2 border-transparent border-t-purple-400 border-r-cyan-500 border-b-purple-500 border-l-pink-400 rounded-full animate-spin" style={{animationDirection: 'reverse', animationDuration: '1.5s'}}></div>
+              <div className="absolute inset-4 w-12 h-12 border-2 border-transparent border-t-pink-400 border-r-purple-500 border-b-cyan-500 border-l-pink-400 rounded-full animate-spin" style={{animationDuration: '2s'}}></div>
+            </div>
+            <div className="text-white text-lg font-medium neon-text data-stream">Loading amazing artworks...</div>
+            {/* Progress indicators */}
+            <div className="flex gap-2">
+              <div className="w-3 h-3 bg-cyan-500 rounded-full animate-pulse"></div>
+              <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+              <div className="w-3 h-3 bg-pink-500 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="cyber-bg">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-950 relative overflow-hidden">
+      {/* Neural Network Background */}
+      <svg className="neural-network">
+        <defs>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge> 
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <line className="neural-line" x1="0" y1="30%" x2="100%" y2="70%" filter="url(#glow)" style={{animationDelay: '0s'}}/>
+        <line className="neural-line" x1="100%" y1="20%" x2="0%" y2="80%" filter="url(#glow)" style={{animationDelay: '1.5s'}}/>
+        <line className="neural-line" x1="30%" y1="0" x2="70%" y2="100%" filter="url(#glow)" style={{animationDelay: '3s'}}/>
+      </svg>
+
+      {/* Holographic Background */}
+      <div className="fixed inset-0 holographic-bg opacity-50"></div>
+
+      {/* Quantum Grid */}
+      <div className="fixed inset-0 quantum-grid opacity-20"></div>
+
       <SocialNavbar />
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold cyber-text glitch mb-2" data-text="[CREATIVE FEED]" style={{ fontFamily: 'var(--font-header)' }}>
-            [CREATIVE FEED]
+        <div className="text-center mb-12">
+          <h1 className="text-5xl md:text-6xl font-black mb-4 bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-transparent neon-text">
+            Creative Gallery
           </h1>
-          <p className="text-lg text-cyan-300 mb-6">{'// Browse the digital gallery of creative masterpieces'}</p>
+          <p className="text-lg text-gray-400 data-stream">Discover and vote for stunning AI-generated masterpieces</p>
           
           {/* Sort Options */}
-          <div className="flex justify-center gap-2 mb-6">
+          <div className="flex justify-center gap-3 mt-8">
             <button
               onClick={() => setSortBy('popular')}
-              className={`px-4 py-2 rounded-lg font-medium transition-all cyber-focus ${
+              className={`px-6 py-3 rounded-xl font-medium transition-all future-card ${
                 sortBy === 'popular'
-                  ? 'cyber-btn cyber-glow'
-                  : 'cyber-card text-cyan-300 hover:text-cyan-100'
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg neon-glow'
+                  : 'bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10'
               }`}
             >
-              🔥 TRENDING
+              🔥 Trending
             </button>
             <button
               onClick={() => setSortBy('newest')}
-              className={`px-4 py-2 rounded-lg font-medium transition-all cyber-focus ${
+              className={`px-6 py-3 rounded-xl font-medium transition-all future-card ${
                 sortBy === 'newest'
-                  ? 'cyber-btn cyber-glow'
-                  : 'cyber-card text-cyan-300 hover:text-cyan-100'
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg neon-glow'
+                  : 'bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10'
               }`}
             >
-              ⚡ LATEST
+              ✨ Latest
             </button>
           </div>
         </div>
 
         {/* Artworks Grid */}
         {artworks.length === 0 ? (
-          <div className="text-center text-white/60 text-xl fade-in">
+          <div className="text-center text-gray-400 text-xl mt-20">
             No artworks yet. Be the first to showcase your AI art!
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {artworks.map((artwork, index) => (
-              <div key={artwork.id} className="cyber-card rounded-xl overflow-hidden cyber-pulse slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+              <div 
+                key={artwork.id} 
+                className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 hover:border-purple-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20 future-card"
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
                 {/* Artwork Image */}
-                <div className="relative aspect-square">
+                <div className="relative aspect-square overflow-hidden">
                   <Image
                     src={artwork.image_url}
                     alt={artwork.title}
                     fill
-                    className="object-cover"
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1 text-white text-sm font-semibold">
-                    🔥 {artwork.votes}
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {/* Enhanced Vote badge with neon glow */}
+                  <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md rounded-full px-3 py-1.5 flex items-center gap-1.5 neon-glow">
+                    <span className="text-orange-400">🔥</span>
+                    <span className="text-white font-semibold text-sm">{artwork.votes}</span>
                   </div>
                 </div>
 
                 {/* Artwork Info */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-2 line-clamp-2">{artwork.title}</h3>
-                  <p className="text-white/70 text-sm mb-4 line-clamp-3">{artwork.description}</p>
+                <div className="p-5">
+                  <h3 className="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-purple-300 transition-colors">
+                    {artwork.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+                    {artwork.description}
+                  </p>
                   
                   {/* Artist Info */}
                   <div className="flex items-center mb-4">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold mr-3">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-xs font-bold mr-2.5">
                       {artwork.profiles?.username?.charAt(0).toUpperCase() || 'A'}
                     </div>
-                    <div>
-                      <div className="text-white font-semibold">{artwork.profiles?.full_name || 'Anonymous'}</div>
-                      <div className="text-white/60 text-sm">@{artwork.profiles?.username || 'artist'}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-white text-sm font-medium truncate">
+                        {artwork.profiles?.full_name || 'Anonymous'}
+                      </div>
+                      <div className="text-gray-500 text-xs">@{artwork.profiles?.username || 'artist'}</div>
                     </div>
                   </div>
 
-                  {/* Social Actions */}
-                  <div className="space-y-3">
-                    {/* Like and Share */}
-                    <div className="flex items-center justify-between">
-                      <ArtworkLikes 
-                        submissionId={artwork.id}
-                        initialLikes={artwork.votes}
-                        onLikeUpdate={(newCount) => {
-                          setArtworks(prev => prev.map(a => 
-                            a.id === artwork.id ? { ...a, votes: newCount } : a
-                          ))
-                        }}
-                      />
-                      <ArtworkSharing
-                        submissionId={artwork.id}
-                        title={artwork.title}
-                        imageUrl={artwork.image_url}
-                        artistName={artwork.profiles?.full_name || 'Anonymous'}
-                      />
-                    </div>
-
-                    {/* Vote and Profile */}
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleVote(artwork.id)}
-                        className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
-                      >
-                        🔥 Vote
-                      </button>
-                      <Link
-                        href={`/profile/${artwork.profiles?.username || 'artist'}`}
-                        className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 text-center shadow-lg"
-                      >
-                        👤 Profile
-                      </Link>
-                    </div>
-
-                    {/* Comments Section */}
-                    <ArtworkComments submissionId={artwork.id} />
-
-                    {/* Tip Button */}
-                    <TipButton
-                      artworkId={artwork.id}
-                      artistId={artwork.profiles?.username || 'artist'}
-                      artistName={artwork.profiles?.full_name || 'Anonymous'}
-                      artworkTitle={artwork.title}
-                      currentTips={0}
-                    />
+                  {/* Action Buttons */}
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleVote(artwork.id)}
+                      className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-2 px-3 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-lg future-card neon-glow"
+                    >
+                      Vote
+                    </button>
+                    <Link
+                      href={`/profile/${artwork.profiles?.username || 'artist'}`}
+                      className="px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-lg text-sm font-medium transition-all duration-200 text-center future-card"
+                    >
+                      View
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -291,16 +328,19 @@ export default function GalleryPage() {
           </div>
         )}
 
-        {/* Call to Action */}
-        <div className="text-center mt-16">
-          <div className="cyber-card p-8 max-w-2xl mx-auto fade-in">
-            <h2 className="text-3xl font-bold cyber-text mb-4" style={{ fontFamily: 'var(--font-header)' }}>Ready to Showcase Your Art?</h2>
-            <p className="text-white/80 mb-6">Join the community and start competing for prizes!</p>
+        {/* Enhanced Call to Action */}
+        <div className="text-center mt-20 mb-12">
+          <div className="max-w-2xl mx-auto p-8 bg-gradient-to-r from-purple-900/20 via-pink-900/20 to-cyan-900/20 backdrop-blur-sm border border-white/10 rounded-3xl future-card holographic-bg">
+            <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent neon-text">
+              Ready to Showcase Your Art?
+            </h2>
+            <p className="text-gray-400 mb-6 data-stream">Join the community and start competing for amazing prizes!</p>
             <Link
               href="/submit"
-              className="cyber-btn text-lg transform hover:scale-105 transition-all duration-300 shadow-2xl inline-block bounce-in"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 future-card neon-glow"
             >
-              🎨 Submit Your Artwork
+              <span>Submit Your Artwork</span>
+              <span className="text-xl">🎨</span>
             </Link>
           </div>
         </div>
