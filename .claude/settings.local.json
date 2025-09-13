@@ -22,7 +22,8 @@
       "Bash(npm run build:*)",
       "Bash(vercel:*)",
       "Bash(cat:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

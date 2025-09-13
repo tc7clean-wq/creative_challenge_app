@@ -79,7 +79,7 @@ class Logger {
     }
   }
 
-  private async sendToMonitoring(_level: string, _message: string, _error?: unknown, _context?: LogContext): Promise<void> {
+  private async sendToMonitoring(level: string, message: string, error?: unknown, context?: LogContext): Promise<void> {
     try {
       // Example: Send to external monitoring service
       // await fetch('/api/monitoring', {
@@ -87,17 +87,21 @@ class Logger {
       //   headers: { 'Content-Type': 'application/json' },
       //   body: JSON.stringify({ level, message, error: error?.stack, context, timestamp: Date.now() })
       // })
+      // Placeholder to use parameters
+      void { level, message, error, context }
     } catch (e) {
       console.error('Failed to send log to monitoring service:', e)
     }
   }
 
-  private async sendToAnalytics(_event: string, _properties?: Record<string, unknown>): Promise<void> {
+  private async sendToAnalytics(event: string, properties?: Record<string, unknown>): Promise<void> {
     try {
       // Example: Send to analytics service
       // if (window.gtag) {
       //   window.gtag('event', event, properties)
       // }
+      // Placeholder to use parameters
+      void { event, properties }
     } catch (e) {
       console.error('Failed to send analytics event:', e)
     }
