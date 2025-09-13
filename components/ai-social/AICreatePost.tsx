@@ -47,54 +47,76 @@ export default function AICreatePost({ onClose }: AICreatePostProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/80 backdrop-blur-xl z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 bg-black/90 backdrop-blur-2xl z-50 flex items-center justify-center p-4
+               before:absolute before:inset-0 before:bg-gradient-radial before:from-cyan-500/10 before:to-transparent"
     >
       <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl 
-                   border border-cyan-500/30 w-full max-w-4xl max-h-[90vh] overflow-hidden"
+        initial={{ scale: 0.8, opacity: 0, rotateY: -30 }}
+        animate={{ scale: 1, opacity: 1, rotateY: 0 }}
+        exit={{ scale: 0.8, opacity: 0, rotateY: 30 }}
+        transition={{ type: "spring", damping: 20, stiffness: 100 }}
+        className="glass-card-intense rounded-3xl neural-glow w-full max-w-6xl max-h-[95vh] overflow-hidden
+                   shadow-2xl shadow-cyan-500/20 border-2 border-cyan-400/30 perspective-1000"
       >
         {/* Header */}
-        <div className="p-6 border-b border-gray-700/50 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-purple-600 
-                          rounded-xl flex items-center justify-center">
-              <BsMagic className="w-6 h-6 text-white" />
-            </div>
-            <h2 className="text-2xl font-bold text-white">Create with AI</h2>
+        <div className="p-8 border-b border-gradient-to-r from-transparent via-cyan-500/30 to-transparent
+                      bg-gradient-to-r from-gray-900/20 via-gray-800/30 to-gray-900/20
+                      flex items-center justify-between relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/10 to-pink-500/5 pointer-events-none" />
+          <div className="flex items-center space-x-4 relative z-10">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="w-14 h-14 glass-card-intense neural-glow rounded-2xl
+                        flex items-center justify-center morph-button relative overflow-hidden">
+              <BsMagic className="w-8 h-8 text-cyan-300" />
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-purple-600/20 rounded-2xl" />
+            </motion.div>
+            <h2 className="text-4xl font-bold text-neural tracking-wide">Create with AI</h2>
           </div>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1, rotate: 90 }}
+            whileTap={{ scale: 0.9 }}
             onClick={onClose}
-            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            className="p-3 glass-card hover:neural-glow rounded-xl transition-all duration-300 relative z-10"
           >
-            <FiX className="w-6 h-6 text-gray-400" />
-          </button>
+            <FiX className="w-7 h-7 text-gray-300" />
+          </motion.button>
         </div>
 
-        <div className="flex h-[calc(90vh-100px)]">
+        <div className="flex h-[calc(95vh-140px)] relative">
           {/* Left Panel - Input */}
-          <div className="flex-1 p-6 overflow-y-auto">
+          <div className="flex-1 p-8 overflow-y-auto glass-card relative
+                        before:absolute before:inset-0 before:bg-gradient-to-br
+                        before:from-cyan-500/5 before:via-purple-500/5 before:to-pink-500/5
+                        before:pointer-events-none">
             {/* Content Type Selection */}
-            <div className="mb-6">
-              <label className="text-sm text-gray-400 mb-3 block">Content Type</label>
+            <div className="mb-8 relative z-10">
+              <label className="text-lg text-neural font-semibold mb-4 block tracking-wide">Content Type</label>
               <div className="grid grid-cols-4 gap-3">
                 {contentTypes.map((type) => (
-                  <button
+                  <motion.button
                     key={type.id}
+                    whileHover={{ scale: 1.05, y: -3 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => setContentType(type.id as 'text' | 'image' | 'video' | 'audio')}
-                    className={`p-3 rounded-xl border transition-all ${
+                    className={`p-4 rounded-2xl border-2 transition-all duration-300 group ${
                       contentType === type.id
-                        ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-cyan-500/50 text-white'
-                        : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-600'
+                        ? 'glass-card-intense neural-glow text-white border-cyan-500/50 morph-button'
+                        : 'glass-card border-gray-700/50 text-gray-400 hover:border-cyan-500/30 hover:neural-glow hover:text-white'
                     }`}
                   >
-                    <div className="flex flex-col items-center space-y-2">
-                      <div className="text-2xl">{type.icon}</div>
-                      <span className="text-sm">{type.label}</span>
+                    <div className="flex flex-col items-center space-y-3 relative">
+                      <motion.div
+                        animate={contentType === type.id ? { rotate: 360 } : {}}
+                        transition={{ duration: 2, ease: "linear" }}
+                        className="text-3xl group-hover:scale-110 transition-transform duration-300"
+                      >
+                        {type.icon}
+                      </motion.div>
+                      <span className="text-sm font-medium">{type.label}</span>
                     </div>
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </div>

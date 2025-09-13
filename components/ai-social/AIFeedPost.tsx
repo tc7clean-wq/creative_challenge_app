@@ -61,17 +61,20 @@ export default function AIFeedPost({ post }: AIFeedPostProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-xl 
-                 border border-cyan-500/20 rounded-2xl overflow-hidden
-                 hover:border-cyan-400/40 transition-all duration-300"
+      initial={{ opacity: 0, y: 30, rotateX: -15 }}
+      animate={{ opacity: 1, y: 0, rotateX: 0 }}
+      whileHover={{ y: -8, scale: 1.02 }}
+      className="glass-card-intense rounded-3xl overflow-hidden neural-glow
+                 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-500
+                 transform-gpu perspective-1000 relative group"
     >
       {/* Header */}
-      <div className="p-4 flex items-start justify-between">
+      <div className="p-6 flex items-start justify-between relative
+                    before:absolute before:bottom-0 before:left-0 before:right-0 before:h-[1px]
+                    before:bg-gradient-to-r before:from-transparent before:via-cyan-500/30 before:to-transparent">
         <div className="flex items-start space-x-3">
           <div className="relative">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 p-[2px]">
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 p-[3px] neural-glow">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={post.author.avatar}
@@ -80,10 +83,13 @@ export default function AIFeedPost({ post }: AIFeedPostProps) {
               />
             </div>
             {post.author.isAI && (
-              <div className="absolute -bottom-1 -right-1 bg-gradient-to-r from-cyan-500 to-blue-600 
-                            rounded-full p-1">
-                <BsRobot className="w-3 h-3 text-white" />
-              </div>
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute -bottom-1 -right-1 glass-card neural-glow
+                          rounded-full p-1.5 border border-cyan-400/50">
+                <BsRobot className="w-4 h-4 text-cyan-300" />
+              </motion.div>
             )}
           </div>
           
@@ -91,12 +97,17 @@ export default function AIFeedPost({ post }: AIFeedPostProps) {
             <div className="flex items-center space-x-2">
               <h3 className="font-semibold text-white">{post.author.name}</h3>
               {post.aiGenerated && (
-                <div className="flex items-center space-x-1 px-2 py-0.5 
-                              bg-gradient-to-r from-cyan-500/20 to-purple-500/20 
-                              rounded-full border border-cyan-500/30">
-                  <FiCpu className="w-3 h-3 text-cyan-400" />
-                  <span className="text-xs text-cyan-300">AI Generated</span>
-                </div>
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.3, type: "spring" }}
+                  className="flex items-center space-x-1 px-3 py-1
+                            glass-card neural-glow rounded-full">
+                  <motion.div animate={{ rotate: 360 }} transition={{ duration: 3, repeat: Infinity, ease: "linear" }}>
+                    <FiCpu className="w-3 h-3 text-cyan-400" />
+                  </motion.div>
+                  <span className="text-xs text-neural font-medium">AI Generated</span>
+                </motion.div>
               )}
             </div>
             <p className="text-sm text-gray-400">@{post.author.username} · {post.timestamp}</p>
@@ -109,9 +120,12 @@ export default function AIFeedPost({ post }: AIFeedPostProps) {
           </div>
         </div>
         
-        <button className="p-2 hover:bg-white/5 rounded-lg transition-colors">
-          <FiMoreHorizontal className="w-5 h-5 text-gray-400" />
-        </button>
+        <motion.button
+          whileHover={{ scale: 1.1, rotate: 90 }}
+          whileTap={{ scale: 0.9 }}
+          className="p-3 glass-card hover:neural-glow rounded-xl transition-all duration-300">
+          <FiMoreHorizontal className="w-5 h-5 text-gray-300" />
+        </motion.button>
       </div>
 
       {/* AI Prompt (if shown) */}
@@ -182,14 +196,16 @@ export default function AIFeedPost({ post }: AIFeedPostProps) {
       )}
 
       {/* Actions */}
-      <div className="px-4 py-3 border-t border-gray-700/50">
+      <div className="px-6 py-4 border-t border-gradient-to-r from-transparent via-cyan-500/20 to-transparent
+                    bg-gradient-to-r from-gray-900/20 via-gray-800/30 to-gray-900/20">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-1">
             <motion.button
+              whileHover={{ scale: 1.1, y: -2 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setLiked(!liked)}
-              className={`p-2 rounded-lg transition-colors flex items-center space-x-2
-                        ${liked ? 'text-pink-500' : 'text-gray-400 hover:text-pink-400'}`}
+              className={`p-3 glass-card rounded-xl transition-all duration-300 flex items-center space-x-2
+                        ${liked ? 'text-pink-400 neural-glow' : 'text-gray-400 hover:text-pink-400 hover:neural-glow'}`}
             >
               <motion.div
                 animate={{ scale: liked ? [1, 1.2, 1] : 1 }}
@@ -200,14 +216,16 @@ export default function AIFeedPost({ post }: AIFeedPostProps) {
               <span className="text-sm">{post.likes + (liked ? 1 : 0)}</span>
             </motion.button>
 
-            <button
+            <motion.button
+              whileHover={{ scale: 1.1, y: -2 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => setShowComments(!showComments)}
-              className="p-2 rounded-lg text-gray-400 hover:text-cyan-400 
-                       transition-colors flex items-center space-x-2"
+              className="p-3 glass-card rounded-xl text-gray-400 hover:text-cyan-400
+                       hover:neural-glow transition-all duration-300 flex items-center space-x-2"
             >
               <FiMessageCircle className="w-5 h-5" />
               <span className="text-sm">{post.comments}</span>
-            </button>
+            </motion.button>
 
             <button className="p-2 rounded-lg text-gray-400 hover:text-green-400 
                              transition-colors flex items-center space-x-2">

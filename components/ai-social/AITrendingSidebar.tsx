@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { FiTrendingUp, FiHash, FiAward, FiZap } from 'react-icons/fi'
 import { BsRobot, BsLightning } from 'react-icons/bs'
+import AIRecommendationEngine from './AIRecommendationEngine'
 
 export default function AITrendingSidebar() {
   const trendingTags = [
@@ -49,6 +50,8 @@ export default function AITrendingSidebar() {
 
   return (
     <div className="space-y-6">
+      {/* AI Recommendation Engine */}
+      <AIRecommendationEngine />
       {/* AI Models Status */}
       <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-4 
                     border border-cyan-500/20">

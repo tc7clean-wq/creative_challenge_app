@@ -6,6 +6,10 @@ import AIFeedPost from './AIFeedPost'
 import AICreatePost from './AICreatePost'
 import AITrendingSidebar from './AITrendingSidebar'
 import AIStories from './AIStories'
+import ParallaxBackground from './ParallaxBackground'
+import LivePresence from './LivePresence'
+import CollaborativePrompt from './CollaborativePrompt'
+import ErrorBoundary from './ErrorBoundary'
 import { FiHome, FiTrendingUp, FiCompass, FiUser, FiBell, FiSettings } from 'react-icons/fi'
 import { BsStars, BsRobot, BsLightning } from 'react-icons/bs'
 
@@ -80,6 +84,8 @@ export default function AISocialFeed() {
   const [posts] = useState(mockPosts)
   const [activeTab, setActiveTab] = useState('for-you')
   const [isCreating, setIsCreating] = useState(false)
+  const [isCollaborating, setIsCollaborating] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const tabs = [
     { id: 'for-you', label: 'For You', icon: <BsStars /> },
@@ -89,78 +95,126 @@ export default function AISocialFeed() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900">
-      {/* Navigation Sidebar */}
-      <div className="fixed left-0 top-0 h-full w-64 bg-gray-900/80 backdrop-blur-xl 
-                    border-r border-cyan-500/20 p-6 z-40">
-        <div className="flex items-center space-x-3 mb-8">
-          <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-purple-600 
-                        rounded-xl flex items-center justify-center">
-            <BsLightning className="w-6 h-6 text-white" />
-          </div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-600 
-                       bg-clip-text text-transparent">AI Social</h1>
+    <ErrorBoundary>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/30 to-slate-900 relative overflow-hidden">
+        {/* Advanced Parallax Background */}
+        <ParallaxBackground />
+
+        {/* Mobile Navigation Toggle */}
+        <div className="lg:hidden fixed top-4 left-4 z-50">
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-3 glass-card-intense neural-glow rounded-xl"
+          >
+            <div className="w-6 h-6 flex flex-col justify-center items-center">
+              <span className={`bg-cyan-400 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMobileMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`} />
+              <span className={`bg-cyan-400 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
+              <span className={`bg-cyan-400 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMobileMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'}`} />
+            </div>
+          </motion.button>
         </div>
 
-        <nav className="space-y-2">
-          <button className="w-full flex items-center space-x-3 px-4 py-3 
-                         bg-gradient-to-r from-cyan-500/20 to-purple-500/20 
-                         rounded-xl border border-cyan-500/30 text-white">
+        {/* Navigation Sidebar */}
+        <div className={`fixed left-0 top-0 h-full w-64 glass-card-intense p-6 z-40 neural-glow
+                       lg:translate-x-0 transition-transform duration-300 ${
+                         isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+                       }`}>
+        <div className="flex items-center space-x-3 mb-8">
+          <div className="w-12 h-12 glass-card neural-glow rounded-2xl flex items-center justify-center morph-button">
+            <BsLightning className="w-7 h-7 text-cyan-300" />
+          </div>
+          <h1 className="text-3xl font-bold text-neural tracking-wide">AI Social</h1>
+        </div>
+
+        <nav className="space-y-3">
+          <button className="w-full flex items-center space-x-3 px-4 py-3
+                         glass-card neural-glow rounded-xl text-white morph-button">
             <FiHome className="w-5 h-5" />
             <span className="font-medium">Home</span>
           </button>
-          <button className="w-full flex items-center space-x-3 px-4 py-3 
-                         hover:bg-white/5 rounded-xl text-gray-400 transition-colors">
+          <button className="w-full flex items-center space-x-3 px-4 py-3
+                         glass-card hover:glass-card-intense rounded-xl text-gray-300
+                         transition-all duration-300 hover:neural-glow hover:text-white">
             <FiCompass className="w-5 h-5" />
             <span>Explore</span>
           </button>
-          <button className="w-full flex items-center space-x-3 px-4 py-3 
-                         hover:bg-white/5 rounded-xl text-gray-400 transition-colors">
+          <button className="w-full flex items-center space-x-3 px-4 py-3
+                         glass-card hover:glass-card-intense rounded-xl text-gray-300
+                         transition-all duration-300 hover:neural-glow hover:text-white">
             <FiBell className="w-5 h-5" />
             <span>Notifications</span>
-            <span className="ml-auto bg-pink-500 text-white text-xs px-2 py-0.5 rounded-full">3</span>
+            <span className="ml-auto bg-gradient-to-r from-pink-500 to-rose-600 text-white text-xs px-2 py-0.5 rounded-full neural-glow">3</span>
           </button>
-          <button className="w-full flex items-center space-x-3 px-4 py-3 
-                         hover:bg-white/5 rounded-xl text-gray-400 transition-colors">
+          <button className="w-full flex items-center space-x-3 px-4 py-3
+                         glass-card hover:glass-card-intense rounded-xl text-gray-300
+                         transition-all duration-300 hover:neural-glow hover:text-white">
             <FiUser className="w-5 h-5" />
             <span>Profile</span>
           </button>
-          <button className="w-full flex items-center space-x-3 px-4 py-3 
-                         hover:bg-white/5 rounded-xl text-gray-400 transition-colors">
+          <button className="w-full flex items-center space-x-3 px-4 py-3
+                         glass-card hover:glass-card-intense rounded-xl text-gray-300
+                         transition-all duration-300 hover:neural-glow hover:text-white">
             <FiSettings className="w-5 h-5" />
             <span>Settings</span>
           </button>
         </nav>
 
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => setIsCreating(true)}
-          className="w-full mt-8 py-3 bg-gradient-to-r from-cyan-500 to-purple-600 
-                   text-white font-semibold rounded-xl hover:opacity-90 transition-opacity"
-        >
-          Create with AI
-        </motion.button>
+        <div className="space-y-3 mt-8">
+          <motion.button
+            whileHover={{ scale: 1.05, y: -3 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsCreating(true)}
+            className="w-full py-4 morph-button text-white font-bold rounded-2xl
+                     neural-glow text-lg tracking-wide relative overflow-hidden
+                     before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent
+                     before:via-white/10 before:to-transparent before:translate-x-[-200%]
+                     hover:before:translate-x-[200%] before:transition-transform before:duration-700"
+          >
+            Create with AI
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.05, y: -3 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsCollaborating(true)}
+            className="w-full py-3 glass-card-intense neural-glow text-cyan-300 font-semibold rounded-xl
+                     border border-cyan-400/30 hover:border-cyan-400/50 transition-all duration-300"
+          >
+            Collaborate Live
+          </motion.button>
+        </div>
       </div>
 
+      {/* Mobile Overlay */}
+      {isMobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="lg:hidden fixed inset-0 bg-black/50 z-30"
+        />
+      )}
+
       {/* Main Content */}
-      <div className="ml-64 mr-80">
+      <div className="lg:ml-64 lg:mr-80 px-4 lg:px-0">
         <div className="max-w-2xl mx-auto pt-6">
           {/* Stories */}
           <AIStories />
 
           {/* Tabs */}
-          <div className="flex items-center space-x-1 mb-6 bg-gray-900/50 backdrop-blur-xl 
-                        rounded-xl p-1 border border-cyan-500/20">
+          <div className="flex items-center space-x-1 mb-6 glass-card-intense
+                        rounded-2xl p-1 neural-glow">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 
-                         rounded-lg transition-all duration-300 ${
+                className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4
+                         rounded-xl transition-all duration-500 ${
                   activeTab === tab.id
-                    ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-white border border-cyan-500/30'
-                    : 'text-gray-400 hover:text-white'
+                    ? 'glass-card-intense text-white neural-glow morph-button'
+                    : 'text-gray-400 hover:text-white hover:glass-card hover:neural-glow'
                 }`}
               >
                 {tab.icon}
@@ -169,10 +223,7 @@ export default function AISocialFeed() {
             ))}
           </div>
 
-          {/* Create Post Area */}
-          {isCreating && (
-            <AICreatePost onClose={() => setIsCreating(false)} />
-          )}
+          {/* Create Post Area - Removed duplicate */}
 
           {/* Feed */}
           <div className="space-y-6">
@@ -207,10 +258,24 @@ export default function AISocialFeed() {
       </div>
 
       {/* Right Sidebar */}
-      <div className="fixed right-0 top-0 h-full w-80 bg-gray-900/80 backdrop-blur-xl 
-                    border-l border-cyan-500/20 p-6 overflow-y-auto">
+      <div className="hidden lg:block fixed right-0 top-0 h-full w-80 glass-card-intense
+                    p-6 overflow-y-auto neural-glow">
         <AITrendingSidebar />
       </div>
-    </div>
+
+      {/* Live Presence System */}
+      <LivePresence />
+
+      {/* Collaborative Modals */}
+      <AnimatePresence>
+        {isCreating && (
+          <AICreatePost onClose={() => setIsCreating(false)} />
+        )}
+        {isCollaborating && (
+          <CollaborativePrompt onClose={() => setIsCollaborating(false)} />
+        )}
+      </AnimatePresence>
+      </div>
+    </ErrorBoundary>
   )
 }

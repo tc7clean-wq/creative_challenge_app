@@ -60,52 +60,71 @@ export default function AIStories() {
 
   return (
     <div className="mb-6">
-      <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-xl 
-                    rounded-2xl border border-cyan-500/20 p-4">
+      <div className="glass-card-intense rounded-3xl p-6 neural-glow relative overflow-hidden
+                    before:absolute before:inset-0 before:bg-gradient-to-r before:from-cyan-500/5
+                    before:via-purple-500/10 before:to-pink-500/5 before:pointer-events-none">
         <div className="flex items-center space-x-4 overflow-x-auto scrollbar-hide">
           {stories.map((story) => (
             <motion.button
               key={story.id}
-              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: parseInt(story.id) * 0.1 }}
+              whileHover={{ scale: 1.1, y: -5 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedStory(story.id)}
-              className="flex-shrink-0 flex flex-col items-center space-y-2"
+              className="flex-shrink-0 flex flex-col items-center space-y-3 group"
             >
               <div className="relative">
                 {story.isCreate ? (
-                  <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-purple-600 
-                                rounded-full flex items-center justify-center">
-                    <FiPlus className="w-6 h-6 text-white" />
+                  <div className="w-20 h-20 glass-card-intense neural-glow rounded-2xl
+                                flex items-center justify-center morph-button relative overflow-hidden
+                                group-hover:shadow-2xl group-hover:shadow-cyan-500/30">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                    >
+                      <FiPlus className="w-8 h-8 text-cyan-300" />
+                    </motion.div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-600/20
+                                  rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                 ) : (
                   <>
-                    <div className={`w-16 h-16 rounded-full p-[2px] ${
+                    <div className={`w-20 h-20 rounded-2xl p-[3px] glass-card neural-glow
+                                    border-2 transition-all duration-300 group-hover:scale-110 ${
                       story.hasStory && !story.isViewed
-                        ? 'bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500'
+                        ? 'border-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 neural-glow'
                         : story.hasStory && story.isViewed
-                        ? 'bg-gray-700'
-                        : 'bg-gray-800'
+                        ? 'border-gray-600'
+                        : 'border-gray-700'
                     }`}>
-                      <div className="w-full h-full rounded-full bg-gray-900 p-[2px]">
+                      <div className="w-full h-full rounded-2xl overflow-hidden glass-card">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={story.avatar!}
                           alt={story.username}
-                          className="w-full h-full rounded-full object-cover"
+                          className="w-full h-full object-cover transition-transform duration-500
+                                   group-hover:scale-110"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                       </div>
                     </div>
                     {story.isAI && (
-                      <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-gradient-to-r 
-                                    from-cyan-500 to-blue-600 rounded-full flex items-center 
-                                    justify-center border-2 border-gray-900">
-                        <BsRobot className="w-3 h-3 text-white" />
-                      </div>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                        className="absolute -bottom-2 -right-2 w-8 h-8 glass-card-intense neural-glow
+                                  rounded-xl flex items-center justify-center border-2 border-cyan-400/30"
+                      >
+                        <BsRobot className="w-4 h-4 text-cyan-300" />
+                      </motion.div>
                     )}
                   </>
                 )}
               </div>
-              <span className="text-xs text-gray-400 truncate max-w-[64px]">
+              <span className="text-sm text-neural font-medium truncate max-w-[80px]
+                           group-hover:scale-110 transition-transform duration-300">
                 {story.username}
               </span>
             </motion.button>
