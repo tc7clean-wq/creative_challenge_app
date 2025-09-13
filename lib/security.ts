@@ -137,7 +137,8 @@ export function validateSession(sessionData: Record<string, unknown>): boolean {
   if (!hasRequired) return false
 
   // Check if session is expired (24 hours)
-  const sessionAge = Date.now() - sessionData.timestamp
+  const timestamp = sessionData.timestamp as number
+  const sessionAge = Date.now() - timestamp
   const maxAge = 24 * 60 * 60 * 1000 // 24 hours
 
   return sessionAge < maxAge
