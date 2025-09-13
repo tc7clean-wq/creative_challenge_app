@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useRef, useEffect } from 'react'
-import { BsStars, BsRobot, BsPeople, BsLightning } from 'react-icons/bs'
+import { BsRobot, BsPeople, BsLightning } from 'react-icons/bs'
 import { FiPlus, FiEdit3, FiUsers, FiZap, FiSend } from 'react-icons/fi'
 
 interface Contributor {

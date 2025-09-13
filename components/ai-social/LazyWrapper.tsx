@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, lazy, ComponentType } from 'react'
+import { Suspense, lazy } from 'react'
 import { motion } from 'framer-motion'
 import { BsRobot } from 'react-icons/bs'
 

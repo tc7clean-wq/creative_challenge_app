@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { BsStars, BsEye, BsCpu } from 'react-icons/bs'
-import { FiUser, FiZap, FiActivity } from 'react-icons/fi'
+import { FiUser, FiZap } from 'react-icons/fi'
 
 interface Recommendation {
   id: string
@@ -64,7 +64,7 @@ const mockRecommendations: Recommendation[] = [
 
 export default function AIRecommendationEngine({ userInterests }: AIRecommendationEngineProps) {
   // Use userInterests for future personalization features
-  const interests = userInterests || ['cyberpunk', 'ai-art', 'collaboration']
+  console.log('User interests:', userInterests || ['cyberpunk', 'ai-art', 'collaboration'])
   const [recommendations, setRecommendations] = useState<Recommendation[]>(mockRecommendations)
   const [isLearning, setIsLearning] = useState(false)
   const [selectedRec, setSelectedRec] = useState<string | null>(null)

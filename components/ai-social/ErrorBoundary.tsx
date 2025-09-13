@@ -76,7 +76,7 @@ function DefaultErrorFallback({ error, retry }: { error: Error; retry: () => voi
       </h2>
 
       <p className="text-gray-300 mb-6">
-        Our neural networks encountered an unexpected error. Don't worry, we're learning from this!
+        Our neural networks encountered an unexpected error. Don&apos;t worry, we&apos;re learning from this!
       </p>
 
       <div className="glass-card rounded-xl p-4 mb-6 text-left">
