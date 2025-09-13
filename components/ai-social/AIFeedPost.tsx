@@ -8,7 +8,6 @@ import {
   FiRefreshCw, FiSend, FiImage, FiMusic, FiVideo
 } from 'react-icons/fi'
 import { BsStars, BsRobot } from 'react-icons/bs'
-import Image from 'next/image'
 
 interface AIFeedPostProps {
   post: {
@@ -73,6 +72,7 @@ export default function AIFeedPost({ post }: AIFeedPostProps) {
         <div className="flex items-start space-x-3">
           <div className="relative">
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 p-[2px]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={post.author.avatar}
                 alt={post.author.name}
@@ -136,6 +136,7 @@ export default function AIFeedPost({ post }: AIFeedPostProps) {
         
         {post.content.image && (
           <div className="relative group">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={post.content.image}
               alt="AI generated content"

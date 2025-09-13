@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import AIFeedPost from './AIFeedPost'
 import AICreatePost from './AICreatePost'
@@ -77,7 +77,7 @@ const mockPosts = [
 ]
 
 export default function AISocialFeed() {
-  const [posts, setPosts] = useState(mockPosts)
+  const [posts] = useState(mockPosts)
   const [activeTab, setActiveTab] = useState('for-you')
   const [isCreating, setIsCreating] = useState(false)
 

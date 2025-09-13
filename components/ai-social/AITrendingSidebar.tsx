@@ -1,8 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { FiTrendingUp, FiHash, FiUsers, FiAward, FiZap } from 'react-icons/fi'
-import { BsRobot, BsStars, BsLightning } from 'react-icons/bs'
+import { FiTrendingUp, FiHash, FiAward, FiZap } from 'react-icons/fi'
+import { BsRobot, BsLightning } from 'react-icons/bs'
 
 export default function AITrendingSidebar() {
   const trendingTags = [
@@ -120,6 +120,7 @@ export default function AITrendingSidebar() {
             <div key={creator.username} className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <div className="relative">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={creator.avatar}
                     alt={creator.name}

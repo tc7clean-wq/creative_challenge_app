@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FiPlus } from 'react-icons/fi'
-import { BsRobot, BsStars } from 'react-icons/bs'
+import { BsRobot } from 'react-icons/bs'
 
 const stories = [
   {
@@ -87,6 +87,7 @@ export default function AIStories() {
                         : 'bg-gray-800'
                     }`}>
                       <div className="w-full h-full rounded-full bg-gray-900 p-[2px]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={story.avatar!}
                           alt={story.username}

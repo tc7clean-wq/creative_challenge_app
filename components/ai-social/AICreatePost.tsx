@@ -7,6 +7,7 @@ import {
   FiZap, FiSliders, FiRefreshCw, FiUpload 
 } from 'react-icons/fi'
 import { BsStars, BsRobot, BsMagic } from 'react-icons/bs'
+import Image from 'next/image'
 
 interface AICreatePostProps {
   onClose: () => void
@@ -82,7 +83,7 @@ export default function AICreatePost({ onClose }: AICreatePostProps) {
                 {contentTypes.map((type) => (
                   <button
                     key={type.id}
-                    onClick={() => setContentType(type.id as any)}
+                    onClick={() => setContentType(type.id as 'text' | 'image' | 'video' | 'audio')}
                     className={`p-3 rounded-xl border transition-all ${
                       contentType === type.id
                         ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-cyan-500/50 text-white'
@@ -241,10 +242,12 @@ export default function AICreatePost({ onClose }: AICreatePostProps) {
               
               {generatedContent ? (
                 <div className="flex-1 relative rounded-xl overflow-hidden">
-                  <img
+                  <Image
                     src={generatedContent}
                     alt="Generated content"
                     className="w-full h-full object-cover"
+                    width={400}
+                    height={400}
                   />
                   <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
                     <div className="bg-black/70 backdrop-blur-xl rounded-lg px-3 py-2">
