@@ -23,7 +23,13 @@
       "Bash(vercel:*)",
       "Bash(cat:*)",
       "Bash(curl:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Read(//c/Users/britn/Desktop/**)",
+      "Bash(git init:*)",
+      "Bash(git branch:*)",
+      "Bash(sort:*)",
+      "Bash(grep:*)",
+      "Bash(npm run typecheck:*)"
     ],
     "deny": [],
     "ask": []

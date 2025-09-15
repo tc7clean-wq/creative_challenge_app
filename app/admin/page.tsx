@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import SocialNavbar from '@/components/layout/SocialNavbar'
 import Link from 'next/link'
+import type { User } from '@supabase/supabase-js'
 
 interface AdminPermissions {
   canCreateContests: boolean
@@ -12,7 +13,7 @@ interface AdminPermissions {
 }
 
 export default function AdminPage() {
-  const [user, setUser] = useState<unknown>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [isAdmin, setIsAdmin] = useState<AdminPermissions>({
     canCreateContests: false,
     canManagePayouts: false,
@@ -80,10 +81,10 @@ export default function AdminPage() {
           <h1 className="text-3xl font-bold cyber-text mb-4 glitch">🚫 INSUFFICIENT PRIVILEGES</h1>
           <p className="text-white/70 mb-4">Your neural profile lacks administrative clearance.</p>
           <div className="cyber-card p-4 mb-6 bg-gradient-to-r from-red-900/20 to-orange-900/20 border-red-500/30">
-            <p className="text-red-300 text-sm mb-2">⚡ SYSTEM OVERRIDE PROTOCOL:</p>
-            <code className="text-xs text-green-400 font-mono block">
-              {"UPDATE profiles SET is_admin = true WHERE id = 'your-neural-id';"}
-            </code>
+            <p className="text-red-300 text-sm mb-2">⚡ CONTACT ADMINISTRATOR:</p>
+            <p className="text-xs text-green-400 font-mono">
+              Request admin privileges through secure channels
+            </p>
           </div>
           <Link href="/gallery" className="ai-btn-secondary">
             Return to Gallery Matrix
@@ -208,26 +209,15 @@ export default function AdminPage() {
 
           <div className="mt-12 cyber-card p-8">
             <div className="flex items-center mb-6">
-              <span className="text-3xl mr-3">🔓</span>
-              <h3 className="text-2xl font-bold cyber-text">Admin Access Protocol</h3>
+              <span className="text-3xl mr-3">🔐</span>
+              <h3 className="text-2xl font-bold cyber-text">Security Notice</h3>
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="text-white font-semibold mb-3">🧬 Grant Neural Access:</h4>
-                <div className="bg-black/50 p-4 rounded-lg font-mono text-sm border border-cyan-500/30">
-                  <span className="text-green-400">UPDATE</span> <span className="text-blue-400">profiles</span> <br/>
-                  <span className="text-green-400">SET</span> <span className="text-yellow-400">is_admin</span> = <span className="text-purple-400">true</span> <br/>
-                  <span className="text-green-400">WHERE</span> <span className="text-yellow-400">email</span> = <span className="text-orange-400">{'user@domain.ai'}</span>;
-                </div>
-              </div>
-              <div>
-                <h4 className="text-white font-semibold mb-3">🤖 Self-Elevation Protocol:</h4>
-                <div className="bg-black/50 p-4 rounded-lg font-mono text-sm border border-cyan-500/30">
-                  <span className="text-green-400">UPDATE</span> <span className="text-blue-400">profiles</span> <br/>
-                  <span className="text-green-400">SET</span> <span className="text-yellow-400">is_admin</span> = <span className="text-purple-400">true</span> <br/>
-                  <span className="text-green-400">WHERE</span> <span className="text-yellow-400">id</span> = <span className="text-orange-400">{'your-neural-id'}</span>;
-                </div>
-              </div>
+            <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-500/30 rounded-lg p-6">
+              <h4 className="text-blue-300 font-semibold mb-3">🛡️ Admin Access Management</h4>
+              <p className="text-blue-200 text-sm leading-relaxed">
+                Administrative privileges are managed through secure authentication protocols.
+                Contact your system administrator to request elevated permissions through proper channels.
+              </p>
             </div>
           </div>
         </div>

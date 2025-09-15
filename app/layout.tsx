@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Orbitron, Inter } from "next/font/google";
 import "./globals.css";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import ParticleBackground from "@/components/ParticleBackground";
 import ClockworkGears from "@/components/ClockworkGears";
 import { Toaster } from 'react-hot-toast';
+import { QueryProvider } from "@/providers/QueryProvider";
 
 const orbitron = Orbitron({ 
   subsets: ["latin"],
@@ -21,12 +22,16 @@ const inter = Inter({
   fallback: ["system-ui", "arial"]
 });
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
+
 export const metadata: Metadata = {
   title: "AI ArtVerse - AI Art Competition Platform",
   description: "Join the future of digital art. Submit AI-generated artwork, compete in challenges, and connect with artists worldwide.",
   keywords: "AI art, digital art, art competition, artificial intelligence, creative platform",
   authors: [{ name: "AI ArtVerse Team" }],
-  viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
   openGraph: {
     title: "AI ArtVerse - AI Art Competition Platform",
@@ -51,23 +56,25 @@ export default function RootLayout({
       <body className={`${orbitron.variable} ${inter.variable} ai-art-bg antialiased`}>
         <ClockworkGears />
         <ParticleBackground />
-        <ErrorBoundary>
-          {children}
-          <Toaster 
-            position="top-right"
-            toastOptions={{
-              duration: 4000,
-              className: 'ai-toast',
-              style: {
-                background: 'rgba(0, 0, 0, 0.8)',
-                color: '#00f7ff',
-                border: '1px solid #c59d5f',
-                borderRadius: '8px',
-                backdropFilter: 'blur(10px)',
-              }
-            }}
-          />
-        </ErrorBoundary>
+        <QueryProvider>
+          <ErrorBoundary>
+            {children}
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                duration: 4000,
+                className: 'ai-toast',
+                style: {
+                  background: 'rgba(0, 0, 0, 0.8)',
+                  color: '#00f7ff',
+                  border: '1px solid #c59d5f',
+                  borderRadius: '8px',
+                  backdropFilter: 'blur(10px)',
+                }
+              }}
+            />
+          </ErrorBoundary>
+        </QueryProvider>
       </body>
     </html>
   );

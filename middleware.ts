@@ -87,9 +87,6 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * Temporarily disabled middleware to get site working
-     * Re-enable after configuring Supabase environment variables on Vercel
-     * 
      * Match all request paths except for the ones starting with:
      * - api (API routes)
      * - _next/static (static files)
@@ -97,6 +94,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder files
      */
-    // '/((?!api|_next/static|_next/image|favicon.ico|public/).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

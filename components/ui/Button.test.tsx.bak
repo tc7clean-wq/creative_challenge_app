@@ -1,0 +1,110 @@
+import { render, screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Button } from './Button'
+
+describe('Button Component', () => {
+  it('renders correctly with default props', () => {
+    render(<Button>Click me</Button>)
+
+    const button = screen.getByRole('button', { name: /click me/i })
+    expect(button).toBeInTheDocument()
+    expect(button).toHaveClass('inline-flex', 'items-center', 'justify-center')
+  })
+
+  it('applies correct variant classes', () => {
+    const { rerender } = render(<Button variant="primary">Primary</Button>)
+    let button = screen.getByRole('button')
+    expect(button).toHaveClass('bg-gradient-to-r', 'from-cyan-500', 'to-blue-600')
+
+    rerender(<Button variant="secondary">Secondary</Button>)
+    button = screen.getByRole('button')
+    expect(button).toHaveClass('bg-gradient-to-r', 'from-purple-500', 'to-pink-600')
+
+    rerender(<Button variant="outline">Outline</Button>)
+    button = screen.getByRole('button')
+    expect(button).toHaveClass('border-2', 'border-cyan-500', 'bg-transparent')
+  })
+
+  it('applies correct size classes', () => {
+    const { rerender } = render(<Button size="sm">Small</Button>)
+    let button = screen.getByRole('button')
+    expect(button).toHaveClass('px-3', 'py-1.5', 'text-xs')
+
+    rerender(<Button size="lg">Large</Button>)
+    button = screen.getByRole('button')
+    expect(button).toHaveClass('px-6', 'py-3', 'text-base')
+  })
+
+  it('shows loading state correctly', () => {
+    render(<Button isLoading>Loading</Button>)
+
+    const button = screen.getByRole('button')
+    expect(button).toBeDisabled()
+    expect(button).toHaveClass('cursor-wait')
+
+    // Should show spinner
+    const spinner = button.querySelector('.animate-spin')
+    expect(spinner).toBeInTheDocument()
+  })
+
+  it('handles click events', async () => {
+    const handleClick = jest.fn()
+    const user = userEvent.setup()
+
+    render(<Button onClick={handleClick}>Click me</Button>)
+
+    const button = screen.getByRole('button')
+    await user.click(button)
+
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('is disabled when disabled prop is true', () => {
+    render(<Button disabled>Disabled</Button>)
+
+    const button = screen.getByRole('button')
+    expect(button).toBeDisabled()
+    expect(button).toHaveClass('opacity-50', 'cursor-not-allowed')
+  })
+
+  it('renders with icons', () => {
+    const leftIcon = <span data-testid="left-icon">L</span>
+    const rightIcon = <span data-testid="right-icon">R</span>
+
+    render(
+      <Button leftIcon={leftIcon} rightIcon={rightIcon}>
+        Text
+      </Button>
+    )
+
+    expect(screen.getByTestId('left-icon')).toBeInTheDocument()
+    expect(screen.getByTestId('right-icon')).toBeInTheDocument()
+    expect(screen.getByText('Text')).toBeInTheDocument()
+  })
+
+  it('supports fullWidth prop', () => {
+    render(<Button fullWidth>Full Width</Button>)
+
+    const button = screen.getByRole('button')
+    expect(button).toHaveClass('w-full')
+  })
+
+  it('forwards refs correctly', () => {
+    const ref = jest.fn()
+    render(<Button ref={ref}>Button</Button>)
+
+    expect(ref).toHaveBeenCalled()
+  })
+
+  it('meets accessibility requirements', () => {
+    render(<Button>Accessible Button</Button>)
+
+    const button = screen.getByRole('button')
+
+    // Should have minimum touch target size
+    expect(button).toHaveClass('min-h-[48px]', 'min-w-[48px]')
+
+    // Should be focusable
+    expect(button).toHaveAttribute('tabIndex', '0')
+  })
+})
