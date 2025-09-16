@@ -173,7 +173,7 @@ class AdvancedAIManager {
       const annotations = data.responses[0]
 
       return {
-        objects: (annotations.localizedObjectAnnotations || []).map((obj: any) => ({
+        objects: (annotations.localizedObjectAnnotations || []).map((obj: unknown) => ({
           name: obj.name,
           confidence: obj.score,
           boundingBox: {
@@ -183,7 +183,7 @@ class AdvancedAIManager {
             height: obj.boundingPoly.normalizedVertices[2].y - obj.boundingPoly.normalizedVertices[0].y
           }
         })),
-        faces: (annotations.faceAnnotations || []).map((face: any) => ({
+        faces: (annotations.faceAnnotations || []).map((face: unknown) => ({
           age: this.estimateAge(face),
           gender: this.estimateGender(face),
           emotions: this.detectEmotions(face),
@@ -422,17 +422,17 @@ class AdvancedAIManager {
     }
   }
 
-  private estimateAge(face: any): number {
+  private estimateAge(face: unknown): number {
     // Simplified age estimation based on face landmarks
     return Math.floor(Math.random() * 50) + 20
   }
 
-  private estimateGender(face: any): string {
+  private estimateGender(face: unknown): string {
     // Simplified gender estimation
     return Math.random() > 0.5 ? 'male' : 'female'
   }
 
-  private detectEmotions(face: any): string[] {
+  private detectEmotions(face: unknown): string[] {
     // Simplified emotion detection
     const emotions = ['happy', 'sad', 'angry', 'surprised', 'fearful', 'disgusted', 'neutral']
     return emotions.filter(() => Math.random() > 0.7)
